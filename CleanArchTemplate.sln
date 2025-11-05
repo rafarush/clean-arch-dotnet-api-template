@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchTemplate.Api", "CleanArchTemplate.Api\CleanArchTemplate.Api.csproj", "{8C32171D-15F1-4EAD-BFFD-BA1A608943B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{29595CCF-7666-4EF6-963A-3FF9FE8104AD}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C32171D-15F1-4EAD-BFFD-BA1A608943B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C32171D-15F1-4EAD-BFFD-BA1A608943B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C32171D-15F1-4EAD-BFFD-BA1A608943B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C32171D-15F1-4EAD-BFFD-BA1A608943B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

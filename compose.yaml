@@ -1,0 +1,7 @@
+﻿services:
+  cleanarchtemplate.api:
+    image: cleanarchtemplate.api
+    build:
+      context: .
+      dockerfile: CleanArchTemplate.Api/Dockerfile
+
