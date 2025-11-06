@@ -4,4 +4,31 @@
     build:
       context: .
       dockerfile: CleanArchTemplate.Api/Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=test;Username=admin;Password=admin
+  
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=test
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d test"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
+# Define el volumen
+volumes:
+  postgres_data:

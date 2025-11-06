@@ -7,11 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchTemplate.Aplication", "CleanArchTemplate.Aplication\CleanArchTemplate.Aplication.csproj", "{8E7E344C-C494-45B4-8629-4C8F6FF94983}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchTemplate.Application", "CleanArchTemplate.Application\CleanArchTemplate.Application.csproj", "{8E7E344C-C494-45B4-8629-4C8F6FF94983}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchTemplate.Domain", "CleanArchTemplate.Domain\CleanArchTemplate.Domain.csproj", "{952ED770-A287-4FBD-8FBD-A93F281473B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchTemplate.SharedKernel", "CleanArchTemplate.SharedKernel\CleanArchTemplate.SharedKernel.csproj", "{1AFB5CF4-71A5-4DA8-9DAF-9EEF41F48407}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchTemplate.Infrastructure", "CleanArchTemplate.Infrastructure\CleanArchTemplate.Infrastructure.csproj", "{26E83BA0-DC84-4D95-B7B4-C7BB96518C19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,5 +37,9 @@ Global
 		{1AFB5CF4-71A5-4DA8-9DAF-9EEF41F48407}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AFB5CF4-71A5-4DA8-9DAF-9EEF41F48407}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AFB5CF4-71A5-4DA8-9DAF-9EEF41F48407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E83BA0-DC84-4D95-B7B4-C7BB96518C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E83BA0-DC84-4D95-B7B4-C7BB96518C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E83BA0-DC84-4D95-B7B4-C7BB96518C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E83BA0-DC84-4D95-B7B4-C7BB96518C19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
