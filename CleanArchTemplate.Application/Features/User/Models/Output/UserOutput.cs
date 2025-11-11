@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Aplication.Features.User.Models.Output;
+﻿namespace CleanArchTemplate.Application.Features.User.Models.Output;
 
 public class UserOutput
 {

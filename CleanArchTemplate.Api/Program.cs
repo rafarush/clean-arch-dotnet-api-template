@@ -1,3 +1,5 @@
+using CleanArchTemplate.Aplication.Extensions;
+using CleanArchTemplate.Aplication.Middleware;
 using CleanArchTemplate.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-// Add Repositories
+// Add Infrastructure Services
 builder.Services.AddInfrastructure();
+
+// Add Application Services
+builder.Services.AddApplication();
 
 // Add Db
 builder.Services.AddDatabase(config);
@@ -29,6 +34,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ValidatorMapperMiddleware>();
 
 app.MapControllers();
 

@@ -18,17 +18,21 @@
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=test
+      - POSTGRES_HOST_AUTH_METHOD=md5
     ports:
       - '5432:5432'
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d test"]
+      test: [ "CMD-SHELL", "pg_isready -U admin -d test" ]
       interval: 30s
       timeout: 10s
       retries: 3
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
+    command: >
+      postgres 
+      -c listen_addresses='*'
+      -c password_encryption=md5
 
-# Define el volumen
 volumes:
   postgres_data:

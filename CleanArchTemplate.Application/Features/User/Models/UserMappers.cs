@@ -1,8 +1,9 @@
-﻿using CleanArchTemplate.Aplication.Features.User.Models.Output;
+﻿using CleanArchTemplate.Application.Features.User.Models.Input;
+using CleanArchTemplate.Application.Features.User.Models.Output;
 
-namespace CleanArchTemplate.Aplication.Features.User.Models;
+namespace CleanArchTemplate.Application.Features.User.Models;
 
-using CleanArchTemplate.Aplication.Features.User.Models.Input;
+using Application.Features.User.Models.Input;
 using Domain.Users;
 public static class UserMappers
 {

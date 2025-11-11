@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Aplication.Features.User.Models.Input;
+﻿namespace CleanArchTemplate.Application.Features.User.Models.Input;
 
 public class CreateUserInput
 {
