@@ -16,7 +16,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
     public async Task<bool> UpdateAsync(User user, CancellationToken ct)
     {
         var userToUpdate = await db.Set<User>()
-            .Where(x => x.Id == user.Id)
+            .Where(x => x.Id == user.Id && !x.IsDeleted)
             .FirstOrDefaultAsync(ct);
         
         if (userToUpdate is null)
@@ -24,8 +24,6 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         
         userToUpdate!.Name = user.Name;
         userToUpdate.LastName = user.LastName;
-        userToUpdate.Email = user.Email;
-        userToUpdate.Password = user.Password;
         userToUpdate.UpdatedAt = DateTime.UtcNow;
         
         

@@ -1,9 +1,8 @@
-﻿using CleanArchTemplate.Application.Features.User.Models.Input;
+﻿using CleanArchTemplate.Aplication.Features.User.Models.Input;
 using CleanArchTemplate.Application.Features.User.Models.Output;
 
 namespace CleanArchTemplate.Application.Features.User.Models;
 
-using Application.Features.User.Models.Input;
 using Domain.Users;
 public static class UserMappers
 {
@@ -28,8 +27,7 @@ public static class UserMappers
             LastName = input.LastName,
             Email = input.Email,
             Password = input.Password,
-            Id = id,
-            CreatedAt = DateTime.Now,
+            Id = id
         };
     }
 

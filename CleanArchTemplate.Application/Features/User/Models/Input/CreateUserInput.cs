@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Application.Features.User.Models.Input;
+﻿namespace CleanArchTemplate.Aplication.Features.User.Models.Input;
 
 public class CreateUserInput
 {
@@ -6,4 +6,6 @@ public class CreateUserInput
     public required string LastName { get; set; }
     public required string Email { get; set; }
     public required string Password { get; set; }
+    public List<Guid> RoleIds { get; set; } = [];
+    public List<Guid> PolicyIds { get; set; } = [];
 }

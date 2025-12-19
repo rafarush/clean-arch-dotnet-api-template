@@ -3,6 +3,7 @@ using System;
 using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CleanArchTemplate.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251219044211_RoleAdded")]
+    partial class RoleAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,10 +41,20 @@ namespace CleanArchTemplate.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Policy");
                 });
@@ -68,7 +81,12 @@ namespace CleanArchTemplate.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Role");
                 });
@@ -109,64 +127,34 @@ namespace CleanArchTemplate.Infrastructure.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PolicyRole", b =>
-                {
-                    b.Property<Guid>("PoliciesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("RolesId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("PoliciesId", "RolesId");
-
-                    b.HasIndex("RolesId");
-
-                    b.ToTable("PolicyRole");
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.Property<Guid>("RolesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("RolesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("RoleUser");
-                });
-
-            modelBuilder.Entity("PolicyRole", b =>
-                {
-                    b.HasOne("CleanArchTemplate.Domain.Security.Policy", null)
-                        .WithMany()
-                        .HasForeignKey("PoliciesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CleanArchTemplate.Domain.Security.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("CleanArchTemplate.Domain.Security.Policy", b =>
                 {
                     b.HasOne("CleanArchTemplate.Domain.Security.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Policies")
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("CleanArchTemplate.Domain.Users.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Policies")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("CleanArchTemplate.Domain.Security.Role", b =>
+                {
+                    b.HasOne("CleanArchTemplate.Domain.Users.User", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("CleanArchTemplate.Domain.Security.Role", b =>
+                {
+                    b.Navigation("Policies");
+                });
+
+            modelBuilder.Entity("CleanArchTemplate.Domain.Users.User", b =>
+                {
+                    b.Navigation("Policies");
+
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }
