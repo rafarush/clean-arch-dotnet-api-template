@@ -12,11 +12,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CleanArchTemplate.Aplication.Features.Auth.Services;
 
-public class JwtService(IHostingEnvironment hostingEnvironment, IOptions<JwtOptions> jwtOptions)
+public class JwtService(IHostingEnvironment hostingEnvironment, IOptions<JwtOptions> jwtOptions) : IJwtService
 {
     public TokenOutput CreateToken(TokenInput input)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Value.Key));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Value.SecretKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         List<Claim> claims =
         [

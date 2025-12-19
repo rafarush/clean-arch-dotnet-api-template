@@ -36,4 +36,12 @@ public static class ApiEndpoints
         public const string Delete = $"{BaseUrl}/{{id:guid}}";
         public const string GetAll = BaseUrl;
     }
+    
+    public static class Auth
+    {
+        private const string BaseUrl = $"{ApiBase}/auth";
+
+        public const string SignIn = $"{BaseUrl}/signin";
+        public const string SignUp = $"{BaseUrl}/signup";
+    }
 }

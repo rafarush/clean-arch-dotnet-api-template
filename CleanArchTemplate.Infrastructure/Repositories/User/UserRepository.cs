@@ -53,6 +53,18 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         var user = await db.Set<User>()
             .AsNoTracking()
             .Where(x => x.Id == id && !x.IsDeleted)
+            .Include(x => x.Roles)
+            .FirstOrDefaultAsync(ct);
+            
+        return await Task.FromResult(user);
+    }
+
+    public async Task<User?> GetByEmailAsync(string email, CancellationToken ct)
+    {
+        var user = await db.Set<User>()
+            .AsNoTracking()
+            .Where(x => x.Email == email && !x.IsDeleted)
+            .Include(x => x.Roles)
             .FirstOrDefaultAsync(ct);
             
         return await Task.FromResult(user);

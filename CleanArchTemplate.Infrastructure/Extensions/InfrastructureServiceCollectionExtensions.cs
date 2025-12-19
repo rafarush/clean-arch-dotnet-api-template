@@ -1,4 +1,5 @@
 ﻿using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
+using CleanArchTemplate.Infrastructure.Repositories.Security.Policy;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ public static class InfrastructureServiceCollectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPolicyRepository, PolicyRepository>();
         return services;
     }
 
