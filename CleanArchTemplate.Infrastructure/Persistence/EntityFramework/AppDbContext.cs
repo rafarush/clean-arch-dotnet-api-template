@@ -1,4 +1,5 @@
-﻿using CleanArchTemplate.Domain.Users;
+﻿using CleanArchTemplate.Domain.Security;
+using CleanArchTemplate.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -7,7 +8,8 @@ namespace CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<User> Users { get; set; }
-    
+    public DbSet<Policy> Policies { get; set; }
+    public DbSet<Role> Roles { get; set; }
     
     
     
@@ -15,7 +17,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         base.OnModelCreating(modelBuilder);
     
-        // Configurar todas las propiedades DateTime para usar UTC
+        // Configuring all DateTime properties for UTC usage
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
             foreach (var property in entityType.GetProperties())

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanArchTemplate.Api.Controllers;
 
 [ApiController]
-[Authorize]
+// [Authorize]
 public class UserController(IUserRepository userRepository, IValidator<User> userValidator) : ControllerBase
 {
 

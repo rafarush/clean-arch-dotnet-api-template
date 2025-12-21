@@ -1,5 +1,8 @@
-﻿using CleanArchTemplate.Domain.Users;
+﻿using CleanArchTemplate.Domain.Security;
+using CleanArchTemplate.Domain.Users;
+using CleanArchTemplate.Infrastructure.Persistence.EntityFramework.Seeders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
@@ -10,7 +13,10 @@ public interface IDbInitializer
     Task SeedAsync();
 }
 
-public class DbInitializer(AppDbContext db, ILogger<DbInitializer> logger) : IDbInitializer
+public class DbInitializer(
+    AppDbContext db, 
+    ILogger<DbInitializer> logger, 
+    IServiceScopeFactory serviceScopeFactory) : IDbInitializer
 {
     
     public async Task InitializeAsync()
@@ -19,7 +25,7 @@ public class DbInitializer(AppDbContext db, ILogger<DbInitializer> logger) : IDb
         {
             logger.LogInformation("Initializing database...");
 
-            // Aplicar migraciones pendientes
+            // Apply pending migrations
             await db.Database.MigrateAsync();
             
             logger.LogInformation("Migrations applied successfully.");
@@ -31,21 +37,31 @@ public class DbInitializer(AppDbContext db, ILogger<DbInitializer> logger) : IDb
         }
     }
 
+    // Seeders
     public async Task SeedAsync()
     {
         try
         {
             logger.LogInformation("Starting seeding database...");
 
-            // Verificar si ya existen datos
+            // Policies
+            if (!db.Policies.Any())
+            {
+                await SeedPoliciesAsync();
+            }
+            
+            // Roles
+            if (!db.Roles.Any())
+            {
+                await SeedRolesAsync();
+            }
+            
+            // Users
             if (!db.Users.Any())
             {
                 await SeedUsersAsync();
             }
-
-            // Agrega más métodos de seeding según necesites
-
-            await db.SaveChangesAsync();
+            
             logger.LogInformation("Seeding success.");
         }
         catch (Exception ex)
@@ -57,29 +73,69 @@ public class DbInitializer(AppDbContext db, ILogger<DbInitializer> logger) : IDb
     
     private async Task SeedUsersAsync()
     {
-        var users = new List<User>
+        logger.LogInformation("Seeding users...");
+        await using var scope = serviceScopeFactory.CreateAsyncScope();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        // Add Users
+        UserSeeder seeder = new UserSeeder(dbContext);
+        var users =  new List<User>(seeder.GetUsers());
+        
+        foreach (var user in users)
         {
-            new User
+            if (!dbContext.Users.Any(u => u.Id == user.Id || u.Email == user.Email))
             {
-                Id = Guid.NewGuid(),
-                Email = "admin@example.com",
-                Name = "Administrator",
-                CreatedAt = DateTime.UtcNow,
-                LastName = "Administrator",
-                Password = "admin"
-            },
-            new User 
-            { 
-                Id = Guid.NewGuid(), 
-                Email = "user@example.com", 
-                Name = "User",
-                LastName = "Regular",
-                Password = "user",
-                CreatedAt = DateTime.UtcNow
+                await dbContext.Users.AddAsync(user);
             }
-        };
-
-        await db.Users.AddRangeAsync(users);
+        }
+        
+        await dbContext.SaveChangesAsync();
         logger.LogInformation("Initial users added. ({Count} users)", users.Count);
     }
+
+    private async Task SeedPoliciesAsync()
+    {
+        logger.LogInformation("Seeding policies...");
+        // Add Policies
+        List<Policy> policies = [];
+        
+        // Policies policies XD
+        policies.AddRange(PolicySeeder.GetPolicyPolicies());
+        // Users policies
+        policies.AddRange(PolicySeeder.GetUserPolicies());
+        // Roles policies
+        policies.AddRange(PolicySeeder.GetRolePolicies());
+
+        foreach (var policy in policies)
+        {
+            if (!db.Policies.Any(p => p.Id == policy.Id || p.Name == policy.Name))
+            {
+                await db.Policies.AddAsync(policy);
+            }
+        }
+        
+        // await db.SaveChangesAsync();
+        logger.LogInformation("Initial policies added. ({Count} policies)",  policies.Count);
+    }
+
+    private async Task SeedRolesAsync()
+    {
+        logger.LogInformation("Seeding roles...");
+        await using var scope = serviceScopeFactory.CreateAsyncScope();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        // Add roles
+        RoleSeeder seeder = new RoleSeeder(dbContext);
+        List<Role> roles = seeder.GetRoles();
+        
+        foreach (var role in roles)
+        {
+            if (!dbContext.Roles.Any(r => r.Id == role.Id || r.Name == role.Name))
+            {
+                await dbContext.Roles.AddAsync(role);
+            }
+        }
+        await dbContext.SaveChangesAsync();
+        logger.LogInformation("Initial roles added. ({Count} roles)",  roles.Count);
+    }
+
+    
 }
