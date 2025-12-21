@@ -12,19 +12,21 @@ public class AuthService(IUserRepository userRepository, IJwtService jwtService)
         var user = await userRepository.GetByEmailAsync(email, ct);
         
         if (user == null)
-            return AuthResult.Failure("Usuario no encontrado");
+            return AuthResult.Failure("User not found");
         
-        // NOTA: Esto es solo para desarrollo. En producción usa hashing
         if (password != user.Password)
-            return AuthResult.Failure("Contraseña incorrecta");
+            return AuthResult.Failure("Wrong Password");
         
         var token = jwtService.CreateToken(new TokenInput
         {
-            Email = user.Email,
-            Policies = user.Roles.SelectMany(static x => x.Policies)
-                .ToList(),
             User = user.Id,
-            Roles = user.Roles
+            Email = user.Email,
+            RoleNames = user.Roles.Select(r => r.Name).ToList(),
+            PolicyNames = user.Roles
+                .SelectMany(r => r.Policies)
+                .Select(p => p.Name)
+                .Distinct()
+                .ToList()
         });
         
         return AuthResult.Success(token, user);

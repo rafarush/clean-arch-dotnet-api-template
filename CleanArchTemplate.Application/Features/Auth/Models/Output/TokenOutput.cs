@@ -7,5 +7,5 @@ public sealed record TokenOutput(
     string RefreshToken,
     Guid Id,  
     string Email, 
-    IEnumerable<Policy> Policies,
-    IEnumerable<Role> Roles);
+    IEnumerable<string> PolicyNames,
+    IEnumerable<string> RoleNames);

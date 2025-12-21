@@ -21,9 +21,9 @@ public class JwtService(IHostingEnvironment hostingEnvironment, IOptions<JwtOpti
         List<Claim> claims =
         [
             new(AppClaims.UserId, input.User.ToString()),
-            new(AppClaims.Policies, JsonSerializer.Serialize(input.Policies)),
+            new(AppClaims.Policies, JsonSerializer.Serialize(input.PolicyNames)),
             new(AppClaims.Email, input.Email),
-            new(AppClaims.Role, JsonSerializer.Serialize(input.Policies))
+            new(AppClaims.Role, JsonSerializer.Serialize(input.PolicyNames))
         ];
         
         var securityAccessToken = new JwtSecurityToken(
@@ -31,7 +31,7 @@ public class JwtService(IHostingEnvironment hostingEnvironment, IOptions<JwtOpti
             audience: jwtOptions.Value.Audience,
             claims: claims,
             notBefore: DateTime.Now,
-            expires: hostingEnvironment.IsStaging() ? DateTime.Now.AddHours(1) : DateTime.Now.AddMinutes(30),
+            expires: hostingEnvironment.IsStaging() ? DateTime.Now.AddMinutes(1) : DateTime.Now.AddMinutes(30),
             signingCredentials: credentials);
         var securityRefreshToken = new JwtSecurityToken(
             issuer: jwtOptions.Value.Issuer,
@@ -44,6 +44,6 @@ public class JwtService(IHostingEnvironment hostingEnvironment, IOptions<JwtOpti
         var handler = new JwtSecurityTokenHandler();
         var accessToken = handler.WriteToken(securityAccessToken);
         var refreshToken = handler.WriteToken(securityRefreshToken);
-        return new TokenOutput(accessToken, refreshToken, input.User, input.Email, input.Policies, input.Roles);
+        return new TokenOutput(accessToken, refreshToken, input.User, input.Email, input.PolicyNames, input.RoleNames);
     }
 }
