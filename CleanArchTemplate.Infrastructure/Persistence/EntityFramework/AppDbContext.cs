@@ -31,5 +31,26 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 }
             }
         }
+
+        modelBuilder.Entity<User>(b =>
+        {
+            b.HasKey(x => x.Id);
+            b.Property(x => x.Email).IsRequired().HasMaxLength(200);
+            b.HasIndex(x => x.Email).IsUnique();
+        });
+
+        modelBuilder.Entity<Policy>(b =>
+        {
+            b.HasKey(x => x.Id);
+            b.Property(x => x.Name).IsRequired().HasMaxLength(200);
+            b.HasIndex(x => x.Name).IsUnique();
+        });
+        
+        modelBuilder.Entity<Role>(b =>
+        {
+            b.HasKey(x => x.Id);
+            b.Property(x => x.Name).IsRequired().HasMaxLength(200);
+            b.HasIndex(x => x.Name).IsUnique();
+        });
     }
 }
