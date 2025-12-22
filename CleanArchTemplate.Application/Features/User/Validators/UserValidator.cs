@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
 
-namespace CleanArchTemplate.Aplication.Features.User;
+namespace CleanArchTemplate.Aplication.Features.User.Validators;
 
-using Domain.Users;
-
-public class UserValidator : AbstractValidator<User>
+public class UserValidator : AbstractValidator<Domain.Users.User>
 {
     public UserValidator()
     {

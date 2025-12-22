@@ -8,10 +8,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CleanArchTemplate.Domain\CleanArchTemplate.Domain.csproj" />
+      <ProjectReference Include="..\CleanArchTemplate.SharedKernel\CleanArchTemplate.SharedKernel.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
+      <PackageReference Include="Microsoft.AspNetCore" Version="2.3.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
         <PrivateAssets>all</PrivateAssets>

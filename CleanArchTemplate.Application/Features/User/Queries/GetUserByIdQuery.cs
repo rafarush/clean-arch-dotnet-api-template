@@ -1,7 +1,8 @@
 ﻿using CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
-using CleanArchTemplate.Application.Features.User.Models;
-using CleanArchTemplate.Application.Features.User.Models.Output;
 using CleanArchTemplate.Infrastructure.Repositories.User;
+using CleanArchTemplate.SharedKernel.Models.Input.User.Models;
+using CleanArchTemplate.SharedKernel.Models.Input.User.Models.Output;
+using CleanArchTemplate.SharedKernel.Models.User.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchTemplate.Aplication.Features.User.Queries;
@@ -16,6 +17,6 @@ internal sealed class GetUserByIdQueryHandler(
     public async Task<UserOutput?> Handle(GetUserByIdQuery query, CancellationToken ct)
     {
         var user = await userRepository.GetAsync(query.UserId, ct);
-        return user is not null ? user.ToOutput() : null;
+        return user?.ToOutput();
     }
 }

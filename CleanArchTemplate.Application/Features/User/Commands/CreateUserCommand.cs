@@ -1,11 +1,10 @@
 ﻿using CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
-using CleanArchTemplate.Aplication.Features.User.Models.Input;
-using CleanArchTemplate.Aplication.Features.User.Models.Output;
-using CleanArchTemplate.Application.Features.User.Models;
-using CleanArchTemplate.Application.Features.User.Models.Output;
 using CleanArchTemplate.Infrastructure.Repositories.User;
+using CleanArchTemplate.SharedKernel.Models.Input.User.Models;
+using CleanArchTemplate.SharedKernel.Models.Input.User.Models.Output;
+using CleanArchTemplate.SharedKernel.Models.User.Input;
 using FluentValidation;
-using Microsoft.AspNetCore.Identity;
+// using Microsoft.AspNetCore.Identity;
 
 namespace CleanArchTemplate.Aplication.Features.User.Commands;
 
@@ -23,6 +22,6 @@ internal sealed class CreateUserCommandHandler(
         var user = command.Input.ToUser();
         await userValidator.ValidateAndThrowAsync(user, ct);
         var userId = await userRepository.CreateAsync(user, ct);
-        return new CreateUserOutput(userId, user.ToOutput());
+        return new CreateUserOutput(userId, UserMappers.ToOutput(user));
     }
 } 

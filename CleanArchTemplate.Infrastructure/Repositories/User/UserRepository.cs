@@ -1,4 +1,8 @@
 ﻿using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
+using CleanArchTemplate.SharedKernel.Models.General.Output;
+using CleanArchTemplate.SharedKernel.Models.Input.User.Models.Output;
+using CleanArchTemplate.SharedKernel.Models.User.Output;
+using CleanArchTemplate.SharedKernel.Models.User.Params;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchTemplate.Infrastructure.Repositories.User;
@@ -79,5 +83,74 @@ public class UserRepository(AppDbContext db) :  IUserRepository
             .ToListAsync(ct);
         
         return await Task.FromResult(users);
+    }
+
+    public async Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersParams usersParams, CancellationToken ct)
+    {
+        var users = db.Set<User>()
+            .AsNoTracking()
+            .AsQueryable()
+            .Where(x => !x.IsDeleted);
+
+        if (!string.IsNullOrWhiteSpace(usersParams.Email))
+            users = users.Where(x => x.Email == usersParams.Email);
+        
+        if (!string.IsNullOrWhiteSpace(usersParams.Name))
+            users = users.Where(x=> x.Name ==  usersParams.Name);
+        
+        if (!string.IsNullOrWhiteSpace(usersParams.LastName))
+            users = users.Where(x => x.LastName == usersParams.LastName);
+        
+        if (usersParams.CreatedAt.HasValue)
+            users = users.Where(x => x.CreatedAt >= usersParams.CreatedAt.Value);
+        
+        if (usersParams.UpdatedAt.HasValue)
+            users = users.Where(x => x.UpdatedAt >= usersParams.UpdatedAt.Value);
+        
+        var count = await users.CountAsync(ct);
+        
+        if (count == 0)
+            return await Task.FromResult(new PaginatedOutput<UserOutput>([], 0));
+        
+        // Sorting
+        users = ApplyOrdering(users, usersParams.OffsetField, usersParams.IsAsc);
+        
+        if (usersParams.HasPagination)
+        {
+            users = users
+                .Skip((usersParams.OffsetPage - 1) * usersParams.Limit)
+                .Take(usersParams.Limit);
+        }
+
+        var rows = await users
+            .Select(x => new UserOutput
+            {
+                Id = x.Id,
+                Name = x.Name,
+                LastName = x.LastName,
+                Email = x.Email,
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt,
+                IsDeleted = x.IsDeleted })
+            .ToListAsync(ct);
+        
+        return await Task.FromResult(new PaginatedOutput<UserOutput>(rows, count));
+    }
+    
+    private IQueryable<User> ApplyOrdering(
+        IQueryable<User> query, 
+        string orderBy, 
+        bool ascending)
+    {
+        return orderBy.ToLower() switch
+        {
+            "name" => ascending ? query.OrderBy(u => u.Name) : query.OrderByDescending(u => u.Name),
+            "lastname" => ascending ? query.OrderBy(u => u.LastName) : query.OrderByDescending(u => u.LastName),
+            "email" => ascending ? query.OrderBy(u => u.Email) : query.OrderByDescending(u => u.Email),
+            "created_at" => ascending ? query.OrderBy(u => u.CreatedAt) : query.OrderByDescending(u => u.CreatedAt),
+            "updated_at" => ascending ? query.OrderBy(u => u.UpdatedAt) : query.OrderByDescending(u => u.UpdatedAt),
+            "id" => ascending ? query.OrderBy(u => u.Id) : query.OrderByDescending(u => u.Id),
+            _ => query.OrderByDescending(u => u.CreatedAt)
+        };
     }
 }

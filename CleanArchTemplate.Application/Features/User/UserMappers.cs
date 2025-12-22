@@ -1,9 +1,12 @@
-﻿using CleanArchTemplate.Aplication.Features.User.Models.Input;
-using CleanArchTemplate.Application.Features.User.Models.Output;
+﻿using CleanArchTemplate.SharedKernel.Models.Input.User.Models.Output;
+using CleanArchTemplate.SharedKernel.Models.User.Input;
+using CleanArchTemplate.SharedKernel.Models.User.Output;
 
-namespace CleanArchTemplate.Application.Features.User.Models;
+namespace CleanArchTemplate.Aplication.Features.User;
 
 using Domain.Users;
+using SharedKernel.Models.Input.User;
+
 public static class UserMappers
 {
     public static User ToUser(this CreateUserInput input)
@@ -37,7 +40,7 @@ public static class UserMappers
         {
             Id = user.Id,
             Email = user.Email,
-            FirstName = user.Name,
+            Name = user.Name,
             LastName = user.LastName,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt,
