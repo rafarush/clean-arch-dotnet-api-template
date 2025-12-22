@@ -1,11 +1,10 @@
-﻿using CleanArchTemplate.SharedKernel.Models.Input.User.Models.Output;
-using CleanArchTemplate.SharedKernel.Models.User.Input;
+﻿using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 
 namespace CleanArchTemplate.Aplication.Features.User;
 
 using Domain.Users;
-using SharedKernel.Models.Input.User;
+using SharedKernel.Models.User.Input;
 
 public static class UserMappers
 {

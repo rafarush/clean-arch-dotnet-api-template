@@ -1,15 +1,13 @@
-﻿namespace CleanArchTemplate.SharedKernel.Models.General.Input;
+﻿using Swashbuckle.AspNetCore.Annotations;
 
-public class BasePaginatedParams
+namespace CleanArchTemplate.SharedKernel.Models.General.Input;
+
+public class BasePaginatedInput
 {
-    public required string OffsetField { get; set; }
-
+    public virtual required string OffsetField { get; set; }
     public required int OffsetPage { get; set; }
-
     public required int Limit { get; set; }
-    
     public bool HasPagination { get; set; } = true;
-    
     public bool IsAsc { get; set; } = true;
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }

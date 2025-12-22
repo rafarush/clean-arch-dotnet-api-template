@@ -1,8 +1,7 @@
 ﻿using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
-using CleanArchTemplate.SharedKernel.Models.Input.User.Models.Output;
+using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
-using CleanArchTemplate.SharedKernel.Models.User.Params;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchTemplate.Infrastructure.Repositories.User;
@@ -85,27 +84,27 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         return await Task.FromResult(users);
     }
 
-    public async Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersParams usersParams, CancellationToken ct)
+    public async Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersInput usersInput, CancellationToken ct)
     {
         var users = db.Set<User>()
             .AsNoTracking()
             .AsQueryable()
             .Where(x => !x.IsDeleted);
 
-        if (!string.IsNullOrWhiteSpace(usersParams.Email))
-            users = users.Where(x => x.Email == usersParams.Email);
+        if (!string.IsNullOrWhiteSpace(usersInput.Email))
+            users = users.Where(x => x.Email == usersInput.Email);
         
-        if (!string.IsNullOrWhiteSpace(usersParams.Name))
-            users = users.Where(x=> x.Name ==  usersParams.Name);
+        if (!string.IsNullOrWhiteSpace(usersInput.Name))
+            users = users.Where(x=> x.Name ==  usersInput.Name);
         
-        if (!string.IsNullOrWhiteSpace(usersParams.LastName))
-            users = users.Where(x => x.LastName == usersParams.LastName);
+        if (!string.IsNullOrWhiteSpace(usersInput.LastName))
+            users = users.Where(x => x.LastName == usersInput.LastName);
         
-        if (usersParams.CreatedAt.HasValue)
-            users = users.Where(x => x.CreatedAt >= usersParams.CreatedAt.Value);
+        if (usersInput.CreatedAt.HasValue)
+            users = users.Where(x => x.CreatedAt >= usersInput.CreatedAt.Value);
         
-        if (usersParams.UpdatedAt.HasValue)
-            users = users.Where(x => x.UpdatedAt >= usersParams.UpdatedAt.Value);
+        if (usersInput.UpdatedAt.HasValue)
+            users = users.Where(x => x.UpdatedAt >= usersInput.UpdatedAt.Value);
         
         var count = await users.CountAsync(ct);
         
@@ -113,13 +112,13 @@ public class UserRepository(AppDbContext db) :  IUserRepository
             return await Task.FromResult(new PaginatedOutput<UserOutput>([], 0));
         
         // Sorting
-        users = ApplyOrdering(users, usersParams.OffsetField, usersParams.IsAsc);
+        users = ApplyOrdering(users, usersInput.OffsetField, usersInput.IsAsc);
         
-        if (usersParams.HasPagination)
+        if (usersInput.HasPagination)
         {
             users = users
-                .Skip((usersParams.OffsetPage - 1) * usersParams.Limit)
-                .Take(usersParams.Limit);
+                .Skip((usersInput.OffsetPage - 1) * usersInput.Limit)
+                .Take(usersInput.Limit);
         }
 
         var rows = await users

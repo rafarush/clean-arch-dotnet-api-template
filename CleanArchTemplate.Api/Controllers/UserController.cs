@@ -7,10 +7,8 @@ using CleanArchTemplate.Aplication.Features.User.Queries;
 using CleanArchTemplate.Domain.Users;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
-using CleanArchTemplate.SharedKernel.Models.Input.User.Models.Output;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
-using CleanArchTemplate.SharedKernel.Models.User.Params;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,40 +24,32 @@ public class UserController(
     [HttpPost(ApiEndpoints.Users.Create)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserInput input, CancellationToken ct)
-    => await HandleCreateCommandAsync<CreateUserCommand, CreateUserOutput>(
+    => await HandleCreateCommandAsync<CreateUserCommand, Result<CreateUserOutput>>(
         new CreateUserCommand(input),
         getActionName: nameof(ApiEndpoints.Users.Get),
-        getId: r => r.Id,
-        getOutput: r=> r.Output,
+        getId: r => r.Value!.Id,
+        getOutput: r=> r.Value!.Output,
         ct: ct);
     
     [HttpGet(ApiEndpoints.Users.Get)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken ct)
-    => await HandleQueryAsync<GetUserByIdQuery, UserOutput?>(new GetUserByIdQuery(id), ct);
+    => await HandleQueryAsync<GetUserByIdQuery, Result<UserOutput>>(new GetUserByIdQuery(id), ct);
 
     
-    /// <summary>
-    /// Search users with pagination
-    /// </summary>
-    /// <param name="usersParams">
-    /// Search Params:
-    /// - offsetField: Ordering field (Valores: "name", "lastName", "created_at", "updated_at", "email", "id")
-    /// - offsetPage: Page number
-    /// - limit: Result limit by page
-    /// </param>
-    /// <returns>Paginated users list</returns>
     [AllowAnonymous]
     [HttpGet(ApiEndpoints.Users.Search)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> SearchUsers([FromQuery] SearchUsersParams usersParams, CancellationToken ct)
+    public async Task<IActionResult> SearchUsers([FromQuery] SearchUsersInput usersInput, CancellationToken ct)
         => await HandleQueryAsync<SearchUsersQuery, Result<PaginatedOutput<UserOutput>>>(
-            new SearchUsersQuery(usersParams)
+            new SearchUsersQuery(usersInput)
             {
-                OffsetField = usersParams.OffsetField,
-                OffsetPage = usersParams.OffsetPage,
-                Limit = usersParams.Limit,
+                OffsetField = usersInput.OffsetField,
+                OffsetPage = usersInput.OffsetPage,
+                Limit = usersInput.Limit,
             }, ct);
+    
+    
 
     // [AllowAnonymous]
     // [HttpGet(ApiEndpoints.Users.GetAll)]

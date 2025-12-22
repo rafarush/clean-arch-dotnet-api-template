@@ -1,8 +1,6 @@
 ﻿using CleanArchTemplate.SharedKernel.Models.General.Output;
-using CleanArchTemplate.SharedKernel.Models.Input.User.Models.Output;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
-using CleanArchTemplate.SharedKernel.Models.User.Params;
 
 namespace CleanArchTemplate.Infrastructure.Repositories.User;
 using Domain.Users;
@@ -15,5 +13,5 @@ public interface IUserRepository
     Task<User?> GetAsync(Guid id, CancellationToken ct);
     Task<User?> GetByEmailAsync(string email, CancellationToken ct);
     Task<IEnumerable<User>> GetAllAsync(CancellationToken ct);
-    Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersParams usersParams, CancellationToken ct);
+    Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersInput usersInput, CancellationToken ct);
 }

@@ -1,5 +1,3 @@
-﻿using CleanArchTemplate.SharedKernel.Models.User.Output;
-
-namespace CleanArchTemplate.SharedKernel.Models.Input.User.Models.Output;
+﻿namespace CleanArchTemplate.SharedKernel.Models.User.Output;
 
 public sealed record CreateUserOutput(Guid Id, UserOutput Output);

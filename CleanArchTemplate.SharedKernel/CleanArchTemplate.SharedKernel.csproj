@@ -8,6 +8,11 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore" Version="2.3.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.9.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models\User\Params\" />
     </ItemGroup>
 
 </Project>
