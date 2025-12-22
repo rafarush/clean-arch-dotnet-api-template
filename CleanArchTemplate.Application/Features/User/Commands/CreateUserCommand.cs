@@ -21,6 +21,6 @@ internal sealed class CreateUserCommandHandler(
         var user = command.Input.ToUser();
         await userValidator.ValidateAndThrowAsync(user, ct);
         var userId = await userRepository.CreateAsync(user, ct);
-        return Result<CreateUserOutput>.Success(new (userId, UserMappers.ToOutput(user)));
+        return Result<CreateUserOutput>.Success(new (userId, user.ToOutput()), "User created successfully");
     }
 } 

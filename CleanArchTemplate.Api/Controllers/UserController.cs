@@ -48,8 +48,14 @@ public class UserController(
                 OffsetPage = usersInput.OffsetPage,
                 Limit = usersInput.Limit,
             }, ct);
-    
-    
+
+    [HttpPut(ApiEndpoints.Users.Update)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserInput input,
+        CancellationToken ct)
+        => await HandleCommandAsync<UpdateUserCommand, Result<UserOutput>>(new UpdateUserCommand(id, input), ct);
+
+
 
     // [AllowAnonymous]
     // [HttpGet(ApiEndpoints.Users.GetAll)]
