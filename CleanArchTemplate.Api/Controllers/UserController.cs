@@ -2,6 +2,7 @@
 using CleanArchTemplate.Aplication.Abstractions.Cqrs;
 using CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
+using CleanArchTemplate.Aplication.Features.Auth;
 using CleanArchTemplate.Aplication.Features.User.Commands;
 using CleanArchTemplate.Aplication.Features.User.Queries;
 using CleanArchTemplate.Domain.Users;
@@ -21,6 +22,7 @@ public class UserController(
     IQuerySender querySender) : BaseApiController(commandSender, querySender)
 {
 
+    [Authorize(Policy = PoliciesName.User.Create)]
     [HttpPost(ApiEndpoints.Users.Create)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserInput input, CancellationToken ct)
@@ -31,13 +33,14 @@ public class UserController(
         getOutput: r=> r.Value!.Output,
         ct: ct);
     
+    [Authorize(Policy = PoliciesName.User.View)]
     [HttpGet(ApiEndpoints.Users.Get)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken ct)
     => await HandleQueryAsync<GetUserByIdQuery, Result<UserOutput>>(new GetUserByIdQuery(id), ct);
 
     
-    [AllowAnonymous]
+    [Authorize(Policy = PoliciesName.User.View)]
     [HttpGet(ApiEndpoints.Users.Search)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> SearchUsers([FromQuery] SearchUsersInput usersInput, CancellationToken ct)
@@ -49,6 +52,7 @@ public class UserController(
                 Limit = usersInput.Limit,
             }, ct);
 
+    [Authorize(Policy = PoliciesName.User.Update)]
     [HttpPut(ApiEndpoints.Users.Update)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserInput input,

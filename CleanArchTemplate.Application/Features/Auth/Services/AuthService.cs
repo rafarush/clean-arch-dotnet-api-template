@@ -21,12 +21,7 @@ public class AuthService(IUserRepository userRepository, IJwtService jwtService)
         {
             User = user.Id,
             Email = user.Email,
-            RoleNames = user.Roles.Select(r => r.Name).ToList(),
-            PolicyNames = user.Roles
-                .SelectMany(r => r.Policies)
-                .Select(p => p.Name)
-                .Distinct()
-                .ToList()
+            RoleNames = user.Roles.Select(r => r.Name).ToList()
         });
         
         return AuthResult.Success(token, user);
