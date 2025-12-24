@@ -1,6 +1,7 @@
 ﻿using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Domain.Users;
 using CleanArchTemplate.Infrastructure.Persistence.EntityFramework.Seeders;
+using CleanArchTemplate.Infrastructure.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,7 @@ public interface IDbInitializer
 public class DbInitializer(
     AppDbContext db, 
     ILogger<DbInitializer> logger, 
+    IPasswordHashService passwordHashService,
     IServiceScopeFactory serviceScopeFactory) : IDbInitializer
 {
     
@@ -77,8 +79,8 @@ public class DbInitializer(
         await using var scope = serviceScopeFactory.CreateAsyncScope();
         await using var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         // Add Users
-        UserSeeder seeder = new UserSeeder(dbContext);
-        var users =  new List<User>(seeder.GetUsers());
+        UserSeeder seeder = new UserSeeder(dbContext, passwordHashService);
+        var users =  new List<User>(await seeder.GetUsers());
         
         foreach (var user in users)
         {
@@ -113,7 +115,7 @@ public class DbInitializer(
             }
         }
         
-        // await db.SaveChangesAsync();
+        await db.SaveChangesAsync();
         logger.LogInformation("Initial policies added. ({Count} policies)",  policies.Count);
     }
 

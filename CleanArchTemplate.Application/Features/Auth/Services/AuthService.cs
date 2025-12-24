@@ -2,10 +2,14 @@
 
 using CleanArchTemplate.Aplication.Features.Auth.Models.Input;
 using CleanArchTemplate.Infrastructure.Repositories.User;
+using CleanArchTemplate.Infrastructure.Services.Auth;
 
 namespace CleanArchTemplate.Aplication.Features.Auth.Services;
 
-public class AuthService(IUserRepository userRepository, IJwtService jwtService) : IAuthService
+public class AuthService(
+    IUserRepository userRepository, 
+    IJwtService jwtService, 
+    IPasswordHashService passwordHashService) : IAuthService
 {
     public async Task<AuthResult> SignInAsync(string email, string password, CancellationToken ct)
     {
@@ -14,7 +18,8 @@ public class AuthService(IUserRepository userRepository, IJwtService jwtService)
         if (user == null)
             return AuthResult.Failure("User not found");
         
-        if (password != user.Password)
+        var passHashed = await passwordHashService.HashPassword(password);
+        if (!await passwordHashService.ValidatePassword(passHashed, user.Password))
             return AuthResult.Failure("Wrong Password");
         
         var token = jwtService.CreateToken(new TokenInput

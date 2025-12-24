@@ -1,4 +1,5 @@
-﻿using CleanArchTemplate.SharedKernel.Models.User.Input;
+﻿using CleanArchTemplate.Aplication.Features.Auth.Services;
+using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 
 namespace CleanArchTemplate.Aplication.Features.User;
@@ -8,27 +9,27 @@ using SharedKernel.Models.User.Input;
 
 public static class UserMappers
 {
-    public static User ToUser(this CreateUserInput input)
+    public static User ToUser(this CreateUserInput input, byte[] passHashed)
     {
         return new User
         {
             Name = input.FirstName,
             LastName = input.LastName,
             Email = input.Email,
-            Password = input.Password,
+            Password = passHashed,
             Id = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
         };
     }
     
-    public static User ToUser(this UpdateUserInput input, Guid id)
+    public static User ToUser(this UpdateUserInput input, Guid id, byte[] passHashed)
     {
         return new User
         {
             Name = input.FirstName,
             LastName = input.LastName,
             Email = input.Email,
-            Password = input.Password,
+            Password = passHashed,
             Id = id
         };
     }

@@ -1,4 +1,6 @@
-﻿namespace CleanArchTemplate.Aplication.Abstractions.Cqrs;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace CleanArchTemplate.Aplication.Abstractions.Cqrs;
 
 public class Result<T>
 {

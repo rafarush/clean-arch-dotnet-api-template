@@ -2,6 +2,7 @@
 using CleanArchTemplate.Infrastructure.Repositories.Security.Policy;
 using CleanArchTemplate.Infrastructure.Repositories.Security.Role;
 using CleanArchTemplate.Infrastructure.Repositories.User;
+using CleanArchTemplate.Infrastructure.Services.Auth;
 using CleanArchTemplate.Infrastructure.Services.Auth.PermissionService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,8 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPolicyRepository, PolicyRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
-        
+
+        services.AddSingleton<IPasswordHashService, PasswordHashService>();
         
         // Custom Auth Service
         services.AddScoped<IPermissionService, PermissionService>();

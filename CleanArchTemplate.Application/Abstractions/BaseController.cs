@@ -1,5 +1,7 @@
-﻿using CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
+﻿using CleanArchTemplate.Aplication.Abstractions.Cqrs;
+using CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchTemplate.Aplication.Abstractions;
@@ -19,15 +21,37 @@ public abstract class BaseApiController(
         return Ok(result);
     }
     
-    protected async Task<IActionResult> HandleCreateCommandAsync<TCommand, TResult>(
+    protected async Task<IActionResult> HandleCreateCommandAsync<TCommand, TOutput>(
         TCommand command,
         string getActionName,
-        Func<TResult, Guid> getId,
-        Func<TResult, object?> getOutput,
+        Func<Result<TOutput>, Guid> getId,
+        Func<Result<TOutput>, object?> getOutput,
         CancellationToken ct)
-        where TCommand : ICommand<TResult>
+        where TCommand : ICommand<Result<TOutput>>
     {
         var result = await commandSender.SendAsync(command, ct);
+        
+        if (!result.IsSuccess)
+        {
+            var problemDetails = new ProblemDetails
+            {
+                Title = result.Error,
+                Detail = result.Message ?? result.Error,
+                Status = result.ErrorType switch
+                {
+                    ErrorType.Conflict => StatusCodes.Status409Conflict,
+                    ErrorType.NotFound => StatusCodes.Status404NotFound,
+                    ErrorType.Validation => StatusCodes.Status400BadRequest,
+                    _ => StatusCodes.Status400BadRequest
+                },
+                Type = result.ErrorType.ToString()
+            };
+
+            return new ObjectResult(problemDetails)
+            {
+                StatusCode = problemDetails.Status!.Value
+            };
+        }
 
         var id = getId(result);
         var output = getOutput(result);

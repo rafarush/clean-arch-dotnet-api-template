@@ -16,17 +16,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchTemplate.Api.Controllers;
 
-// [Authorize]
 public class UserController(
     ICommandSender commandSender,
     IQuerySender querySender) : BaseApiController(commandSender, querySender)
 {
 
-    [Authorize(Policy = PoliciesName.User.Create)]
+    // [Authorize(Policy = PoliciesName.User.Create)]
     [HttpPost(ApiEndpoints.Users.Create)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserInput input, CancellationToken ct)
-    => await HandleCreateCommandAsync<CreateUserCommand, Result<CreateUserOutput>>(
+    => await HandleCreateCommandAsync<CreateUserCommand, CreateUserOutput>(
         new CreateUserCommand(input),
         getActionName: nameof(ApiEndpoints.Users.Get),
         getId: r => r.Value!.Id,
