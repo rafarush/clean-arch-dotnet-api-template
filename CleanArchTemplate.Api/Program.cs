@@ -7,6 +7,7 @@ using CleanArchTemplate.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Annotations;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -33,13 +34,8 @@ builder.Services.AddAuthentication(x =>
 });
 
 builder.Services.AddAuthorization();
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(static x =>
 {
     x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -47,8 +43,11 @@ builder.Services.AddSwaggerGen(static x =>
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
-        Scheme = "Bearer"
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        Description = "JWT Authorization header using Bearer scheme"
     });
+    
     x.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -63,12 +62,15 @@ builder.Services.AddSwaggerGen(static x =>
             Array.Empty<string>()
         }
     });
+    
     x.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "CleanArchTemplate API",
         Version = "v1",
         Description = "JWT Authentication API"
     });
+    
+    x.EnableAnnotations();
 });
 
 
@@ -86,12 +88,14 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanArchTemplate API v1");
+    });
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

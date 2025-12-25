@@ -1,12 +1,13 @@
 ﻿using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Domain.Users;
+using CleanArchTemplate.Infrastructure.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchTemplate.Infrastructure.Persistence.EntityFramework.Seeders;
 
-public class UserSeeder(AppDbContext db)
+public class UserSeeder(AppDbContext db, IPasswordHashService passwordHashService)
 {
-    public List<User> GetUsers()
+    public async Task<List<User>> GetUsers()
     {
         return
         [
@@ -16,7 +17,7 @@ public class UserSeeder(AppDbContext db)
                 Email = "admin@example.com",
                 Name = "Administrator",
                 LastName = "Administrator",
-                Password = "admin",
+                Password = await passwordHashService.HashPassword("admin"),
                 Roles = GetAdminRoles(),
                 CreatedAt = DateTime.UtcNow
             },
@@ -26,7 +27,7 @@ public class UserSeeder(AppDbContext db)
                 Email = "user@example.com", 
                 Name = "User",
                 LastName = "Regular",
-                Password = "user",
+                Password = await passwordHashService.HashPassword("user"),
                 Roles = GetRegularUserRoles(),
                 CreatedAt = DateTime.UtcNow
             }

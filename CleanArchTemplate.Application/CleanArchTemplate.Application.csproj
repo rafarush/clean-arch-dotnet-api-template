@@ -8,13 +8,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+      <PackageReference Include="MediatR" Version="14.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
-      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.0.1" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.15.0" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
     </ItemGroup>
 
@@ -22,6 +25,10 @@
       <ProjectReference Include="..\CleanArchTemplate.Domain\CleanArchTemplate.Domain.csproj" />
       <ProjectReference Include="..\CleanArchTemplate.Infrastructure\CleanArchTemplate.Infrastructure.csproj" />
       <ProjectReference Include="..\CleanArchTemplate.SharedKernel\CleanArchTemplate.SharedKernel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Abstractions\Models\Output\" />
     </ItemGroup>
 
 </Project>

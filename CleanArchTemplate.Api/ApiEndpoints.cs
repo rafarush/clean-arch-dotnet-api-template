@@ -13,6 +13,7 @@ public static class ApiEndpoints
         public const string Update = $"{BaseUrl}/{{id:guid}}";
         public const string Delete = $"{BaseUrl}/{{id:guid}}";
         public const string GetAll = BaseUrl;
+        public const string Search = BaseUrl;
     }
     
     public static class Policies

@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.SharedKernel.Models.Output;
+﻿namespace CleanArchTemplate.SharedKernel.Models.General.Output;
 
 public class ValidationFailureOutput
 {

@@ -11,6 +11,7 @@
         condition: service_healthy
     environment:
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=test;Username=admin;Password=admin
+      - ASPNETCORE_ENVIRONMENT=Development
   
   db:
     image: postgres:latest

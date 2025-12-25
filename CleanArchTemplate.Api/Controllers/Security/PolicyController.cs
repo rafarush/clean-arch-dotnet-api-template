@@ -3,7 +3,7 @@ using CleanArchTemplate.Aplication.Features.Security.Policy.Models.Input;
 using CleanArchTemplate.Aplication.Features.Security.Policy.Models.Output;
 using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Infrastructure.Repositories.Security.Policy;
-using CleanArchTemplate.SharedKernel.Models.Output;
+using CleanArchTemplate.SharedKernel.Models.General.Output;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

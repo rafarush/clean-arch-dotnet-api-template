@@ -7,12 +7,13 @@ using CleanArchTemplate.Aplication.Features.Auth.Models.Output;
 using CleanArchTemplate.Aplication.Features.Auth.Options;
 using CleanArchTemplate.Domain.Security;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CleanArchTemplate.Aplication.Features.Auth.Services;
 
-public class JwtService(IHostingEnvironment hostingEnvironment, IOptions<JwtOptions> jwtOptions) : IJwtService
+public class JwtService(IWebHostEnvironment hostingEnvironment, IOptions<JwtOptions> jwtOptions) : IJwtService
 {
     public TokenOutput CreateToken(TokenInput input)
     {
@@ -21,9 +22,8 @@ public class JwtService(IHostingEnvironment hostingEnvironment, IOptions<JwtOpti
         List<Claim> claims =
         [
             new(AppClaims.UserId, input.User.ToString()),
-            new(AppClaims.Policies, JsonSerializer.Serialize(input.PolicyNames)),
             new(AppClaims.Email, input.Email),
-            new(AppClaims.Role, JsonSerializer.Serialize(input.PolicyNames))
+            new(AppClaims.Role, JsonSerializer.Serialize(input.RoleNames))
         ];
         
         var securityAccessToken = new JwtSecurityToken(
@@ -31,7 +31,7 @@ public class JwtService(IHostingEnvironment hostingEnvironment, IOptions<JwtOpti
             audience: jwtOptions.Value.Audience,
             claims: claims,
             notBefore: DateTime.Now,
-            expires: hostingEnvironment.IsStaging() ? DateTime.Now.AddMinutes(1) : DateTime.Now.AddMinutes(30),
+            expires: hostingEnvironment.IsDevelopment() ? DateTime.Now.AddHours(1) : DateTime.Now.AddMinutes(30),
             signingCredentials: credentials);
         var securityRefreshToken = new JwtSecurityToken(
             issuer: jwtOptions.Value.Issuer,
@@ -44,6 +44,6 @@ public class JwtService(IHostingEnvironment hostingEnvironment, IOptions<JwtOpti
         var handler = new JwtSecurityTokenHandler();
         var accessToken = handler.WriteToken(securityAccessToken);
         var refreshToken = handler.WriteToken(securityRefreshToken);
-        return new TokenOutput(accessToken, refreshToken, input.User, input.Email, input.PolicyNames, input.RoleNames);
+        return new TokenOutput(accessToken, refreshToken, input.User, input.Email, input.RoleNames);
     }
 }
