@@ -20,7 +20,7 @@ jobs:
       - name: Build Docker image (validation only)
         run: |
           docker build \
-            --file Dockerfile \
+            --file CleanArchTemplate.Api/Dockerfile \
             --tag clean-arch-template:test .
 
       - name: Trigger Render Deploy
