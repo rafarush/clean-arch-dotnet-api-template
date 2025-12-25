@@ -12,6 +12,7 @@
     environment:
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=test;Username=admin;Password=admin
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
   
   db:
     image: postgres:latest
