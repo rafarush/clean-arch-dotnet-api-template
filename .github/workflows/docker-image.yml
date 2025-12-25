@@ -21,7 +21,9 @@ jobs:
         run: |
           docker build \
             -f CleanArchTemplate.Api/Dockerfile \
-            -t clean-arch-template:test 
+            -t clean-arch-template:test \
+            .
+
 
       - name: Trigger Render Deploy
         if: github.event_name == 'push'
