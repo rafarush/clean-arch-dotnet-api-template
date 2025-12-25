@@ -5,14 +5,15 @@
       context: .
       dockerfile: CleanArchTemplate.Api/Dockerfile
     ports:
-      - '8080:8080'
+      - '5125:5125'
     depends_on:
       db:
         condition: service_healthy
     environment:
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=test;Username=admin;Password=admin
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_HTTP_PORTS=5125
+      - ASPNETCORE_URLS=http://+:5125
   
   db:
     image: postgres:latest
