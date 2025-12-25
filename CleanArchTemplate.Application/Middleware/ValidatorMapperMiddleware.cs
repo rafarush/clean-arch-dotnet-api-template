@@ -2,7 +2,6 @@
 using CleanArchTemplate.SharedKernel.Models.General.Output;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http;
 
 namespace CleanArchTemplate.Aplication.Middleware;
 

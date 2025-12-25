@@ -18,8 +18,7 @@ public sealed record CreateUserCommand(CreateUserInput Input) : ICommand<Result<
 internal sealed class CreateUserCommandHandler(
     IUserRepository userRepository,
     IValidator<User> userValidator,
-    IPasswordHashService passwordHashService,
-    ILogger<CreateUserCommandHandler> logger) : ICommandHandler<CreateUserCommand, Result<CreateUserOutput>>
+    IPasswordHashService passwordHashService) : ICommandHandler<CreateUserCommand, Result<CreateUserOutput>>
 {
     public async Task<Result<CreateUserOutput>> Handle(CreateUserCommand command, CancellationToken ct)
     {
