@@ -89,14 +89,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanArchTemplate API v1");
-        options.RoutePrefix = "swagger";
-    });
+    app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -105,7 +101,7 @@ app.UseMiddleware<ValidatorMapperMiddleware>();
 
 app.MapControllers();
 
-// await app.InitializeDatabaseAsync();
+await app.InitializeDatabaseAsync();
 
 app.Run();
 
