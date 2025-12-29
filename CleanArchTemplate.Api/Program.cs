@@ -99,7 +99,7 @@ app.UseMiddleware<ValidatorMapperMiddleware>();
 
 app.MapControllers();
 
-await app.InitializeDatabaseAsync();
+// await app.InitializeDatabaseAsync();
 
 app.Run();
 
