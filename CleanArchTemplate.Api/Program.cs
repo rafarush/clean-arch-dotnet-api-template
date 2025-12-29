@@ -1,13 +1,11 @@
 using System.Text;
 using CleanArchTemplate.Aplication.Extensions;
 using CleanArchTemplate.Aplication.Features.Auth.Options;
-using CleanArchTemplate.Aplication.Features.Auth.Services;
 using CleanArchTemplate.Aplication.Middleware;
 using CleanArchTemplate.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Annotations;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -67,7 +65,7 @@ builder.Services.AddSwaggerGen(static x =>
     {
         Title = "CleanArchTemplate API",
         Version = "v1",
-        Description = "JWT Authentication API"
+        Description = "Clean Architecture Template and JWT Authentication API"
     });
     
     x.EnableAnnotations();
