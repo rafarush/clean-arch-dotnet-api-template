@@ -13,6 +13,7 @@
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=test;Username=admin;Password=admin
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5125
+      - ASPNETCORE_HTTPS_PORTS=5125
       - ASPNETCORE_URLS=http://+:5125
   
   db:
