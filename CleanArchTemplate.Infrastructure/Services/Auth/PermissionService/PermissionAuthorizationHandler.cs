@@ -17,7 +17,8 @@ public sealed class PermissionAuthorizationHandler(IPermissionService permission
         var hasPermission = await permissionService.HasPermissionAsync(userId,
             requirement.PolicyName);
         
-        if (hasPermission)
-            context.Succeed(requirement);
+        if (!hasPermission)
+            context.Fail();
+        context.Succeed(requirement);
     }
 }
