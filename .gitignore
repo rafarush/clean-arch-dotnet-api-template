@@ -8,3 +8,4 @@ riderModule.iml
 CleanArchTemplate.Api/appsettings.json
 CleanArchTemplate.Api/appsettings.Development.json
 
+/global.json
