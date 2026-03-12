@@ -1,6 +1,4 @@
-﻿using CleanArchTemplate.Domain.Security;
-
-namespace CleanArchTemplate.Aplication.Features.Auth.Models.Input;
+﻿namespace CleanArchTemplate.SharedKernel.Models.Auth.Input;
 
 public sealed class TokenInput
 {

@@ -1,11 +1,10 @@
-﻿using CleanArchTemplate.Aplication.Abstractions.Cqrs;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
+﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 using CleanArchTemplate.Infrastructure.Repositories.User;
-using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchTemplate.Aplication.Features.User.Queries;
+namespace CleanArchTemplate.Application.Features.User.Queries;
 
 public sealed record GetUserByIdQuery(Guid UserId) : IQuery<Result<UserOutput>>;
 

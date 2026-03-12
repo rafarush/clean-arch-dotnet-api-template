@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace CleanArchTemplate.Aplication.Features.Security.Policy;
+namespace CleanArchTemplate.Application.Features.Security.Policy;
 
 using Domain.Security;
 

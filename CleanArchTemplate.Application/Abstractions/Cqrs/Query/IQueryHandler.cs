@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
+namespace CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 
 public interface IQueryHandler<in TQuery, TResponse> 
     : IRequestHandler<TQuery, TResponse>

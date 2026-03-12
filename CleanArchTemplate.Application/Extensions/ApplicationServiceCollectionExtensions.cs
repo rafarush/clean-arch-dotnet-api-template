@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
-using CleanArchTemplate.Aplication.Features.Auth.Services;
+using CleanArchTemplate.Application;
+using CleanArchTemplate.Application.Features.Auth.Services;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchTemplate.Aplication.Extensions;
+namespace CleanArchTemplate.Application.Extensions;
 
 public static class ApplicationServiceCollectionExtensions
 {

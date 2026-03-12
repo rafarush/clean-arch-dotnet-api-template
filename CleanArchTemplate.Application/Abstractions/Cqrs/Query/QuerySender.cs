@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
+﻿namespace CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 
 using MediatR;
 

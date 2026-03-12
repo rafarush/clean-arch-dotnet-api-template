@@ -1,7 +1,7 @@
-﻿using CleanArchTemplate.Aplication.Features.User.Queries;
+﻿using CleanArchTemplate.Application.Features.User.Queries;
 using FluentValidation;
 
-namespace CleanArchTemplate.Aplication.Features.User.Validators;
+namespace CleanArchTemplate.Application.Features.User.Validators;
 
 public class SearchUserValidator : AbstractValidator<SearchUsersQuery>
 {

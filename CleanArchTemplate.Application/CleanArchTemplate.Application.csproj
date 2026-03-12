@@ -4,7 +4,7 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>CleanArchTemplate.Aplication</RootNamespace>
+        <RootNamespace>CleanArchTemplate.Application</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,7 +29,7 @@
 
     <ItemGroup>
       <Folder Include="Abstractions\Models\Output\" />
-      <Folder Include="Features\Security\Role\Models\Input\" />
+      <Folder Include="Features\Security\Role\" />
     </ItemGroup>
 
 </Project>

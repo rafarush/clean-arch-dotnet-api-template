@@ -1,6 +1,6 @@
-﻿using CleanArchTemplate.Aplication.Features.Auth.Models.Output;
+﻿using CleanArchTemplate.SharedKernel.Models.Auth.Output;
 
-namespace CleanArchTemplate.Aplication.Features.Auth.Services;
+namespace CleanArchTemplate.Application.Features.Auth.Services;
 
 public interface IAuthService
 {

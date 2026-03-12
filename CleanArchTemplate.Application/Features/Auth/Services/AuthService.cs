@@ -1,10 +1,10 @@
 ﻿// Application/Features/Auth/Services/AuthService.cs
 
-using CleanArchTemplate.Aplication.Features.Auth.Models.Input;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.Infrastructure.Services.Auth;
+using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 
-namespace CleanArchTemplate.Aplication.Features.Auth.Services;
+namespace CleanArchTemplate.Application.Features.Auth.Services;
 
 public class AuthService(
     IUserRepository userRepository, 

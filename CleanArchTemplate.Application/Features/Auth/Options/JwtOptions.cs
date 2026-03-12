@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Aplication.Features.Auth.Options;
+﻿namespace CleanArchTemplate.Application.Features.Auth.Options;
 
 public sealed class JwtOptions
 {

@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Aplication.Features.Security.Policy.Models.Input;
+﻿namespace CleanArchTemplate.SharedKernel.Models.Security.Policy.Input;
 
 public class UpdatePolicyInput
 {

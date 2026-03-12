@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Aplication.Features.Auth;
+﻿namespace CleanArchTemplate.Application.Features.Auth;
 
 public static class PoliciesName
 {

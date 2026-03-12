@@ -12,7 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\User\Params\" />
+      <Folder Include="Models\Security\Policy\" />
+      <Folder Include="Models\Security\Role\" />
+      <Folder Include="Models\User\" />
     </ItemGroup>
 
 </Project>

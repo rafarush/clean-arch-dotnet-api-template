@@ -1,11 +1,10 @@
-﻿using CleanArchTemplate.Aplication.Features.Auth.Services;
+﻿using CleanArchTemplate.Application.Features.Auth.Services;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 
-namespace CleanArchTemplate.Aplication.Features.User;
+namespace CleanArchTemplate.Application.Features.User;
 
 using Domain.Users;
-using SharedKernel.Models.User.Input;
 
 public static class UserMappers
 {

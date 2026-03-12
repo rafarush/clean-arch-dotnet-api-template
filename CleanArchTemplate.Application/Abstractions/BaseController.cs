@@ -1,10 +1,10 @@
-﻿using CleanArchTemplate.Aplication.Abstractions.Cqrs;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
+﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchTemplate.Aplication.Abstractions;
+namespace CleanArchTemplate.Application.Abstractions;
 
 [ApiController]
 public abstract class BaseApiController(

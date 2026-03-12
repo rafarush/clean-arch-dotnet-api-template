@@ -1,23 +1,20 @@
-﻿using CleanArchTemplate.Aplication.Abstractions.Cqrs;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
-using CleanArchTemplate.Aplication.Features.Auth.Services;
+﻿using CleanArchTemplate.Application.Features.User;
+using CleanArchTemplate.Application.Abstractions.Cqrs;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.Infrastructure.Services.Auth;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 using FluentValidation;
-using Microsoft.Extensions.Logging;
 
-namespace CleanArchTemplate.Aplication.Features.User.Commands;
-
-using Domain.Users;
+namespace CleanArchTemplate.Application.Features.User.Commands;
 
 public sealed record CreateUserCommand(CreateUserInput Input) : ICommand<Result<CreateUserOutput>>;
 
 
 internal sealed class CreateUserCommandHandler(
     IUserRepository userRepository,
-    IValidator<User> userValidator,
+    IValidator<Domain.Users.User> userValidator,
     IPasswordHashService passwordHashService) : ICommandHandler<CreateUserCommand, Result<CreateUserOutput>>
 {
     public async Task<Result<CreateUserOutput>> Handle(CreateUserCommand command, CancellationToken ct)

@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Aplication.Features.Auth.Models.Input;
+﻿namespace CleanArchTemplate.SharedKernel.Models.Auth.Input;
 
 public class SignInInput
 {

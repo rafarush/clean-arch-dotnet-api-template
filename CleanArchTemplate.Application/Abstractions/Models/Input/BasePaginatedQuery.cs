@@ -1,8 +1,8 @@
-﻿using CleanArchTemplate.Aplication.Abstractions.Cqrs;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
+﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
 
-namespace CleanArchTemplate.Aplication.Abstractions.Models.Input;
+namespace CleanArchTemplate.Application.Abstractions.Models.Input;
 
 public record BasePaginatedQuery
 {

@@ -1,14 +1,14 @@
-﻿using CleanArchTemplate.Aplication.Abstractions.Cqrs;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
+﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 
-namespace CleanArchTemplate.Aplication.Features.User.Commands;
+namespace CleanArchTemplate.Application.Features.User.Commands;
 
 public sealed record DeleteUserCommand(Guid Id) : ICommand<Result<UserOutput>>;
 
 
-public sealed class DeleteUserCommandHandler(
+internal sealed class DeleteUserCommandHandler(
     IUserRepository userRepository
     ) : ICommandHandler<DeleteUserCommand, Result<UserOutput>>
 {

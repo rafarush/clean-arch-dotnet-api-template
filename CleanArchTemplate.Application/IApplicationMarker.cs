@@ -1,3 +1,3 @@
-﻿namespace CleanArchTemplate.Aplication;
+﻿namespace CleanArchTemplate.Application;
 
 public interface IApplicationMarker { }

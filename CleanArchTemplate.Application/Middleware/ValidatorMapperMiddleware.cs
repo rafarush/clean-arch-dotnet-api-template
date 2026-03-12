@@ -3,7 +3,7 @@ using CleanArchTemplate.SharedKernel.Models.General.Output;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 
-namespace CleanArchTemplate.Aplication.Middleware;
+namespace CleanArchTemplate.Application.Middleware;
 
 public class ValidatorMapperMiddleware(RequestDelegate next)
 {

@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
+namespace CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 
 public interface ICommand<out TResponse> : IRequest<TResponse>;

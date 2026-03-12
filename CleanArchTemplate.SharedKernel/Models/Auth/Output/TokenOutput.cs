@@ -1,6 +1,4 @@
-﻿using CleanArchTemplate.Domain.Security;
-
-namespace CleanArchTemplate.Aplication.Features.Auth.Models.Output;
+﻿namespace CleanArchTemplate.SharedKernel.Models.Auth.Output;
 
 public sealed record TokenOutput(
     string AccessToken,

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchTemplate.Aplication.Abstractions.Cqrs;
+namespace CleanArchTemplate.Application.Abstractions.Cqrs;
 
 public class Result<T>
 {

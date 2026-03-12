@@ -2,16 +2,16 @@
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
-using CleanArchTemplate.Aplication.Features.Auth.Models.Input;
-using CleanArchTemplate.Aplication.Features.Auth.Models.Output;
-using CleanArchTemplate.Aplication.Features.Auth.Options;
+using CleanArchTemplate.Application.Features.Auth.Options;
 using CleanArchTemplate.Domain.Security;
+using CleanArchTemplate.SharedKernel.Models.Auth.Input;
+using CleanArchTemplate.SharedKernel.Models.Auth.Output;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CleanArchTemplate.Aplication.Features.Auth.Services;
+namespace CleanArchTemplate.Application.Features.Auth.Services;
 
 public class JwtService(IWebHostEnvironment hostingEnvironment, IOptions<JwtOptions> jwtOptions) : IJwtService
 {

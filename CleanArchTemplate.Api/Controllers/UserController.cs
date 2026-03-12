@@ -1,10 +1,11 @@
-﻿using CleanArchTemplate.Aplication.Abstractions;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Command;
-using CleanArchTemplate.Aplication.Abstractions.Cqrs.Query;
-using CleanArchTemplate.Aplication.Features.Auth;
-using CleanArchTemplate.Aplication.Features.User.Commands;
-using CleanArchTemplate.Aplication.Features.User.Queries;
+﻿using CleanArchTemplate.Application.Abstractions;
+using CleanArchTemplate.Application.Abstractions.Cqrs;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
+using CleanArchTemplate.Application.Features.Auth;
+using CleanArchTemplate.Application.Features.User.Commands;
+using CleanArchTemplate.Application.Features.User.Queries;
+using CleanArchTemplate.Application.Features.User.Commands;
 using CleanArchTemplate.Domain.Users;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
@@ -21,7 +22,7 @@ public class UserController(
     IQuerySender querySender) : BaseApiController(commandSender, querySender)
 {
 
-    // [Authorize(Policy = PoliciesName.User.Create)]
+    [Authorize(Policy = PoliciesName.User.Create)]
     [HttpPost(ApiEndpoints.Users.Create)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserInput input, CancellationToken ct)

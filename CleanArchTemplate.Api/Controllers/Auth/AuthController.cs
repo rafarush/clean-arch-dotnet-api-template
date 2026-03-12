@@ -1,7 +1,7 @@
-﻿using CleanArchTemplate.Aplication.Features.Auth.Models.Input;
-using CleanArchTemplate.Aplication.Features.Auth.Services;
+﻿using CleanArchTemplate.Application.Features.Auth.Services;
 using CleanArchTemplate.Domain.Users;
 using CleanArchTemplate.Infrastructure.Repositories.User;
+using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchTemplate.Api.Controllers.Auth;
