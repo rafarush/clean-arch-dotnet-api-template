@@ -20,10 +20,13 @@ internal sealed class UpdateUserCommandHandler(
 {
     public async Task<Result<UserOutput>> Handle(UpdateUserCommand command, CancellationToken ct)
     {
-        var pass = await passwordHashService.HashPassword(command.Input.Password);
-        var user = command.Input.ToUser(command.Id, pass);
-        await userValidator.ValidateAndThrowAsync(user, ct);
-        var updated = await userRepository.UpdateAsync(user, ct);
+        var user = await userRepository.GetAsync(command.Id, ct);
+        if (user == null)
+            return Result<UserOutput>.Failure("User not found", ErrorType.NotFound);
+        
+        var userUpdated = command.Input.ToUserUpdate(user);
+        await userValidator.ValidateAndThrowAsync(userUpdated, ct);
+        var updated = await userRepository.UpdateAsync(userUpdated, ct);
         return !updated 
             ? Result<UserOutput>.Failure("User update cannot be performed", ErrorType.Conflict) 
             : Result<UserOutput>.Success(user.ToOutput(), "User updated successfully");

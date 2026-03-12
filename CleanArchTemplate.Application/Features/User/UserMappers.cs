@@ -22,15 +22,15 @@ public static class UserMappers
         };
     }
     
-    public static User ToUser(this UpdateUserInput input, Guid id, byte[] passHashed)
+    public static User ToUserUpdate(this UpdateUserInput input, User userOld)
     {
         return new User
         {
             Name = input.FirstName,
             LastName = input.LastName,
-            Email = input.Email,
-            Password = passHashed,
-            Id = id
+            Email = userOld.Email,
+            Password = userOld.Password,
+            Id = userOld.Id
         };
     }
 
