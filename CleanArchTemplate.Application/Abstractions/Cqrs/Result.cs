@@ -9,19 +9,29 @@ public class Result<T>
     public string Error { get; }
     public string? Message { get; }
     public ErrorType ErrorType { get; }
+    public int? StatusCode { get; }
 
-    protected Result(T? value, bool isSuccess, string error, ErrorType errorType, string? message)
+    protected Result(T? value, bool isSuccess, string error, ErrorType errorType, string? message, int? statusCode = null)
     {
         Value = value;
         IsSuccess = isSuccess;
         Error = error;
         ErrorType = errorType;
         Message = message;
+        StatusCode = statusCode;
     }
 
-    public static Result<T> Success(T value) => new(value, true, string.Empty, ErrorType.None, string.Empty);
-    public static Result<T> Success(T value, string message) => new(value, true, string.Empty, ErrorType.None, message);
-    public static Result<T> Failure(string error, ErrorType errorType) => new(default, false, error, errorType, string.Empty);
+    public static Result<T> Success(T value, int statusCode = 200) => new(value, true, string.Empty, ErrorType.None, string.Empty, statusCode);
+    public static Result<T> Success(T value, string message, int statusCode = 200) => new(value, true, string.Empty, ErrorType.None, message, statusCode);
+    public static Result<T> Failure(string error, ErrorType errorType, string? message = null, int? statusCode = null) => new(default, false, error, errorType, message ?? string.Empty, statusCode);
+    
+    // Custom Errors
+    public static Result<T> NotFound(string error, string? message = null) => Failure(error, ErrorType.NotFound, message, 404);
+    public static Result<T> Validation(string error, string? message = null) => Failure(error, ErrorType.Validation, message, 400);
+    public static Result<T> Conflict(string error, string? message = null) => Failure(error, ErrorType.Conflict, message, 409);
+    public static Result<T> Unauthorized(string error, string? message = null) => Failure(error, ErrorType.Unauthorized, message, 401);
+    public static Result<T> Forbidden(string error, string? message = null) => Failure(error, ErrorType.Forbidden, message, 403);
+    public static Result<T> BusinessRule(string error, string? message = null) => Failure(error, ErrorType.BusinessRule, message, 422);
 }
 
 public class Result

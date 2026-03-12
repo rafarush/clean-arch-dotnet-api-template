@@ -2,6 +2,7 @@
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
+using Microsoft.AspNetCore.Http;
 
 namespace CleanArchTemplate.Application.Features.User.Commands;
 
@@ -20,6 +21,6 @@ internal sealed class DeleteUserCommandHandler(
         var deleted = await userRepository.DeleteAsync(command.Id, ct);
         return !deleted 
             ? Result<UserOutput>.Failure("User could not be deleted", ErrorType.Conflict) 
-            : Result<UserOutput>.Success(user.ToOutput(), "User deleted successfully");
+            : Result<UserOutput>.Success(user.ToOutput(), "User deleted successfully", StatusCodes.Status204NoContent);
     }
 }

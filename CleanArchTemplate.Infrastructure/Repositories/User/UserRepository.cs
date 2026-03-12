@@ -66,7 +66,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
     {
         var user = await db.Set<User>()
             .AsNoTracking()
-            .Where(x => x.Email == email && !x.IsDeleted)
+            .Where(x => x.Email == email)
             .Include(x => x.Roles)
                 .ThenInclude(r => r.Policies)
             .FirstOrDefaultAsync(ct);
