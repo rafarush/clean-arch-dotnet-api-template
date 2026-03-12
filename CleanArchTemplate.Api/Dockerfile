@@ -7,8 +7,15 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
 COPY ["CleanArchTemplate.Api/CleanArchTemplate.Api.csproj", "CleanArchTemplate.Api/"]
+COPY ["CleanArchTemplate.Application/CleanArchTemplate.Application.csproj", "CleanArchTemplate.Application/"]
+COPY ["CleanArchTemplate.Domain/CleanArchTemplate.Domain.csproj", "CleanArchTemplate.Domain/"]
+COPY ["CleanArchTemplate.Infrastructure/CleanArchTemplate.Infrastructure.csproj", "CleanArchTemplate.Infrastructure/"]
+COPY ["CleanArchTemplate.SharedKernel/CleanArchTemplate.SharedKernel.csproj", "CleanArchTemplate.SharedKernel/"]
+
 RUN dotnet restore "CleanArchTemplate.Api/CleanArchTemplate.Api.csproj"
+
 COPY . .
 WORKDIR "/src/CleanArchTemplate.Api"
 RUN dotnet build "./CleanArchTemplate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
