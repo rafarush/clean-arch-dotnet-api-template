@@ -9,4 +9,5 @@ public interface IRoleRepository
     Task<bool> DeleteAsync(Guid id, CancellationToken ct);
     Task<Role?> GetAsync(Guid id, CancellationToken ct);
     Task<IEnumerable<Role>> GetAllAsync(CancellationToken ct);
+    Task<bool> ExistsAsync(string name, CancellationToken ct);
 }

@@ -29,7 +29,6 @@
 
     <ItemGroup>
       <Folder Include="Abstractions\Models\Output\" />
-      <Folder Include="Features\Security\Role\" />
     </ItemGroup>
 
 </Project>

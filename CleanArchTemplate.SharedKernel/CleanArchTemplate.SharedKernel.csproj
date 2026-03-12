@@ -13,8 +13,11 @@
 
     <ItemGroup>
       <Folder Include="Models\Security\Policy\" />
-      <Folder Include="Models\Security\Role\" />
       <Folder Include="Models\User\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CleanArchTemplate.Domain\CleanArchTemplate.Domain.csproj" />
     </ItemGroup>
 
 </Project>

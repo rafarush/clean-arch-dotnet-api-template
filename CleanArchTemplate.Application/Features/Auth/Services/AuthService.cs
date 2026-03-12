@@ -6,6 +6,7 @@ using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 
 namespace CleanArchTemplate.Application.Features.Auth.Services;
 
+//TODO Adapt to Cqrs
 public class AuthService(
     IUserRepository userRepository, 
     IJwtService jwtService, 
@@ -31,4 +32,7 @@ public class AuthService(
         
         return AuthResult.Success(token, user);
     }
+    
+    //TODO Add SignUp feat
+    //TODO Add Email Verification feat (EmailService first)
 }

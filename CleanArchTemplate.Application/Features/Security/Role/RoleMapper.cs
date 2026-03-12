@@ -1,0 +1,45 @@
+﻿using CleanArchTemplate.SharedKernel.Models.Security.Role.Input;
+using CleanArchTemplate.SharedKernel.Models.Security.Role.Output;
+
+namespace CleanArchTemplate.Application.Features.Security.Role;
+
+public static class RoleMapper
+{
+    public static Domain.Security.Role ToRole(this CreateRoleInput input)
+    {
+        return new Domain.Security.Role()
+        {
+            Name = input.Name,
+            Description = input.Description,
+            CreatedAt = DateTime.UtcNow,
+            Policies = input.Policies
+        };
+    }
+
+    public static RoleOutput ToOutput(this Domain.Security.Role role)
+    {
+        return new RoleOutput
+        {
+            Id = role.Id,
+            Name = role.Name,
+            Description = role.Description,
+            CreatedAt = role.CreatedAt,
+            UpdatedAt = role.UpdatedAt,
+            IsDeleted = role.IsDeleted,
+        };
+    }
+    
+    public static RoleDetailsOutput ToDetailsOutput(this Domain.Security.Role role)
+    {
+        return new RoleDetailsOutput
+        {
+            Id = role.Id,
+            Name = role.Name,
+            Description = role.Description,
+            Policies = role.Policies,
+            CreatedAt = role.CreatedAt,
+            UpdatedAt = role.UpdatedAt,
+            IsDeleted = role.IsDeleted,
+        };
+    }
+}

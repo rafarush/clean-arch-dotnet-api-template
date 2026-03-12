@@ -50,9 +50,11 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
 
     public async Task<Role?> GetAsync(Guid id, CancellationToken ct)
     {
+        //TODO add Policies Loadings
         var role = await db.Set<Role>()
             .AsNoTracking()
             .Where(x => x.Id == id && !x.IsDeleted)
+            // .Include(x=>x.Policies)
             .FirstOrDefaultAsync(ct);
             
         return await Task.FromResult(role);
@@ -66,5 +68,10 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
             .ToListAsync(ct);
         
         return await Task.FromResult(roles);
+    }
+
+    public async Task<bool> ExistsAsync(string name, CancellationToken ct)
+    {
+        return await db.Set<Role>().AnyAsync(x => x.Name == name && !x.IsDeleted, ct);
     }
 }
