@@ -1,4 +1,5 @@
-﻿using CleanArchTemplate.SharedKernel.Models.Security.Role.Input;
+﻿using CleanArchTemplate.Application.Features.Security.Policy;
+using CleanArchTemplate.SharedKernel.Models.Security.Role.Input;
 using CleanArchTemplate.SharedKernel.Models.Security.Role.Output;
 
 namespace CleanArchTemplate.Application.Features.Security.Role;
@@ -31,15 +32,16 @@ public static class RoleMapper
     
     public static RoleDetailsOutput ToDetailsOutput(this Domain.Security.Role role)
     {
-        return new RoleDetailsOutput
+        var roleOutput = new RoleDetailsOutput
         {
             Id = role.Id,
             Name = role.Name,
             Description = role.Description,
-            Policies = role.Policies,
+            Policies = role.Policies.Count > 0 ? role.Policies.Select(x=> x.ToOutput()).ToList() : [],
             CreatedAt = role.CreatedAt,
             UpdatedAt = role.UpdatedAt,
             IsDeleted = role.IsDeleted,
         };
+        return roleOutput;
     }
 }

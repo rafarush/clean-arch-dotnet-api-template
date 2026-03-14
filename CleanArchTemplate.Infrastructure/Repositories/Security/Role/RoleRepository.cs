@@ -50,11 +50,10 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
 
     public async Task<Role?> GetAsync(Guid id, CancellationToken ct)
     {
-        //TODO add Policies Loadings
         var role = await db.Set<Role>()
             .AsNoTracking()
             .Where(x => x.Id == id && !x.IsDeleted)
-            // .Include(x=>x.Policies)
+            .Include(x=>x.Policies)
             .FirstOrDefaultAsync(ct);
             
         return await Task.FromResult(role);
