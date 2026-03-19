@@ -16,28 +16,38 @@ public class RoleController(
     ICommandSender commandSender,
     IQuerySender querySender) : BaseApiController(commandSender, querySender)
 {
+    // TODO create role endpoint creates but returns a 500 code error
+    // System.InvalidOperationException: No route matches the supplied values.
+    //   
+    // at Microsoft.AspNetCore.Mvc.CreatedAtActionResult.OnFormatting(ActionContext context)
+    // at Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor.ExecuteAsyncCore(ActionContext context, ObjectResult result, Type objectType, Object value)
+    
     [Authorize(Policy = PoliciesName.Role.Create)]
     [HttpPost(ApiEndpoints.Roles.Create)]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> CreateUser([FromBody] CreateRoleInput input, CancellationToken ct)
+    public async Task<IActionResult> Create([FromBody] CreateRoleInput input, CancellationToken ct)
         => await HandleCreateCommandAsync<CreateRoleCommand, CreateRoleOutput>(
             new CreateRoleCommand(input),
             getActionName: nameof(ApiEndpoints.Roles.Get),
             getId: r => r.Value!.Id,
             getOutput: r=> r.Value!.Output,
             ct: ct);
-    
+
     [Authorize(Policy = PoliciesName.Role.View)]
     [HttpGet(ApiEndpoints.Roles.GetAll)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetRoles(CancellationToken ct)
+    public async Task<IActionResult> GetAll(CancellationToken ct)
     => await HandleQueryAsync<GetRolesQuery, Result<IEnumerable<RoleOutput>>>(new GetRolesQuery(), ct);
     
     [Authorize(Policy = PoliciesName.Role.View)]
     [HttpGet(ApiEndpoints.Roles.Get)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetRoleById([FromRoute] Guid id, CancellationToken ct)
+    public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken ct)
         => await HandleQueryAsync<GetRoleByIdQuery, Result<RoleDetailsOutput>>(new GetRoleByIdQuery(id), ct);
+    
+    [Authorize(Policy = PoliciesName.Role.Update)]
+    [HttpPut(ApiEndpoints.Roles.AssignPoliciesToRole)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> AssignPoliciesToRole([FromRoute] Guid id, AssingPoliciesToRoleInput input, CancellationToken ct)
+    => await HandleCommandAsync<AssingPoliciesToRoleCommand, Result<RoleOutput>>(new AssingPoliciesToRoleCommand(id, input), ct);
 }

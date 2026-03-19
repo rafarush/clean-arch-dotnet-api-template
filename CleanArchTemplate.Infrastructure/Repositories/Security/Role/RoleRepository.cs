@@ -71,6 +71,14 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
 
     public async Task<bool> ExistsAsync(string name, CancellationToken ct)
     {
-        return await db.Set<Role>().AnyAsync(x => x.Name == name && !x.IsDeleted, ct);
+        return await db.Set<Role>().AsNoTracking().AnyAsync(x => x.Name == name && !x.IsDeleted, ct);
+    }
+
+    public async Task<Role> AssignPoliciesToRoleAsync(Role role, List<Policy> policies, CancellationToken ct)
+    {
+        foreach (var p in policies.Where(p => !role.Policies.Contains(p)))
+            role.Policies.Add(p);
+        await db.SaveChangesAsync(ct);
+        return await Task.FromResult(role);
     }
 }

@@ -67,4 +67,17 @@ public class PolicyRepository(AppDbContext db) : IPolicyRepository
         
         return await Task.FromResult(policies);
     }
+
+    public async Task<bool> ExistsAsync(Guid id, CancellationToken ct)
+        => await db.Set<Policy>().AsNoTracking().AnyAsync(x => x.Id == id && !x.IsDeleted, ct);
+
+    public async Task<bool> ExistsByNameAsync(string name, CancellationToken ct)
+        => await db.Set<Policy>().AsNoTracking().AnyAsync(x => x.Name == name && !x.IsDeleted, ct);
+
+    public async Task<List<Policy>> GetByIdsAsync(List<Guid> ids, CancellationToken ct)
+        => await db.Set<Policy>()
+                .Where(x => !x.IsDeleted && ids.Contains(x.Id))
+                .ToListAsync(ct);
+        
+    
 }

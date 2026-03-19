@@ -9,4 +9,7 @@ public interface IPolicyRepository
     Task<bool> DeleteAsync(Guid id, CancellationToken ct);
     Task<Policy?> GetAsync(Guid id, CancellationToken ct);
     Task<IEnumerable<Policy>> GetAllAsync(CancellationToken ct);
+    Task<bool> ExistsAsync(Guid id, CancellationToken ct);
+    Task<bool> ExistsByNameAsync(string name, CancellationToken ct);
+    Task<List<Policy>> GetByIdsAsync(List<Guid> id, CancellationToken ct);
 }

@@ -13,7 +13,7 @@ public static class RoleMapper
             Name = input.Name,
             Description = input.Description,
             CreatedAt = DateTime.UtcNow,
-            Policies = input.Policies
+            Policies = []
         };
     }
 
