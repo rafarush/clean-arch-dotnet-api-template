@@ -2,7 +2,7 @@
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Application.Features.Auth.Services;
 using CleanArchTemplate.Infrastructure.Repositories.User;
-using CleanArchTemplate.Infrastructure.Services.Auth;
+using CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using CleanArchTemplate.SharedKernel.Models.Auth.Output;
 using FluentValidation;
@@ -27,8 +27,7 @@ internal sealed class SignInCommandHandler(
         if (user == null)
             return Result<TokenOutput>.Unauthorized("Incorrect credentials");
         
-        var passHashed = await passwordHashService.HashPassword(command.Input.Password);
-        if (!await passwordHashService.ValidatePassword(passHashed, user.Password))
+        if (!await passwordHashService.ValidatePassword(command.Input.Password, user.Password))
             return Result<TokenOutput>.Unauthorized("Incorrect credentials");
         
         var token = jwtService.CreateToken(new TokenInput

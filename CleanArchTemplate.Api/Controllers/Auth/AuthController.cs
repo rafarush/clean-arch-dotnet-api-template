@@ -25,7 +25,6 @@ public class AuthController(
     public async Task<IActionResult> SignIn([FromBody] SignInInput input, CancellationToken ct)
         => await HandleCommandAsync<SignInCommand, Result<TokenOutput>>(new SignInCommand(input), ct);
     
-    //TODO Add SignUp feat
     [HttpPost(ApiEndpoints.Auth.SignUp)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

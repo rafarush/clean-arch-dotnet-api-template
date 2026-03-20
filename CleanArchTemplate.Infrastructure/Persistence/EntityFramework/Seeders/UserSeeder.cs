@@ -1,7 +1,6 @@
 ﻿using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Domain.Users;
-using CleanArchTemplate.Infrastructure.Services.Auth;
-using Microsoft.EntityFrameworkCore;
+using CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
 
 namespace CleanArchTemplate.Infrastructure.Persistence.EntityFramework.Seeders;
 

@@ -1,7 +1,7 @@
 ﻿using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Domain.Users;
 using CleanArchTemplate.Infrastructure.Persistence.EntityFramework.Seeders;
-using CleanArchTemplate.Infrastructure.Services.Auth;
+using CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

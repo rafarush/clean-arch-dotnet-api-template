@@ -3,6 +3,7 @@ using CleanArchTemplate.Infrastructure.Repositories.Security.Policy;
 using CleanArchTemplate.Infrastructure.Repositories.Security.Role;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.Infrastructure.Services.Auth;
+using CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
 using CleanArchTemplate.Infrastructure.Services.Auth.PermissionService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;

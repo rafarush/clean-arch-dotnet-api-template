@@ -1,11 +1,10 @@
 ﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Application.Features.User;
-using CleanArchTemplate.Application.Features.User.Commands;
 using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Infrastructure.Repositories.Security.Role;
 using CleanArchTemplate.Infrastructure.Repositories.User;
-using CleanArchTemplate.Infrastructure.Services.Auth;
+using CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 using FluentValidation;
