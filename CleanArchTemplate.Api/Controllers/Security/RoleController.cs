@@ -60,5 +60,5 @@ public class RoleController(
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> AssignPoliciesToRole([FromRoute] Guid id, AssingPoliciesToRoleInput input, CancellationToken ct)
-    => await HandleCommandAsync<AssingPoliciesToRoleCommand, Result<RoleOutput>>(new AssingPoliciesToRoleCommand(id, input), ct);
+    => await HandleCommandAsync<AssingPoliciesToRoleCommand, Result<RoleDetailsOutput>>(new AssingPoliciesToRoleCommand(id, input), ct);
 }

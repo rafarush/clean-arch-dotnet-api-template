@@ -6,18 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchTemplate.Application.Features.User.Queries;
 
-public sealed record GetUserByIdQuery(Guid UserId) : IQuery<Result<UserOutput>>;
+public sealed record GetUserByIdQuery(Guid UserId) : IQuery<Result<UserDetailsOutput>>;
 
 
 internal sealed class GetUserByIdQueryHandler(
     IUserRepository userRepository
-    ) : IQueryHandler<GetUserByIdQuery, Result<UserOutput>>
+    ) : IQueryHandler<GetUserByIdQuery, Result<UserDetailsOutput>>
 {
-    public async Task<Result<UserOutput>> Handle(GetUserByIdQuery query, CancellationToken ct)
+    public async Task<Result<UserDetailsOutput>> Handle(GetUserByIdQuery query, CancellationToken ct)
     {
-        var user = await userRepository.GetAsync(query.UserId, ct);
+        var user = await userRepository.GetWithRelationsAsync(query.UserId, ct);
         return user is null ? 
-            Result<UserOutput>.Failure("User not found", ErrorType.NotFound) 
-            : Result<UserOutput>.Success(user.ToOutput());
+            Result<UserDetailsOutput>.Failure("User not found", ErrorType.NotFound) 
+            : Result<UserDetailsOutput>.Success(user.ToDetailsOutput());
     }
 }

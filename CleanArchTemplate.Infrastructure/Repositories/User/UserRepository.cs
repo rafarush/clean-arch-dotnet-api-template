@@ -56,7 +56,17 @@ public class UserRepository(AppDbContext db) :  IUserRepository
     {
         var user = await db.Set<User>()
             .Where(x => x.Id == id && !x.IsDeleted)
+            .FirstOrDefaultAsync(ct);
+            
+        return await Task.FromResult(user);
+    }
+    
+    public async Task<User?> GetWithRelationsAsync(Guid id, CancellationToken ct)
+    {
+        var user = await db.Set<User>()
+            .Where(x => x.Id == id && !x.IsDeleted)
             .Include(x => x.Roles)
+            .ThenInclude(x => x.Policies)
             .FirstOrDefaultAsync(ct);
             
         return await Task.FromResult(user);

@@ -1,4 +1,5 @@
 ﻿using CleanArchTemplate.Application.Features.Auth.Services;
+using CleanArchTemplate.Application.Features.Security.Role;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 
@@ -40,6 +41,21 @@ public static class UserMappers
             Id = user.Id,
             Email = user.Email,
             Name = user.Name,
+            LastName = user.LastName,
+            CreatedAt = user.CreatedAt,
+            UpdatedAt = user.UpdatedAt,
+            IsDeleted = user.IsDeleted
+        };
+    }
+    
+    public static UserDetailsOutput ToDetailsOutput(this User user)
+    {
+        return new UserDetailsOutput
+        {
+            Id = user.Id,
+            Email = user.Email,
+            Name = user.Name,
+            Roles = user.Roles.Count > 0 ? user.Roles.Select(x=> x.ToOutput()).ToList() : [],
             LastName = user.LastName,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt,

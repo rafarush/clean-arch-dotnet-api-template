@@ -38,7 +38,7 @@ public class UserController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken ct)
-    => await HandleQueryAsync<GetUserByIdQuery, Result<UserOutput>>(new GetUserByIdQuery(id), ct);
+    => await HandleQueryAsync<GetUserByIdQuery, Result<UserDetailsOutput>>(new GetUserByIdQuery(id), ct);
 
     
     [Authorize(Policy = PoliciesName.User.View)]
@@ -67,7 +67,7 @@ public class UserController(
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> AssignRolesToUser([FromRoute] Guid id, AssignRolesToUserInput input, CancellationToken ct)
-        => await HandleCommandAsync<AssignRolesToUserCommand, Result<UserOutput>>(new AssignRolesToUserCommand(id, input), ct);
+        => await HandleCommandAsync<AssignRolesToUserCommand, Result<UserDetailsOutput>>(new AssignRolesToUserCommand(id, input), ct);
 
     [Authorize(Policy = PoliciesName.User.Delete)]
     [HttpDelete(ApiEndpoints.Users.Delete)]
