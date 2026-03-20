@@ -9,3 +9,7 @@ CleanArchTemplate.Api/appsettings.json
 CleanArchTemplate.Api/appsettings.Development.json
 
 /global.json
+
+
+**/BuildHost-net472/
+**/BuildHost-netcore/
