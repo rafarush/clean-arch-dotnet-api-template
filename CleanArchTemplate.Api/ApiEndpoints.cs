@@ -10,6 +10,7 @@ public static class ApiEndpoints
         
         public const string Create = BaseUrl;
         public const string Get = $"{BaseUrl}/{{id:guid}}";
+        public const string GetRouteName = "GetUser";
         public const string Update = $"{BaseUrl}/{{id:guid}}";
         public const string Delete = $"{BaseUrl}/{{id:guid}}";
         public const string GetAll = BaseUrl;
@@ -23,6 +24,7 @@ public static class ApiEndpoints
         
         public const string Create = BaseUrl;
         public const string Get = $"{BaseUrl}/{{id:guid}}";
+        public const string GetRouteName = "GetPolicy";
         public const string Update = $"{BaseUrl}/{{id:guid}}";
         public const string Delete = $"{BaseUrl}/{{id:guid}}";
         public const string GetAll = BaseUrl;
@@ -34,6 +36,7 @@ public static class ApiEndpoints
         
         public const string Create = BaseUrl;
         public const string Get = $"{BaseUrl}/{{id:guid}}";
+        public const string GetRouteName = "GetRole";
         public const string Update = $"{BaseUrl}/{{id:guid}}";
         public const string Delete = $"{BaseUrl}/{{id:guid}}";
         public const string GetAll = BaseUrl;

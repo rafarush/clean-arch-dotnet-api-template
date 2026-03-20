@@ -33,7 +33,7 @@ public class AuthController(
     public async Task<IActionResult> SignUp([FromBody] SignUpInput input, CancellationToken ct)
         => await HandleCreateCommandAsync<SignUpCommand, CreateUserOutput>(
             new SignUpCommand(input),
-            resourcePath: ApiEndpoints.Users.BaseUrl,
+            routeName: ApiEndpoints.Users.GetRouteName,
             getId: r => r.Value!.Id,
             getOutput: r=> r.Value!.Output,
             ct: ct);

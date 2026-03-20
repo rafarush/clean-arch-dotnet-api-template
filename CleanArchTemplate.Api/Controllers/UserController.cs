@@ -28,13 +28,13 @@ public class UserController(
     public async Task<IActionResult> CreateUser([FromBody] CreateUserInput input, CancellationToken ct)
     => await HandleCreateCommandAsync<CreateUserCommand, CreateUserOutput>(
         new CreateUserCommand(input),
-        resourcePath: nameof(ApiEndpoints.Users.BaseUrl),
+        routeName: ApiEndpoints.Users.GetRouteName,
         getId: r => r.Value!.Id,
         getOutput: r=> r.Value!.Output,
         ct: ct);
     
     [Authorize(Policy = PoliciesName.User.View)]
-    [HttpGet(ApiEndpoints.Users.Get)]
+    [HttpGet(ApiEndpoints.Users.Get, Name = ApiEndpoints.Users.GetRouteName)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken ct)

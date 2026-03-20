@@ -24,7 +24,7 @@ public class RoleController(
     public async Task<IActionResult> Create([FromBody] CreateRoleInput input, CancellationToken ct)
         => await HandleCreateCommandAsync<CreateRoleCommand, CreateRoleOutput>(
             new CreateRoleCommand(input),
-            resourcePath: nameof(ApiEndpoints.Roles.BaseUrl),
+            routeName: ApiEndpoints.Roles.GetRouteName,
             getId: r => r.Value!.Id,
             getOutput: r=> r.Value!.Output,
             ct: ct);
@@ -38,7 +38,7 @@ public class RoleController(
     => await HandleQueryAsync<GetRolesQuery, Result<IEnumerable<RoleOutput>>>(new GetRolesQuery(), ct);
     
     [Authorize(Policy = PoliciesName.Role.View)]
-    [HttpGet(ApiEndpoints.Roles.Get)]
+    [HttpGet(ApiEndpoints.Roles.Get, Name = ApiEndpoints.Roles.GetRouteName)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]

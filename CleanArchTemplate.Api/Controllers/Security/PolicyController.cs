@@ -29,7 +29,7 @@ public class PolicyController(
     public async Task<IActionResult> Create([FromBody] CreatePolicyInput input, CancellationToken ct)
         => await HandleCreateCommandAsync<CreatePolicyCommand, CreatePolicyOutput>(
             new CreatePolicyCommand(input),
-            resourcePath: nameof(ApiEndpoints.Policies.BaseUrl),
+            routeName: ApiEndpoints.Policies.GetRouteName,
             getId: r => r.Value!.Id,
             getOutput: r=> r.Value!.Output,
             ct: ct);
@@ -43,7 +43,7 @@ public class PolicyController(
         => await HandleQueryAsync<GetPoliciesQuery, Result<IEnumerable<PolicyOutput>>>(new GetPoliciesQuery(), ct);
     
     [Authorize(Policy = PoliciesName.Policy.View)]
-    [HttpGet(ApiEndpoints.Policies.Get)]
+    [HttpGet(ApiEndpoints.Policies.Get, Name = ApiEndpoints.Policies.GetRouteName)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
