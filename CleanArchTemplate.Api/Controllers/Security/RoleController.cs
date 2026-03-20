@@ -42,14 +42,23 @@ public class RoleController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken ct)
         => await HandleQueryAsync<GetRoleByIdQuery, Result<RoleDetailsOutput>>(new GetRoleByIdQuery(id), ct);
+    
+    [Authorize(Policy = PoliciesName.Role.Delete)]
+    [HttpDelete(ApiEndpoints.Roles.Delete)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken ct)
+        => await HandleCommandAsync<DeleteRoleCommand, Result<RoleOutput>>(new DeleteRoleCommand(id), ct);
     
     [Authorize(Policy = PoliciesName.Role.Update)]
     [HttpPut(ApiEndpoints.Roles.AssignPoliciesToRole)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> AssignPoliciesToRole([FromRoute] Guid id, AssingPoliciesToRoleInput input, CancellationToken ct)
     => await HandleCommandAsync<AssingPoliciesToRoleCommand, Result<RoleOutput>>(new AssingPoliciesToRoleCommand(id, input), ct);
 }

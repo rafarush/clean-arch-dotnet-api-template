@@ -1,4 +1,11 @@
-﻿using CleanArchTemplate.Application.Features.Security.Policy;
+﻿using CleanArchTemplate.Application.Abstractions;
+using CleanArchTemplate.Application.Abstractions.Cqrs;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
+using CleanArchTemplate.Application.Features.Auth;
+using CleanArchTemplate.Application.Features.Security.Policy;
+using CleanArchTemplate.Application.Features.Security.Policy.Commands;
+using CleanArchTemplate.Application.Features.Security.Policy.Queries;
 using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Infrastructure.Repositories.Security.Policy;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
@@ -10,68 +17,44 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchTemplate.Api.Controllers.Security;
 
-[ApiController]
-// [Authorize]
-public class PolicyController(IPolicyRepository policyRepository, IValidator<Policy> policyValidator) : ControllerBase
+public class PolicyController(
+    ICommandSender commandSender,
+    IQuerySender querySender) : BaseApiController(commandSender, querySender)
 {
     
     [HttpPost(ApiEndpoints.Policies.Create)]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreatePolicy([FromBody] CreatePolicyInput input, CancellationToken ct)
-    {
-        var policy = input.ToPolicy();
-        await policyValidator.ValidateAndThrowAsync(policy, ct);
-        var policyId = await policyRepository.CreateAsync(policy, ct);
-        var output = policy.ToOutput();
-        return CreatedAtAction(nameof(Get), new {id = policyId}, output);
-    }
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Create([FromBody] CreatePolicyInput input, CancellationToken ct)
+        => await HandleCreateCommandAsync<CreatePolicyCommand, CreatePolicyOutput>(
+            new CreatePolicyCommand(input),
+            getActionName: nameof(ApiEndpoints.Policies.Get),
+            getId: r => r.Value!.Id,
+            getOutput: r=> r.Value!.Output,
+            ct: ct);
     
-    [AllowAnonymous]
+    [Authorize(Policy = PoliciesName.Policy.View)]
     [HttpGet(ApiEndpoints.Policies.GetAll)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IResult> GetAll(CancellationToken ct)
-    {
-        var policies = await policyRepository.GetAllAsync(ct);
-        var output = policies.Select(u => u.ToOutput()).ToList();
-        var result = new PaginatedOutput<PolicyOutput>(output, output.Count);
-        return Results.Ok(result);
-    }
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> GetAll(CancellationToken ct)
+        => await HandleQueryAsync<GetPoliciesQuery, Result<IEnumerable<PolicyOutput>>>(new GetPoliciesQuery(), ct);
     
+    [Authorize(Policy = PoliciesName.Policy.View)]
     [HttpGet(ApiEndpoints.Policies.Get)]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken ct)
-    {
-        var policy = await policyRepository.GetAsync(id, ct);
-        if (policy == null)
-            return NotFound();
-        var output = policy.ToOutput();
-        return Ok(output);
-    }
+        => await HandleQueryAsync<GetPolicyByIdQuery, Result<PolicyOutput>>(new GetPolicyByIdQuery(id), ct);
     
-    [HttpPut(ApiEndpoints.Policies.Update)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePolicyInput input, CancellationToken ct)
-    {
-        var policyToUpdate = await policyRepository.GetAsync(id, ct);
-        if (policyToUpdate == null)
-            return NotFound();
-        
-        policyToUpdate.Update(input.Name);
-        var policyUpdated = await policyRepository.UpdateAsync(policyToUpdate, ct);
-        if (!policyUpdated)
-            return StatusCode(StatusCodes.Status500InternalServerError, "Failed to update policy");
-        
-        var output = policyToUpdate.ToOutput();
-        return Ok(output);
-    }
-
+    [Authorize(Policy = PoliciesName.Policy.Delete)]
     [HttpDelete(ApiEndpoints.Policies.Delete)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken ct)
-    {
-        var deleted = await policyRepository.DeleteAsync(id, ct);
-        if (!deleted)
-            return NotFound();
-        return Ok();
-    }
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteUser([FromRoute] Guid id, CancellationToken ct)
+        => await HandleCommandAsync<DeletePolicyCommand, Result<PolicyOutput>>(new DeletePolicyCommand(id), ct);
 }

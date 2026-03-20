@@ -60,8 +60,10 @@ public class UserController(
         CancellationToken ct)
         => await HandleCommandAsync<UpdateUserCommand, Result<UserOutput>>(new UpdateUserCommand(id, input), ct);
 
+    [Authorize(Policy = PoliciesName.User.Delete)]
     [HttpDelete(ApiEndpoints.Users.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteUser([FromRoute] Guid id, CancellationToken ct)
         => await HandleCommandAsync<DeleteUserCommand, Result<UserOutput>>(new DeleteUserCommand(id), ct);
 }
