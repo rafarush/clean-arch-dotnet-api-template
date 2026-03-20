@@ -36,6 +36,7 @@ public static class ApiEndpoints
         public const string Update = $"{BaseUrl}/{{id:guid}}";
         public const string Delete = $"{BaseUrl}/{{id:guid}}";
         public const string GetAll = BaseUrl;
+        public const string AssignPoliciesToRole =  $"{BaseUrl}/{{id:guid}}/assign";
     }
     
     public static class Auth
