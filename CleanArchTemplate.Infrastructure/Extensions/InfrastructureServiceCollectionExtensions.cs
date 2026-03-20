@@ -3,6 +3,7 @@ using CleanArchTemplate.Infrastructure.Repositories.Security.Policy;
 using CleanArchTemplate.Infrastructure.Repositories.Security.Role;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.Infrastructure.Services.Auth;
+using CleanArchTemplate.Infrastructure.Services.Auth.Options;
 using CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
 using CleanArchTemplate.Infrastructure.Services.Auth.PermissionService;
 using Microsoft.AspNetCore.Authorization;
@@ -14,12 +15,14 @@ namespace CleanArchTemplate.Infrastructure.Extensions;
 
 public static class InfrastructureServiceCollectionExtensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        // Repositories
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPolicyRepository, PolicyRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
 
+        services.Configure<PasswordHashServiceOptions>(configuration.GetSection("PasswordHash"));
         services.AddSingleton<IPasswordHashService, PasswordHashService>();
         
         // Custom Auth Service

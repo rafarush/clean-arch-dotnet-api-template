@@ -1,83 +1,86 @@
-using System.Text;
 using CleanArchTemplate.Application.Middleware;
 using CleanArchTemplate.Application.Extensions;
-using CleanArchTemplate.Application.Features.Auth.Options;
 using CleanArchTemplate.Infrastructure.Extensions;
+using CleanArchTemplate.Infrastructure.Services.Auth.Options;
+using CleanArchTemplate.Application.Features.Auth.Options;
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
+
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
+// TODO Move this to builder.Services.AddApiServices(config);
 builder.Services.Configure<JwtOptions>(config.GetSection("Jwt"));
 
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
-{
-    x.TokenValidationParameters = new TokenValidationParameters
-    {
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:SecretKey"]!)),
-        ValidateIssuerSigningKey = true,
-        ValidateLifetime = true,
-        ValidateIssuer = true,
-        ClockSkew = TimeSpan.Zero,
-        ValidIssuer = config["Jwt:Issuer"],
-        ValidateAudience = true,
-        ValidAudience = config["Jwt:Audience"],
-    };
-});
-
-builder.Services.AddAuthorization();
-builder.Services.AddControllers();
-
-builder.Services.AddSwaggerGen(static x =>
-{
-    x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        Description = "JWT Authorization header using Bearer scheme"
-    });
-    
-    x.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+        builder.Services.AddAuthentication(x =>
         {
-            new OpenApiSecurityScheme
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(x =>
+        {
+            x.TokenValidationParameters = new TokenValidationParameters
             {
-                Reference = new OpenApiReference
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:SecretKey"]!)),
+                ValidateIssuerSigningKey = true,
+                ValidateLifetime = true,
+                ValidateIssuer = true,
+                ClockSkew = TimeSpan.Zero,
+                ValidIssuer = config["Jwt:Issuer"],
+                ValidateAudience = true,
+                ValidAudience = config["Jwt:Audience"],
+            };
+        });
+
+        builder.Services.AddAuthorization();
+        builder.Services.AddControllers();
+
+        builder.Services.AddSwaggerGen(static x =>
+        {
+            x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                Description = "JWT Authorization header using Bearer scheme"
+            });
+    
+            x.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
                 }
-            },
-            Array.Empty<string>()
-        }
-    });
+            });
     
-    x.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "CleanArchTemplate API",
-        Version = "v1",
-        Description = "Clean Architecture Template and JWT Authentication API"
-    });
+            x.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "CleanArchTemplate API",
+                Version = "v1",
+                Description = "Clean Architecture Template and JWT Authentication API"
+            });
     
-    x.EnableAnnotations();
-});
+            x.EnableAnnotations();
+        });
 
 
 // Add Infrastructure Services
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(config);
 
 // Add Application Services
-builder.Services.AddApplication();
+builder.Services.AddApplication(config);
 
 // Add Db
 builder.Services.AddDatabase(config);
