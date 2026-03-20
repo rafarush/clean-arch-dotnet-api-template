@@ -11,4 +11,5 @@ public interface IRoleRepository
     Task<IEnumerable<Role>> GetAllAsync(CancellationToken ct);
     Task<bool> ExistsAsync(string name, CancellationToken ct);
     Task<Role> AssignPoliciesToRoleAsync(Role role, List<Policy> policies, CancellationToken ct);
+    Task<List<Role>> GetByIdsAsync(List<Guid> id, CancellationToken ct);
 }

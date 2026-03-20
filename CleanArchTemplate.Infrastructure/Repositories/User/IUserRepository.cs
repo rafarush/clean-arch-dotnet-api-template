@@ -1,4 +1,5 @@
-﻿using CleanArchTemplate.SharedKernel.Models.General.Output;
+﻿using CleanArchTemplate.Domain.Security;
+using CleanArchTemplate.SharedKernel.Models.General.Output;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 
@@ -14,4 +15,5 @@ public interface IUserRepository
     Task<User?> GetByEmailAsync(string email, CancellationToken ct);
     Task<IEnumerable<User>> GetAllAsync(CancellationToken ct);
     Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersInput usersInput, CancellationToken ct);
+    Task<User> AssignRolesToUserAsync(User role, List<Role> roles, CancellationToken ct);
 }

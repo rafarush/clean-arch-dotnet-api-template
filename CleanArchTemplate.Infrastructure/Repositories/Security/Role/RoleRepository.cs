@@ -80,4 +80,9 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
         await db.SaveChangesAsync(ct);
         return await Task.FromResult(role);
     }
+
+    public async Task<List<Role>> GetByIdsAsync(List<Guid> ids, CancellationToken ct)
+        => await db.Set<Role>()
+            .Where(x => !x.IsDeleted && ids.Contains(x.Id))
+            .ToListAsync(ct);
 }

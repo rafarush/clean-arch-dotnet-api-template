@@ -14,6 +14,7 @@ public static class ApiEndpoints
         public const string Delete = $"{BaseUrl}/{{id:guid}}";
         public const string GetAll = BaseUrl;
         public const string Search = BaseUrl;
+        public const string AssignRolesToUser =  $"{BaseUrl}/{{id:guid}}/assign";
     }
     
     public static class Policies

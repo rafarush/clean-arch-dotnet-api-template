@@ -1,4 +1,5 @@
-﻿using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
+﻿using CleanArchTemplate.Domain.Security;
+using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
@@ -54,7 +55,6 @@ public class UserRepository(AppDbContext db) :  IUserRepository
     public async Task<User?> GetAsync(Guid id, CancellationToken ct)
     {
         var user = await db.Set<User>()
-            .AsNoTracking()
             .Where(x => x.Id == id && !x.IsDeleted)
             .Include(x => x.Roles)
             .FirstOrDefaultAsync(ct);
@@ -82,6 +82,14 @@ public class UserRepository(AppDbContext db) :  IUserRepository
             .ToListAsync(ct);
         
         return await Task.FromResult(users);
+    }
+    
+    public async Task<User> AssignRolesToUserAsync(User user, List<Role> roles, CancellationToken ct)
+    {
+        foreach (var r in roles.Where(r => !user.Roles.Contains(r)))
+            user.Roles.Add(r);
+        await db.SaveChangesAsync(ct);
+        return await Task.FromResult(user);
     }
 
     public async Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersInput usersInput, CancellationToken ct)

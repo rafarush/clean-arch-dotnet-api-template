@@ -59,6 +59,15 @@ public class UserController(
     public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserInput input,
         CancellationToken ct)
         => await HandleCommandAsync<UpdateUserCommand, Result<UserOutput>>(new UpdateUserCommand(id, input), ct);
+    
+    [Authorize(Policy = PoliciesName.User.Update)]
+    [HttpPut(ApiEndpoints.Users.AssignRolesToUser)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> AssignRolesToUser([FromRoute] Guid id, AssignRolesToUserInput input, CancellationToken ct)
+        => await HandleCommandAsync<AssignRolesToUserCommand, Result<UserOutput>>(new AssignRolesToUserCommand(id, input), ct);
 
     [Authorize(Policy = PoliciesName.User.Delete)]
     [HttpDelete(ApiEndpoints.Users.Delete)]
