@@ -14,7 +14,6 @@ public static class ApplicationServiceCollectionExtensions
     {
         services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
         services.AddScoped<IJwtService, JwtService>();
-        services.AddScoped<IAuthService, AuthService>();
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         services.AddScoped<ICommandSender, CommandSender>();
         services.AddScoped<IQuerySender, QuerySender>();

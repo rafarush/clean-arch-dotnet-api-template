@@ -1,57 +1,30 @@
-﻿using CleanArchTemplate.Application.Features.Auth.Services;
+﻿using CleanArchTemplate.Application.Abstractions;
+using CleanArchTemplate.Application.Abstractions.Cqrs;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
+using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
+using CleanArchTemplate.Application.Features.Auth.Commands;
+using CleanArchTemplate.Application.Features.Auth.Services;
 using CleanArchTemplate.Domain.Users;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
+using CleanArchTemplate.SharedKernel.Models.Auth.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchTemplate.Api.Controllers.Auth;
 
-[ApiController]
-public class AuthController(/*IUserRepository userRepository*/IAuthService authService): ControllerBase
+
+public class AuthController(
+    ICommandSender commandSender,
+    IQuerySender querySender) : BaseApiController(commandSender, querySender)
 {
     [HttpPost(ApiEndpoints.Auth.SignIn)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> SignIn([FromBody] SignInInput input, CancellationToken ct)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-        
-        var result = await authService.SignInAsync(input.Email, input.Password, ct);
-        
-        if (!result.IsSuccess)
-            return Unauthorized(new { result.ErrorMessage });
-
-        return Ok(result.Token);
-    }
-    // public async Task<IActionResult> SignIn([FromBody] SignInInput input, CancellationToken ct)
-    // {
-    //     var user = await VerifyCredentialsAsync(input, ct);
-    //     
-    //     if (user == null)
-    //         return Unauthorized(new { Message = "Incorrect email or password" });
-    //
-    //     var tokenInput = new TokenInput
-    //     {
-    //         Email = user.Email,
-    //         Policies = user.Roles.SelectMany(static x => x.Policies)
-    //             .ToList(),
-    //         User = user.Id,
-    //         Roles = user.Roles
-    //     };
-    //     var token = jwtService.CreateToken(tokenInput);
-    //     return Ok(token);
-    // }
+        => await HandleCommandAsync<SignInCommand, Result<TokenOutput>>(new SignInCommand(input), ct);
     
+    //TODO Add SignUp feat
+    //TODO Add Email Verification feat (EmailService first)
     
-    // private async Task<User?> VerifyCredentialsAsync(SignInInput input, CancellationToken ct) 
-    // {
-    //     var user = await userRepository.GetByEmailAsync(input.Email, ct);
-    //     if (user is null)
-    //         return null;
-    //     return input.Password.Equals(user.Password, StringComparison.Ordinal)
-    //         ? await Task.FromResult(user)
-    //         : null;
-    // }
 }
