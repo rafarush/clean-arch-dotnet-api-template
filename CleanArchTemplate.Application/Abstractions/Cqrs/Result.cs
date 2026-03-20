@@ -32,6 +32,7 @@ public class Result<T>
     public static Result<T> Unauthorized(string error, string? message = null) => Failure(error, ErrorType.Unauthorized, message, 401);
     public static Result<T> Forbidden(string error, string? message = null) => Failure(error, ErrorType.Forbidden, message, 403);
     public static Result<T> BusinessRule(string error, string? message = null) => Failure(error, ErrorType.BusinessRule, message, 422);
+    public static Result<T> InternalError(string error, string? message = null) => Failure(error, ErrorType.InternalError, message, 500);
 }
 
 public class Result
@@ -48,5 +49,6 @@ public enum ErrorType
     Unauthorized = 3,
     Forbidden = 4,
     Conflict = 5,
-    BusinessRule = 6
+    BusinessRule = 6,
+    InternalError = 7
 }

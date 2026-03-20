@@ -19,12 +19,12 @@ internal sealed class CreateUserCommandHandler(
 {
     public async Task<Result<CreateUserOutput>> Handle(CreateUserCommand command, CancellationToken ct)
     {
+        if (await userRepository.GetByEmailAsync(command.Input.Email, ct) is not null)
+            return Result<CreateUserOutput>.Failure("This email is already in use", ErrorType.Conflict);
+        
         var pass = await passwordHashService.HashPassword(command.Input.Password);
         var user = command.Input.ToUser(pass);
         await userValidator.ValidateAndThrowAsync(user, ct);
-        
-        if (await userRepository.GetByEmailAsync(user.Email, ct) is not null)
-            return Result<CreateUserOutput>.Failure("This email is already created", ErrorType.Conflict);
         
         var userId = await userRepository.CreateAsync(user, ct);
         return Result<CreateUserOutput>.Success(new (userId, user.ToOutput()), "User created successfully");

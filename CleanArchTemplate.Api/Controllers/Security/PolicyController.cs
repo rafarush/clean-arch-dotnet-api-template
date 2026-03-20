@@ -29,7 +29,7 @@ public class PolicyController(
     public async Task<IActionResult> Create([FromBody] CreatePolicyInput input, CancellationToken ct)
         => await HandleCreateCommandAsync<CreatePolicyCommand, CreatePolicyOutput>(
             new CreatePolicyCommand(input),
-            getActionName: nameof(ApiEndpoints.Policies.Get),
+            resourcePath: nameof(ApiEndpoints.Policies.BaseUrl),
             getId: r => r.Value!.Id,
             getOutput: r=> r.Value!.Output,
             ct: ct);

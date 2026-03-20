@@ -6,7 +6,7 @@ public static class ApiEndpoints
     
     public static class Users
     {
-        private const string BaseUrl = $"{ApiBase}/users";
+        public const string BaseUrl = $"{ApiBase}/users";
         
         public const string Create = BaseUrl;
         public const string Get = $"{BaseUrl}/{{id:guid}}";
@@ -19,7 +19,7 @@ public static class ApiEndpoints
     
     public static class Policies
     {
-        private const string BaseUrl = $"{ApiBase}/policies";
+        public const string BaseUrl = $"{ApiBase}/policies";
         
         public const string Create = BaseUrl;
         public const string Get = $"{BaseUrl}/{{id:guid}}";
@@ -30,7 +30,7 @@ public static class ApiEndpoints
 
     public static class Roles
     {
-        private const string BaseUrl = $"{ApiBase}/roles";
+        public const string BaseUrl = $"{ApiBase}/roles";
         
         public const string Create = BaseUrl;
         public const string Get = $"{BaseUrl}/{{id:guid}}";
@@ -42,7 +42,7 @@ public static class ApiEndpoints
     
     public static class Auth
     {
-        private const string BaseUrl = $"{ApiBase}/auth";
+        public const string BaseUrl = $"{ApiBase}/auth";
 
         public const string SignIn = $"{BaseUrl}/signin";
         public const string SignUp = $"{BaseUrl}/signup";

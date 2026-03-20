@@ -10,11 +10,16 @@ using Domain.Users;
 
 public class UserRepository(AppDbContext db) :  IUserRepository
 {
-    public async Task<Guid> CreateAsync(User user, CancellationToken ct)
+    public async Task<Guid> CreateAsync(User user, CancellationToken ct, List<Role>? roles = null)
     {
+        if (roles is { Count: > 0 })
+        {
+            foreach (var role in roles.Where(r => !user.Roles.Contains(r)))
+                user.Roles.Add(role);
+        }
         await db.Set<User>().AddAsync(user, ct);
         await db.SaveChangesAsync(ct);
-        return await Task.FromResult(user.Id);
+        return user.Id;
     }
 
     public async Task<bool> UpdateAsync(User user, CancellationToken ct)

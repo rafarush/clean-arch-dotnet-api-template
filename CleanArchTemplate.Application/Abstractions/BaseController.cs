@@ -23,7 +23,7 @@ public abstract class BaseApiController(
     
     protected async Task<IActionResult> HandleCreateCommandAsync<TCommand, TOutput>(
         TCommand command,
-        string getActionName,
+        string resourcePath,
         Func<Result<TOutput>, Guid> getId,
         Func<Result<TOutput>, object?> getOutput,
         CancellationToken ct)
@@ -38,7 +38,7 @@ public abstract class BaseApiController(
 
         var id = getId(result);
         var output = getOutput(result);
-        return CreatedAtAction(getActionName, new { id }, output);
+        return Created($"{resourcePath}/{id}", output);
     }
 
     protected async Task<IActionResult> HandleQueryAsync<TQuery, TResult>(

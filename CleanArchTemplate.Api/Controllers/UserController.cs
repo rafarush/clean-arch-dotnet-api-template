@@ -28,7 +28,7 @@ public class UserController(
     public async Task<IActionResult> CreateUser([FromBody] CreateUserInput input, CancellationToken ct)
     => await HandleCreateCommandAsync<CreateUserCommand, CreateUserOutput>(
         new CreateUserCommand(input),
-        getActionName: nameof(ApiEndpoints.Users.Get),
+        resourcePath: nameof(ApiEndpoints.Users.BaseUrl),
         getId: r => r.Value!.Id,
         getOutput: r=> r.Value!.Output,
         ct: ct);

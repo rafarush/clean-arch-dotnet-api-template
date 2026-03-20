@@ -24,7 +24,7 @@ public class RoleController(
     public async Task<IActionResult> Create([FromBody] CreateRoleInput input, CancellationToken ct)
         => await HandleCreateCommandAsync<CreateRoleCommand, CreateRoleOutput>(
             new CreateRoleCommand(input),
-            getActionName: nameof(ApiEndpoints.Roles.Get),
+            resourcePath: nameof(ApiEndpoints.Roles.BaseUrl),
             getId: r => r.Value!.Id,
             getOutput: r=> r.Value!.Output,
             ct: ct);

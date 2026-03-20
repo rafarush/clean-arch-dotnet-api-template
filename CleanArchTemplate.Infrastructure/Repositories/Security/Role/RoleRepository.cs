@@ -58,6 +58,16 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
         return await Task.FromResult(role);
     }
 
+    public async Task<Role?> GetByNameAsync(string name, CancellationToken ct)
+    {
+        var role = await db.Set<Role>()
+            .Where(x => x.Name == name && !x.IsDeleted)
+            .Include(x=>x.Policies)
+            .FirstOrDefaultAsync(ct);
+            
+        return await Task.FromResult(role);
+    }
+
     public async Task<IEnumerable<Role>> GetAllAsync(CancellationToken ct)
     {
         var roles = await db.Set<Role>()

@@ -8,6 +8,7 @@ using CleanArchTemplate.Domain.Users;
 using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using CleanArchTemplate.SharedKernel.Models.Auth.Output;
+using CleanArchTemplate.SharedKernel.Models.User.Output;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchTemplate.Api.Controllers.Auth;
@@ -25,6 +26,18 @@ public class AuthController(
         => await HandleCommandAsync<SignInCommand, Result<TokenOutput>>(new SignInCommand(input), ct);
     
     //TODO Add SignUp feat
-    //TODO Add Email Verification feat (EmailService first)
+    [HttpPost(ApiEndpoints.Auth.SignUp)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> SignUp([FromBody] SignUpInput input, CancellationToken ct)
+        => await HandleCreateCommandAsync<SignUpCommand, CreateUserOutput>(
+            new SignUpCommand(input),
+            resourcePath: ApiEndpoints.Users.BaseUrl,
+            getId: r => r.Value!.Id,
+            getOutput: r=> r.Value!.Output,
+            ct: ct);
     
+    
+    //TODO Add Email Verification feat (EmailService first)
 }
