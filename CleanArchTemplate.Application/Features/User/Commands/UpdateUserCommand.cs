@@ -14,8 +14,7 @@ public sealed record UpdateUserCommand(Guid Id, UpdateUserInput Input) : IComman
 
 internal sealed class UpdateUserCommandHandler(
     IUserRepository userRepository,
-    IValidator<User> userValidator,
-    IPasswordHashService passwordHashService) : ICommandHandler<UpdateUserCommand, Result<UserOutput>>
+    IValidator<User> userValidator) : ICommandHandler<UpdateUserCommand, Result<UserOutput>>
 {
     public async Task<Result<UserOutput>> Handle(UpdateUserCommand command, CancellationToken ct)
     {

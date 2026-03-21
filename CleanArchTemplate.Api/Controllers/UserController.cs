@@ -5,13 +5,9 @@ using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 using CleanArchTemplate.Application.Features.Auth;
 using CleanArchTemplate.Application.Features.User.Commands;
 using CleanArchTemplate.Application.Features.User.Queries;
-using CleanArchTemplate.Application.Features.User.Commands;
-using CleanArchTemplate.Domain.Users;
-using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

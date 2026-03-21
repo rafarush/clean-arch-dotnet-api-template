@@ -38,5 +38,5 @@ public class AuthController(
             ct: ct);
     
     
-    //TODO Add Email Verification feat (EmailService first)
+    //TODO: Add Email Verification feat (EmailService first)
 }
