@@ -27,7 +27,7 @@ public static class ApplicationServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration config)
     {
         services.Configure<JwtOptions>(config.GetSection("Jwt"));
 
