@@ -151,8 +151,8 @@ public class UserRepository(AppDbContext db) :  IUserRepository
                 Name = x.Name,
                 LastName = x.LastName,
                 Email = x.Email,
-                CreatedAt = x.CreatedAt,
-                UpdatedAt = x.UpdatedAt,
+                CreatedAt = x.CreatedAt.DateTime,
+                UpdatedAt = x.UpdatedAt.DateTime,
                 IsDeleted = x.IsDeleted })
             .ToListAsync(ct);
         

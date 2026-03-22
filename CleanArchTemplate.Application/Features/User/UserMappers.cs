@@ -42,8 +42,8 @@ public static class UserMappers
             Email = user.Email,
             Name = user.Name,
             LastName = user.LastName,
-            CreatedAt = user.CreatedAt,
-            UpdatedAt = user.UpdatedAt,
+            CreatedAt = user.CreatedAt.DateTime,
+            UpdatedAt = user.UpdatedAt.DateTime,
             IsDeleted = user.IsDeleted
         };
     }
@@ -57,8 +57,8 @@ public static class UserMappers
             Name = user.Name,
             Roles = user.Roles.Count > 0 ? user.Roles.Select(x=> x.ToOutput()).ToList() : [],
             LastName = user.LastName,
-            CreatedAt = user.CreatedAt,
-            UpdatedAt = user.UpdatedAt,
+            CreatedAt = user.CreatedAt.DateTime,
+            UpdatedAt = user.UpdatedAt.DateTime,
             IsDeleted = user.IsDeleted
         };
     }

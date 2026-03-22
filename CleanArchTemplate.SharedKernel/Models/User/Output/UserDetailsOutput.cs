@@ -10,6 +10,6 @@ public class UserDetailsOutput
     public required string Email { get; set; }
     public required List<RoleOutput> Roles { get; set; }
     public required DateTime CreatedAt { get; set; }
-    public required DateTime? UpdatedAt { get; set; }
+    public required DateTime UpdatedAt { get; set; }
     public required bool IsDeleted { get; set; }
 }

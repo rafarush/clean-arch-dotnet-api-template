@@ -24,8 +24,8 @@ public static class RoleMapper
             Id = role.Id,
             Name = role.Name,
             Description = role.Description,
-            CreatedAt = role.CreatedAt,
-            UpdatedAt = role.UpdatedAt,
+            CreatedAt = role.CreatedAt.DateTime,
+            UpdatedAt = role.UpdatedAt.DateTime,
             IsDeleted = role.IsDeleted,
         };
     }
@@ -38,8 +38,8 @@ public static class RoleMapper
             Name = role.Name,
             Description = role.Description,
             Policies = role.Policies.Count > 0 ? role.Policies.Select(x=> x.ToOutput()).ToList() : [],
-            CreatedAt = role.CreatedAt,
-            UpdatedAt = role.UpdatedAt,
+            CreatedAt = role.CreatedAt.DateTime,
+            UpdatedAt = role.UpdatedAt.DateTime,
             IsDeleted = role.IsDeleted,
         };
         return roleOutput;

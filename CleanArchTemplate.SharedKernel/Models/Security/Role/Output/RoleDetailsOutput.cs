@@ -9,6 +9,6 @@ public class RoleDetailsOutput
     public required string? Description { get; set; }
     public required List<PolicyOutput>? Policies { get; set; }
     public required DateTime CreatedAt { get; set; }
-    public required DateTime? UpdatedAt { get; set; }
+    public required DateTime UpdatedAt { get; set; }
     public required bool IsDeleted { get; set; }
 }
