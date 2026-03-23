@@ -5,8 +5,9 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea/
 ../CleanArchTemplate.sln.DotSettings.user
-CleanArchTemplate.Api/appsettings.json
-CleanArchTemplate.Api/appsettings.Development.json
+**/appsettings.json
+**/appsettings.Development.json
+**/appsettings.Production.json
 
 /global.json
 
