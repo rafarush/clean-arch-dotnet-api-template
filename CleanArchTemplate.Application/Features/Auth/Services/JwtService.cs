@@ -31,7 +31,8 @@ public class JwtService(IWebHostEnvironment hostingEnvironment, IOptions<JwtOpti
             audience: jwtOptions.Value.Audience,
             claims: claims,
             notBefore: DateTime.Now,
-            expires: hostingEnvironment.IsDevelopment() ? DateTime.Now.AddHours(1) : DateTime.Now.AddMinutes(30),
+            expires: hostingEnvironment.IsDevelopment() ? DateTime.Now.AddSeconds(10) : DateTime.Now.AddMinutes(30),
+            // expires: hostingEnvironment.IsDevelopment() ? DateTime.Now.AddHours(1) : DateTime.Now.AddMinutes(30),
             signingCredentials: credentials);
         var securityRefreshToken = new JwtSecurityToken(
             issuer: jwtOptions.Value.Issuer,

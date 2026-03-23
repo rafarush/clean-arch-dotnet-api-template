@@ -25,6 +25,13 @@ public class AuthController(
     public async Task<IActionResult> SignIn([FromBody] SignInInput input, CancellationToken ct)
         => await HandleCommandAsync<SignInCommand, Result<TokenOutput>>(new SignInCommand(input), ct);
     
+    [HttpPost(ApiEndpoints.Auth.Refresh)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> SignIn(string token, CancellationToken ct)
+        => await HandleCommandAsync<RefreshTokenCommand, Result<TokenOutput>>(new RefreshTokenCommand(token), ct);
+    
     [HttpPost(ApiEndpoints.Auth.SignUp)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
