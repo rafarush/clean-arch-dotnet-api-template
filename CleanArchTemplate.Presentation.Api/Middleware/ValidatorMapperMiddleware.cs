@@ -1,9 +1,8 @@
 ﻿using System.Text.Json;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 
-namespace CleanArchTemplate.Application.Middleware;
+namespace CleanArchTemplate.Api.Middleware;
 
 public class ValidatorMapperMiddleware(RequestDelegate next)
 {

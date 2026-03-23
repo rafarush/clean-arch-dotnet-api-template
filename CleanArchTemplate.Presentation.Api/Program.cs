@@ -1,4 +1,4 @@
-using CleanArchTemplate.Application;
+using CleanArchTemplate.Api.Extensions;
 using CleanArchTemplate.Application.Extensions;
 
 
