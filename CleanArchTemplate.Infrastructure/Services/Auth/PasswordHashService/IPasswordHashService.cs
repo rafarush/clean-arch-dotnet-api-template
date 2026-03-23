@@ -2,6 +2,6 @@
 
 public interface IPasswordHashService
 {
-    public Task<byte[]> HashPassword(string password);
-    public Task<bool> ValidatePassword(string inputPassword, byte[] userPassword);
+    public Task<string> HashPassword(string password);
+    public Task<bool> ValidatePassword(string inputPassword, string userPassword);
 }

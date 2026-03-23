@@ -9,7 +9,7 @@ using Domain.Users;
 
 public static class UserMappers
 {
-    public static User ToUser(this CreateUserInput input, byte[] passHashed)
+    public static User ToUser(this CreateUserInput input, string passHashed)
     {
         return new User
         {

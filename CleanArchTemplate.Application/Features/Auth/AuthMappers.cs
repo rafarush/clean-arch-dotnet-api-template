@@ -4,7 +4,7 @@ namespace CleanArchTemplate.Application.Features.Auth;
 
 public static class AuthMappers
 {
-    public static Domain.Users.User ToUser(this SignUpInput input, byte[] passHashed)
+    public static Domain.Users.User ToUser(this SignUpInput input, string passHashed)
     {
         return new Domain.Users.User
         {
