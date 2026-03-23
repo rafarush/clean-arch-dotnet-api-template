@@ -1,4 +1,5 @@
-﻿using CleanArchTemplate.Domain.Security;
+﻿using CleanArchTemplate.Domain.Abstractions.Primitives;
+using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -17,7 +18,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         base.OnModelCreating(modelBuilder);
     
-        // Configuring all DateTime properties for UTC usage
+        
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
             foreach (var property in entityType.GetProperties())
@@ -29,6 +30,38 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                             v => v.ToUniversalTime(),
                             v => DateTime.SpecifyKind(v, DateTimeKind.Utc)));
                 }
+            }
+        }
+    }
+    
+    public override int SaveChanges()
+    {
+        ApplyTimestamps();
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        ApplyTimestamps();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+    
+    private void ApplyTimestamps()
+    {
+        var entries = ChangeTracker.Entries<BaseEntity>();
+
+        foreach (var entry in entries)
+        {
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    entry.Entity.CreatedAt = DateTimeOffset.UtcNow;
+                    entry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
+                    break;
+
+                case EntityState.Modified:
+                    entry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
+                    break;
             }
         }
     }
