@@ -1,6 +1,6 @@
 ﻿using CleanArchTemplate.Domain.Security;
 
-namespace CleanArchTemplate.Infrastructure.Persistence.EntityFramework.Seeders;
+namespace CleanArchTemplate.Application.Persistence.Seeders;
 
 public static class PolicySeeder
 {

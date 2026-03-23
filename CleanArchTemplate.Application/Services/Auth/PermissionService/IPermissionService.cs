@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Infrastructure.Services.Auth.PermissionService;
+﻿namespace CleanArchTemplate.Application.Services.Auth.PermissionService;
 
 public interface IPermissionService
 {

@@ -1,12 +1,13 @@
-﻿using CleanArchTemplate.Domain.Security;
+﻿using CleanArchTemplate.Application.Persistence.Seeders;
+using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
+using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Domain.Users;
-using CleanArchTemplate.Infrastructure.Persistence.EntityFramework.Seeders;
-using CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
+using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
+namespace CleanArchTemplate.Application.Persistence;
 
 public interface IDbInitializer
 {

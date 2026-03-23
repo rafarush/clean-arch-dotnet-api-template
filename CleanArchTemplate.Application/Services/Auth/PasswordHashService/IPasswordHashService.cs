@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
+﻿namespace CleanArchTemplate.Application.Services.Auth.PasswordHashService;
 
 public interface IPasswordHashService
 {

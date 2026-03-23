@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
+﻿using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 
-
-namespace CleanArchTemplate.Infrastructure.Services.Auth.PermissionService;
+namespace CleanArchTemplate.Application.Services.Auth.PermissionService;
 
 public class PermissionService(AppDbContext dbContext) : IPermissionService
 {

@@ -1,9 +1,8 @@
 ﻿using CleanArchTemplate.Application.Middleware;
-using CleanArchTemplate.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 
-namespace CleanArchTemplate.Application;
+namespace CleanArchTemplate.Application.Extensions;
 
 public static class WebApplicationExtensions
 {

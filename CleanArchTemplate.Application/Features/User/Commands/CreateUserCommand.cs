@@ -1,7 +1,7 @@
 ﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Application.Repositories.User;
-using CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
+using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 using FluentValidation;

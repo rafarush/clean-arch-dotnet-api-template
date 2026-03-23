@@ -1,7 +1,7 @@
 ﻿using CleanArchTemplate.Domain.Security;
-using Microsoft.EntityFrameworkCore;
+using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 
-namespace CleanArchTemplate.Infrastructure.Persistence.EntityFramework.Seeders;
+namespace CleanArchTemplate.Application.Persistence.Seeders;
 
 public class RoleSeeder(AppDbContext db)
 {

@@ -1,7 +1,7 @@
-﻿using System.Security.Claims; 
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
-namespace CleanArchTemplate.Infrastructure.Services.Auth.PermissionService;
+namespace CleanArchTemplate.Application.Services.Auth.PermissionService;
 
 public sealed class PermissionAuthorizationHandler(IPermissionService permissionService)
     : AuthorizationHandler<PermissionRequirement>

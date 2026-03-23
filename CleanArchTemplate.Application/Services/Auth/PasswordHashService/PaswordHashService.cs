@@ -1,8 +1,4 @@
-﻿using System.Security.Cryptography;
-using CleanArchTemplate.Infrastructure.Services.Auth.Options;
-using Microsoft.Extensions.Options;
-
-namespace CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
+﻿namespace CleanArchTemplate.Application.Services.Auth.PasswordHashService;
 
 public sealed class PasswordHashService : IPasswordHashService
 {

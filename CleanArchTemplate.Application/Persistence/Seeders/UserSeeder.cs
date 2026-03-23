@@ -1,8 +1,9 @@
-﻿using CleanArchTemplate.Domain.Security;
+﻿using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
+using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Domain.Users;
-using CleanArchTemplate.Infrastructure.Services.Auth.PasswordHashService;
+using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 
-namespace CleanArchTemplate.Infrastructure.Persistence.EntityFramework.Seeders;
+namespace CleanArchTemplate.Application.Persistence.Seeders;
 
 public class UserSeeder(AppDbContext db, IPasswordHashService passwordHashService)
 {

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization; 
-using Microsoft.Extensions.Options; 
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
-namespace CleanArchTemplate.Infrastructure.Services.Auth.PermissionService;
+namespace CleanArchTemplate.Application.Services.Auth.PermissionService;
 
 public sealed class PermissionPolicyProvider(IOptions<AuthorizationOptions> options) : IAuthorizationPolicyProvider
 {     
