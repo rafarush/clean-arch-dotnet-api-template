@@ -29,14 +29,14 @@ public class UserRepository(AppDbContext db) :  IUserRepository
             .FirstOrDefaultAsync(ct);
         
         if (userToUpdate is null)
-            await Task.FromResult(false);
+            return false;
         
         userToUpdate!.Name = user.Name;
         userToUpdate.LastName = user.LastName;
         
         await db.SaveChangesAsync(ct);
         
-        return await Task.FromResult(true);
+        return true;
     }
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken ct)
@@ -46,13 +46,13 @@ public class UserRepository(AppDbContext db) :  IUserRepository
             .FirstOrDefaultAsync(ct);
         
         if (user is null)
-            return await Task.FromResult(false);
+            return false;
         
         user.IsDeleted = true;
         
         await db.SaveChangesAsync(ct);
         
-        return await Task.FromResult(true);
+        return true;
     }
 
     public async Task<User?> GetAsync(Guid id, CancellationToken ct)
@@ -61,7 +61,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
             .Where(x => x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(ct);
             
-        return await Task.FromResult(user);
+        return user;
     }
     
     public async Task<User?> GetWithRelationsAsync(Guid id, CancellationToken ct)
@@ -72,7 +72,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
             .ThenInclude(x => x.Policies)
             .FirstOrDefaultAsync(ct);
             
-        return await Task.FromResult(user);
+        return user;
     }
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken ct)
@@ -84,7 +84,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
                 .ThenInclude(r => r.Policies)
             .FirstOrDefaultAsync(ct);
             
-        return await Task.FromResult(user);
+        return user;
     }
 
     public async Task<IEnumerable<User>> GetAllAsync(CancellationToken ct)
@@ -94,7 +94,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
             .Where(x => !x.IsDeleted)
             .ToListAsync(ct);
         
-        return await Task.FromResult(users);
+        return users;
     }
     
     public async Task<User> AssignRolesToUserAsync(User user, List<Role> roles, CancellationToken ct)
@@ -102,7 +102,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         foreach (var r in roles.Where(r => !user.Roles.Contains(r)))
             user.Roles.Add(r);
         await db.SaveChangesAsync(ct);
-        return await Task.FromResult(user);
+        return user;
     }
 
     public async Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersInput usersInput, CancellationToken ct)
@@ -130,7 +130,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         var count = await users.CountAsync(ct);
         
         if (count == 0)
-            return await Task.FromResult(new PaginatedOutput<UserOutput>([], 0));
+            return new PaginatedOutput<UserOutput>([], 0);
         
         // Sorting
         users = ApplyOrdering(users, usersInput.OffsetField, usersInput.IsAsc);
@@ -153,8 +153,8 @@ public class UserRepository(AppDbContext db) :  IUserRepository
                 UpdatedAt = x.UpdatedAt.DateTime,
                 IsDeleted = x.IsDeleted })
             .ToListAsync(ct);
-        
-        return await Task.FromResult(new PaginatedOutput<UserOutput>(rows, count));
+
+        return new PaginatedOutput<UserOutput>(rows, count);
     }
     
     private IQueryable<User> ApplyOrdering(

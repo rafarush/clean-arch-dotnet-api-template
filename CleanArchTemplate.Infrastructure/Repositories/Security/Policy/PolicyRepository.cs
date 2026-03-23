@@ -11,7 +11,7 @@ public class PolicyRepository(AppDbContext db) : IPolicyRepository
     {
         await db.Set<Policy>().AddAsync(policy, ct);
         await db.SaveChangesAsync(ct);
-        return await Task.FromResult(policy.Id);
+        return policy.Id;
     }
 
     public async Task<bool> UpdateAsync(Policy policy, CancellationToken ct)
@@ -24,7 +24,7 @@ public class PolicyRepository(AppDbContext db) : IPolicyRepository
             db.Entry(policy).Property(x => x.CreatedAt).IsModified = false;
             
             await db.SaveChangesAsync(ct);
-            return await Task.FromResult(true);
+            return true;
         }
         catch (Exception)
         {
@@ -39,13 +39,13 @@ public class PolicyRepository(AppDbContext db) : IPolicyRepository
             .FirstOrDefaultAsync(ct);
         
         if (policy is null)
-            await Task.FromResult(false);
+            return false;
         
-        policy!.IsDeleted = true;
+        policy.IsDeleted = true;
         
         await db.SaveChangesAsync(ct);
         
-        return await Task.FromResult(true);
+        return true;
     }
 
     public async Task<Policy?> GetAsync(Guid id, CancellationToken ct)
@@ -55,7 +55,7 @@ public class PolicyRepository(AppDbContext db) : IPolicyRepository
             .Where(x => x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(ct);
         
-        return await Task.FromResult(policy);
+        return policy;
     }
 
     public async Task<IEnumerable<Policy>> GetAllAsync(CancellationToken ct)
@@ -65,7 +65,7 @@ public class PolicyRepository(AppDbContext db) : IPolicyRepository
             .Where(x => !x.IsDeleted)
             .ToListAsync(ct);
         
-        return await Task.FromResult(policies);
+        return policies;
     }
 
     public async Task<bool> ExistsAsync(Guid id, CancellationToken ct)
@@ -78,6 +78,5 @@ public class PolicyRepository(AppDbContext db) : IPolicyRepository
         => await db.Set<Policy>()
                 .Where(x => !x.IsDeleted && ids.Contains(x.Id))
                 .ToListAsync(ct);
-        
     
 }

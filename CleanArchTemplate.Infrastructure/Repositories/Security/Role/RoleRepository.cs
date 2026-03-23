@@ -11,7 +11,7 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
     {
         await db.Set<Role>().AddAsync(role, ct);
         await db.SaveChangesAsync(ct);
-        return await Task.FromResult(role.Id);
+        return role.Id;
     }
 
     public async Task<bool> UpdateAsync(Role role, CancellationToken ct)
@@ -20,16 +20,16 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
             .Where(x => x.Id ==  role.Id && !x.IsDeleted)
             .FirstOrDefaultAsync(ct);
         
-        if ( roleToUpdate is null)
-            await Task.FromResult(false);
+        if (roleToUpdate is null)
+            return false;
         
-        roleToUpdate!.Name =  role.Name;
+        roleToUpdate.Name =  role.Name;
         roleToUpdate.Description = role.Description;
         roleToUpdate.Policies = role.Policies;
         
         await db.SaveChangesAsync(ct);
         
-        return await Task.FromResult(true);
+        return true;
     }
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken ct)
@@ -39,13 +39,13 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
             .FirstOrDefaultAsync(ct);
         
         if (role is null)
-            return await Task.FromResult(false);
+            return false;
         
         role.IsDeleted = true;
         
         await db.SaveChangesAsync(ct);
         
-        return await Task.FromResult(true);
+        return true;
     }
 
     public async Task<Role?> GetAsync(Guid id, CancellationToken ct)
@@ -55,7 +55,7 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
             .Include(x=>x.Policies)
             .FirstOrDefaultAsync(ct);
             
-        return await Task.FromResult(role);
+        return role;
     }
 
     public async Task<Role?> GetByNameAsync(string name, CancellationToken ct)
@@ -65,7 +65,7 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
             .Include(x=>x.Policies)
             .FirstOrDefaultAsync(ct);
             
-        return await Task.FromResult(role);
+        return role;
     }
 
     public async Task<IEnumerable<Role>> GetAllAsync(CancellationToken ct)
@@ -75,7 +75,7 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
             .Where(x => !x.IsDeleted)
             .ToListAsync(ct);
         
-        return await Task.FromResult(roles);
+        return roles;
     }
 
     public async Task<bool> ExistsAsync(string name, CancellationToken ct)
@@ -88,7 +88,7 @@ public class RoleRepository(AppDbContext db) :  IRoleRepository
         foreach (var p in policies.Where(p => !role.Policies.Contains(p)))
             role.Policies.Add(p);
         await db.SaveChangesAsync(ct);
-        return await Task.FromResult(role);
+        return role;
     }
 
     public async Task<List<Role>> GetByIdsAsync(List<Guid> ids, CancellationToken ct)
