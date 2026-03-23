@@ -8,6 +8,8 @@ var config = builder.Configuration;
 
 builder.Services.AddApi(config);
 
+builder.Services.AddEmailService(config);
+
 builder.Services.AddApplication(config);
 
 builder.Services.AddDatabase(config);

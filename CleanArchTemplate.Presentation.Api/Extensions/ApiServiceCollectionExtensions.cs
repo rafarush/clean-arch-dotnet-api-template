@@ -1,6 +1,9 @@
 ﻿using System.Text;
 using CleanArchTemplate.Application.Features.Auth.Options;
 using CleanArchTemplate.Application.Persistence;
+using CleanArchTemplate.Application.Services.Email;
+using CleanArchTemplate.Application.Services.Email.Abstractions;
+using CleanArchTemplate.Application.Services.Email.Options;
 using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +24,21 @@ public static class ApiServiceCollectionExtensions
         
         return services;
     }
+    
+    public static IServiceCollection AddEmailService(
+        this IServiceCollection services, IConfiguration config)
+    {
+        services.Configure<SmtpOptions>(config.GetSection(SmtpOptions.Section));
+        services.Configure<ScribanOptions>(config.GetSection(ScribanOptions.Section));
+
+        services.AddScoped<ITemplateRenderer, ScribanTemplateRenderer>();
+        services.AddScoped<IEmailService, SmtpEmailService>();
+
+        return services;
+    }
     public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration config)
     {
-        services.Configure<JwtOptions>(config.GetSection("Jwt"));
+        services.Configure<JwtOptions>(config.GetSection(JwtOptions.Section));
 
         services.AddAuthentication(x =>
         {

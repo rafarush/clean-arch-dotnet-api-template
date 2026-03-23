@@ -40,7 +40,7 @@ public static class ApplicationServiceCollectionExtensions
         
         
         // Services
-        services.Configure<PasswordHashServiceOptions>(config.GetSection("PasswordHash"));
+        services.Configure<PasswordHashServiceOptions>(config.GetSection(PasswordHashServiceOptions.Section));
         services.AddSingleton<IPasswordHashService, PasswordHashService>();
         
         // Custom Auth Service

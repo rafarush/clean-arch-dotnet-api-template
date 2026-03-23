@@ -4,7 +4,7 @@ namespace CleanArchTemplate.Application.Services.Auth.Options;
 
 public sealed class PasswordHashServiceOptions
 {
-    public const string SectionName = "PasswordHash";
+    public const string Section = "PasswordHash";
     public required int SaltSize {get; set;}
     public required int HashSize {get; set;}
     public required int Iterations {get; set;}

@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<body style="font-family: sans-serif; color: #333;">
+
+  <h1>Hello {{ username }} 👋</h1>
+  <p>Thanks for signing up. Your verification code is:</p>
+  <p style="font-size: 2rem; font-weight: bold; letter-spacing: 0.2em;">{{ code }}</p>
+
+  {{- if expires }}
+  <p style="color: #888; font-size: 0.85rem;">
+    This code expires in {{ expires }} minutes.
+  </p>
+  {{- end }}
+
+  <hr/>
+  <p style="font-size: 0.8rem; color: #aaa;">
+    If you did not create this account, ignore this email.
+  </p>
+
+</body>
+</html>

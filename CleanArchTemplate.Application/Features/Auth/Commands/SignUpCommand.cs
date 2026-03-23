@@ -4,6 +4,9 @@ using CleanArchTemplate.Application.Features.User;
 using CleanArchTemplate.Application.Repositories.Security.Role;
 using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
+using CleanArchTemplate.Application.Services.Email;
+using CleanArchTemplate.Application.Services.Email.Abstractions;
+using CleanArchTemplate.Application.Services.Email.TemplateModels;
 using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
@@ -18,6 +21,7 @@ internal sealed class SignUpCommandHandler(
     IUserRepository userRepository,
     IValidator<SignUpInput> signUpValidator,
     IRoleRepository roleRepository,
+    IEmailService emailService,
     IPasswordHashService passwordHashService) : ICommandHandler<SignUpCommand, Result<CreateUserOutput>>
 {
     public async Task<Result<CreateUserOutput>> Handle(SignUpCommand command, CancellationToken ct)
@@ -35,6 +39,14 @@ internal sealed class SignUpCommandHandler(
         var user = command.Input.ToUser(pass);
         var roles = new List<Role>([clientRole]);
         var userId = await userRepository.CreateAsync(user, ct, roles);
+        // TODO: Verification Code or token to Confirm User
+        await emailService.SendWithTemplateAsync(
+            new EmailMessage(user.Email, "Confirm your email"),
+            templateKey: "Auth/ConfirmEmailTemplate",
+            model: new ConfirmEmailModel(user.Name + " " + user.LastName, "C0D3", 10),
+            ct
+            );
+        
         return Result<CreateUserOutput>.Success(new (userId, user.ToOutput()), "User created successfully");
     }
 }
