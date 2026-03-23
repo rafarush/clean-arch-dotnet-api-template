@@ -33,8 +33,6 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         
         userToUpdate!.Name = user.Name;
         userToUpdate.LastName = user.LastName;
-        userToUpdate.UpdatedAt = DateTime.UtcNow;
-        
         
         await db.SaveChangesAsync(ct);
         

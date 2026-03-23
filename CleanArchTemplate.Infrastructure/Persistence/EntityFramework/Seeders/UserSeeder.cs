@@ -17,8 +17,7 @@ public class UserSeeder(AppDbContext db, IPasswordHashService passwordHashServic
                 Name = "Administrator",
                 LastName = "Administrator",
                 Password = await passwordHashService.HashPassword("admin"),
-                Roles = GetAdminRoles(),
-                CreatedAt = DateTime.UtcNow
+                Roles = GetAdminRoles()
             },
             new User 
             { 
@@ -27,8 +26,7 @@ public class UserSeeder(AppDbContext db, IPasswordHashService passwordHashServic
                 Name = "User",
                 LastName = "Regular",
                 Password = await passwordHashService.HashPassword("user"),
-                Roles = GetRegularUserRoles(),
-                CreatedAt = DateTime.UtcNow
+                Roles = GetRegularUserRoles()
             }
 
         ];

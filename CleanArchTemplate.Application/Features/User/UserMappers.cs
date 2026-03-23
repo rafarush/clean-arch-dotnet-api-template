@@ -17,8 +17,7 @@ public static class UserMappers
             LastName = input.LastName,
             Email = input.Email,
             Password = passHashed,
-            Id = Guid.NewGuid(),
-            CreatedAt = DateTime.UtcNow,
+            Id = Guid.NewGuid()
         };
     }
     
