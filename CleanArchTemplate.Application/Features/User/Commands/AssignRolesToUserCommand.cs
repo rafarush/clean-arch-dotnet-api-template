@@ -1,7 +1,7 @@
 ﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
-using CleanArchTemplate.Infrastructure.Repositories.Security.Role;
-using CleanArchTemplate.Infrastructure.Repositories.User;
+using CleanArchTemplate.Application.Repositories.Security.Role;
+using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 using FluentValidation;

@@ -7,7 +7,6 @@ using CleanArchTemplate.Application.Features.Security.Policy;
 using CleanArchTemplate.Application.Features.Security.Policy.Commands;
 using CleanArchTemplate.Application.Features.Security.Policy.Queries;
 using CleanArchTemplate.Domain.Security;
-using CleanArchTemplate.Infrastructure.Repositories.Security.Policy;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
 using CleanArchTemplate.SharedKernel.Models.Security.Policy.Input;
 using CleanArchTemplate.SharedKernel.Models.Security.Policy.Output;

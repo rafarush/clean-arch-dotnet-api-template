@@ -8,6 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using CleanArchTemplate.Infrastructure.Services.Auth.Options;
 using CleanArchTemplate.Application.Features.Auth.Options;
 using System.Text;
+using CleanArchTemplate.Application.Repositories.Security.Policy;
+using CleanArchTemplate.Application.Repositories.Security.Role;
+using CleanArchTemplate.Application.Repositories.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -23,6 +26,11 @@ public static class ApplicationServiceCollectionExtensions
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         services.AddScoped<ICommandSender, CommandSender>();
         services.AddScoped<IQuerySender, QuerySender>();
+        
+        // Repositories
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPolicyRepository, PolicyRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
         
         return services;
     }

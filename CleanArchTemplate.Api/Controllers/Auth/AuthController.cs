@@ -5,7 +5,6 @@ using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 using CleanArchTemplate.Application.Features.Auth.Commands;
 using CleanArchTemplate.Application.Features.Auth.Services;
 using CleanArchTemplate.Domain.Users;
-using CleanArchTemplate.Infrastructure.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using CleanArchTemplate.SharedKernel.Models.Auth.Output;
 using CleanArchTemplate.SharedKernel.Models.User.Output;

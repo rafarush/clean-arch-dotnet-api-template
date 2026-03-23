@@ -1,6 +1,6 @@
 ﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
-using CleanArchTemplate.Infrastructure.Repositories.User;
+using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 using Microsoft.AspNetCore.Mvc;
 

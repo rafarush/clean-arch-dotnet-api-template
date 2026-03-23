@@ -2,7 +2,7 @@
 using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 using CleanArchTemplate.Application.Abstractions.Models.Input;
 using CleanArchTemplate.Application.Features.User.Validators;
-using CleanArchTemplate.Infrastructure.Repositories.User;
+using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;

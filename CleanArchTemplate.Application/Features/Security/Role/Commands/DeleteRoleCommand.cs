@@ -1,6 +1,6 @@
 ﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
-using CleanArchTemplate.Infrastructure.Repositories.Security.Role;
+using CleanArchTemplate.Application.Repositories.Security.Role;
 using CleanArchTemplate.SharedKernel.Models.Security.Role.Output;
 using Microsoft.AspNetCore.Http;
 
