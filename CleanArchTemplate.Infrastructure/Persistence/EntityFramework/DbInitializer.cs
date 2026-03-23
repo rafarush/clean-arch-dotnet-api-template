@@ -84,7 +84,7 @@ public class DbInitializer(
         
         foreach (var user in users)
         {
-            if (!dbContext.Users.Any(u => u.Id == user.Id || u.Email == user.Email))
+            if (!dbContext.Users.Any(u => u.Email == user.Email))
             {
                 await dbContext.Users.AddAsync(user);
             }
@@ -109,7 +109,7 @@ public class DbInitializer(
 
         foreach (var policy in policies)
         {
-            if (!db.Policies.Any(p => p.Id == policy.Id || p.Name == policy.Name))
+            if (!db.Policies.Any(p => p.Name == policy.Name))
             {
                 await db.Policies.AddAsync(policy);
             }
@@ -130,7 +130,7 @@ public class DbInitializer(
         
         foreach (var role in roles)
         {
-            if (!dbContext.Roles.Any(r => r.Id == role.Id || r.Name == role.Name))
+            if (!dbContext.Roles.Any(r => r.Name == role.Name))
             {
                 await dbContext.Roles.AddAsync(role);
             }
