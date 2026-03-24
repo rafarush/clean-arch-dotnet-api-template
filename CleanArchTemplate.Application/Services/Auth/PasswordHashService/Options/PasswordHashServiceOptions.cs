@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace CleanArchTemplate.Application.Services.Auth.Options;
+namespace CleanArchTemplate.Application.Services.Auth.PasswordHashService.Options;
 
 public sealed class PasswordHashServiceOptions
 {

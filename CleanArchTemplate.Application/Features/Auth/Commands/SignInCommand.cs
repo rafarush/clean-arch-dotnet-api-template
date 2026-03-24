@@ -1,8 +1,7 @@
 ﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
-using CleanArchTemplate.Application.Features.Auth.Services;
-using CleanArchTemplate.Application.Features.Auth.Services.JwtService;
 using CleanArchTemplate.Application.Repositories.User;
+using CleanArchTemplate.Application.Services.Auth.JwtService;
 using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using CleanArchTemplate.SharedKernel.Models.Auth.Output;

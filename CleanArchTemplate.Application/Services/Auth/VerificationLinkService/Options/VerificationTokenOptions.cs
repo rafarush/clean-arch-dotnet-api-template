@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService.Options;
+﻿namespace CleanArchTemplate.Application.Services.Auth.VerificationLinkService.Options;
 
 public sealed class VerificationTokenOptions
 {

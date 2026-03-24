@@ -1,5 +1,4 @@
-﻿using CleanArchTemplate.Application.Features.Auth.Services;
-using CleanArchTemplate.Application.Features.Security.Role;
+﻿using CleanArchTemplate.Application.Features.Security.Role;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
 

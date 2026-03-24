@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using CleanArchTemplate.Application.Features.Auth.Options;
-using CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService;
-using CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService.Options;
 using CleanArchTemplate.Application.Persistence;
+using CleanArchTemplate.Application.Services.Auth.JwtService.Options;
+using CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
+using CleanArchTemplate.Application.Services.Auth.VerificationLinkService.Options;
 using CleanArchTemplate.Application.Services.Email;
 using CleanArchTemplate.Application.Services.Email.Abstractions;
 using CleanArchTemplate.Application.Services.Email.Options;

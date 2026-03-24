@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using CleanArchTemplate.Api.Middleware;
 using CleanArchTemplate.Application.Extensions;
-using CleanArchTemplate.Application.Features.Auth.Options;
 using CleanArchTemplate.Application.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
-using CleanArchTemplate.Application.Features.Auth.Options;
+using CleanArchTemplate.Application.Services.Auth.JwtService.Options;
 using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using CleanArchTemplate.SharedKernel.Models.Auth.Output;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CleanArchTemplate.Application.Features.Auth.Services.JwtService;
+namespace CleanArchTemplate.Application.Services.Auth.JwtService;
 
 public class JwtService(IWebHostEnvironment hostingEnvironment, IOptions<JwtOptions> jwtOptions) : IJwtService
 {

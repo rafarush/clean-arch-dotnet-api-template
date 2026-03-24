@@ -1,6 +1,6 @@
-﻿using CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService.Models;
+﻿using CleanArchTemplate.Application.Services.Auth.VerificationLinkService.Models;
 
-namespace CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService;
+namespace CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
 
 public interface IVerificationTokenService
 {

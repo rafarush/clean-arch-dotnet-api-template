@@ -1,11 +1,11 @@
 ﻿using System.Text;
 using System.Text.Json;
-using CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService.Models;
-using CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService.Options;
+using CleanArchTemplate.Application.Services.Auth.VerificationLinkService.Models;
+using CleanArchTemplate.Application.Services.Auth.VerificationLinkService.Options;
 using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 using Microsoft.Extensions.Options;
 
-namespace CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService;
+namespace CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
 
 public class VerificationTokenService(
     IOptions<VerificationTokenOptions> options,

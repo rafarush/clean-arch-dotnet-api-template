@@ -1,10 +1,10 @@
 ﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
-using CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService;
 using CleanArchTemplate.Application.Features.User;
 using CleanArchTemplate.Application.Repositories.Security.Role;
 using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
+using CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
 using CleanArchTemplate.Application.Services.Email;
 using CleanArchTemplate.Application.Services.Email.Abstractions;
 using CleanArchTemplate.Application.Services.Email.TemplateModels;
