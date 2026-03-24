@@ -104,6 +104,13 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         return user;
     }
 
+    public async Task ConfirmEmailAsync(Domain.User.User user, CancellationToken ct)
+    {
+        user.EmailVerified = true;
+        user.ConfirmationCode = null;
+        await db.SaveChangesAsync(ct);
+    }
+
     public async Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersInput usersInput, CancellationToken ct)
     {
         var users = db.Set<Domain.User.User>()

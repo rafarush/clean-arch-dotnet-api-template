@@ -40,10 +40,11 @@ internal sealed class SignUpCommandHandler(
         var pass = await passwordHashService.HashPassword(command.Input.Password);
         var user = command.Input.ToUser(pass);
         var roles = new List<Role>([clientRole]);
-        var userId = await userRepository.CreateAsync(user, ct, roles);
-
+        
         var verificationLink = verificationLinkService.GenerateLink(user);
-        var expires = verificationLinkService.GetLinkLifeInMinutes();
+        var expires = verificationLinkService.GetTokenLifeInMinutes();
+        
+        var userId = await userRepository.CreateAsync(user, ct, roles);
         
         await emailService.SendWithTemplateAsync(
             new EmailMessage(user.Email, "Confirm your email"),

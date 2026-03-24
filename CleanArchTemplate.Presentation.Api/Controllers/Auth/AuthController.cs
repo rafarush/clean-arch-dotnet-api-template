@@ -43,5 +43,10 @@ public class AuthController(
             ct: ct);
     
     
-    //TODO: Add Email Verification feat (EmailService first)
+    [HttpPost(ApiEndpoints.Auth.VerifyEmail)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> VerifyEmail(string link, CancellationToken ct)
+        => await HandleCommandAsync<VerifyEmailCommand, Result<TokenOutput>>(new VerifyEmailCommand(link), ct);
 }

@@ -16,4 +16,5 @@ public interface IUserRepository
     Task<IEnumerable<Domain.User.User>> GetAllAsync(CancellationToken ct);
     Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersInput usersInput, CancellationToken ct);
     Task<Domain.User.User> AssignRolesToUserAsync(Domain.User.User role, List<Role> roles, CancellationToken ct);
+    Task ConfirmEmailAsync(Domain.User.User user, CancellationToken ct);
 }

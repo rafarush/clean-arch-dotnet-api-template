@@ -50,5 +50,6 @@ public static class ApiEndpoints
         public const string SignIn = $"{BaseUrl}/signin";
         public const string SignUp = $"{BaseUrl}/signup";
         public const string Refresh = $"{BaseUrl}/refresh/{{token}}";
+        public const string VerifyEmail = $"{BaseUrl}/verify-email/{{link}}";
     }
 }

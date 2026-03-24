@@ -5,7 +5,7 @@ namespace CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkS
 public interface IVerificationLinkService
 {
     string GenerateLink(Domain.User.User user);
-    LinkInfo? ParseLink(string linkInfoString);
-    int GetLinkLifeInMinutes();
-    bool IsLinkInfoValid(Domain.User.User user, LinkInfo linkInfo);
+    TokenInfo? ParseToken(string token);
+    int GetTokenLifeInMinutes();
+    bool IsTokenValid(Domain.User.User user, TokenInfo tokenInfo);
 }

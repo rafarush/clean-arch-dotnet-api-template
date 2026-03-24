@@ -8,43 +8,45 @@ using Microsoft.Extensions.Options;
 namespace CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService;
 
 public class VerificationLinkService(
-    IOptions<VerificationLinkOptions> options) : IVerificationLinkService
+    IOptions<VerificationLinkOptions> options,
+    AppDbContext db
+    ) : IVerificationLinkService
 {
-    public bool IsLinkInfoValid(Domain.User.User user, LinkInfo linkInfo)
+    public bool IsTokenValid(Domain.User.User user, TokenInfo tokenInfo)
     {
-        if (linkInfo.Expiration < DateTimeOffset.Now)
+        if (tokenInfo.Expiration < DateTimeOffset.UtcNow)
             return false;
         
         if (string.IsNullOrEmpty(user.ConfirmationCode))
             return false;
 
-        return linkInfo.Code == user.ConfirmationCode;
+        return tokenInfo.Code == user.ConfirmationCode;
     }
 
-    public int GetLinkLifeInMinutes() => options.Value.ExpirationInMinutes;
+    public int GetTokenLifeInMinutes() => options.Value.ExpirationInMinutes;
     
     public string GenerateLink(Domain.User.User user)
     {
         user.ConfirmationCode = Guid.NewGuid().ToString()[..7];
-        var linkInfo = new LinkInfo
+        var tokenInfo = new TokenInfo
         {
             UserId = user.Id,
             Code = user.ConfirmationCode,
-            Expiration = DateTimeOffset.Now.AddMinutes(options.Value.ExpirationInMinutes).DateTime
+            Expiration = DateTimeOffset.UtcNow.AddMinutes(options.Value.ExpirationInMinutes).DateTime
         };
-        var json = JsonSerializer.Serialize(linkInfo);
+        var json = JsonSerializer.Serialize(tokenInfo);
         var bytes = Encoding.UTF8.GetBytes(json);
         var linkInfoString = Convert.ToBase64String(bytes);
         return $"{options.Value.RedirectTo}/{linkInfoString}";
     }
 
-    public LinkInfo? ParseLink(string linkInfoString)
+    public TokenInfo? ParseToken(string token)
     {
         try
         {
-            var bytes = Convert.FromBase64String(linkInfoString);
+            var bytes = Convert.FromBase64String(token);
             var json = Encoding.UTF8.GetString(bytes);
-            return JsonSerializer.Deserialize<LinkInfo>(json);
+            return JsonSerializer.Deserialize<TokenInfo>(json);
         }
         catch (Exception)
         {
