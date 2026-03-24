@@ -11,14 +11,14 @@ namespace CleanArchTemplate.Application.Features.Auth.Commands;
 public sealed record VerifyEmailCommand(string Token) : ICommand<Result<TokenOutput>>;
 
 internal sealed class VerifyEmailCommandHandler(
-    IVerificationLinkService verificationLinkService,
+    IVerificationTokenService verificationTokenService,
     IUserRepository userRepository,
     IJwtService jwtService
     ) : ICommandHandler<VerifyEmailCommand, Result<TokenOutput>>
 {
     public async Task<Result<TokenOutput>> Handle(VerifyEmailCommand command, CancellationToken ct)
     {
-        var tokenInfo = verificationLinkService.ParseToken(command.Token);
+        var tokenInfo = verificationTokenService.ParseToken(command.Token);
         if (tokenInfo is null)
             return Result<TokenOutput>.Validation("Invalid link");
 
@@ -26,7 +26,7 @@ internal sealed class VerifyEmailCommandHandler(
         if (user is null)
             return Result<TokenOutput>.Validation("Invalid link");
         
-        if (!verificationLinkService.IsTokenValid(user, tokenInfo))
+        if (!verificationTokenService.IsTokenValid(user, tokenInfo))
             return Result<TokenOutput>.Validation("Invalid link");
 
         await userRepository.ConfirmEmailAsync(user, ct);

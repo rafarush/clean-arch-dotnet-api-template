@@ -23,7 +23,7 @@ internal sealed class SignUpCommandHandler(
     IValidator<SignUpInput> signUpValidator,
     IRoleRepository roleRepository,
     IEmailService emailService,
-    IVerificationLinkService verificationLinkService,
+    IVerificationTokenService verificationTokenService,
     IPasswordHashService passwordHashService) : ICommandHandler<SignUpCommand, Result<CreateUserOutput>>
 {
     public async Task<Result<CreateUserOutput>> Handle(SignUpCommand command, CancellationToken ct)
@@ -41,8 +41,8 @@ internal sealed class SignUpCommandHandler(
         var user = command.Input.ToUser(pass);
         var roles = new List<Role>([clientRole]);
         
-        var verificationLink = verificationLinkService.GenerateLink(user);
-        var expires = verificationLinkService.GetTokenLifeInMinutes();
+        var verificationLink = verificationTokenService.GenerateLink(user);
+        var expires = verificationTokenService.GetTokenLifeInMinutes();
         
         var userId = await userRepository.CreateAsync(user, ct, roles);
         

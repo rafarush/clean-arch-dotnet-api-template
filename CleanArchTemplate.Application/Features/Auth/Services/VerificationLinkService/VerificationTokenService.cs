@@ -7,10 +7,10 @@ using Microsoft.Extensions.Options;
 
 namespace CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService;
 
-public class VerificationLinkService(
-    IOptions<VerificationLinkOptions> options,
+public class VerificationTokenService(
+    IOptions<VerificationTokenOptions> options,
     AppDbContext db
-    ) : IVerificationLinkService
+    ) : IVerificationTokenService
 {
     public bool IsTokenValid(Domain.User.User user, TokenInfo tokenInfo)
     {

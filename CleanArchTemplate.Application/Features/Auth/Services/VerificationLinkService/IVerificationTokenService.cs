@@ -2,7 +2,7 @@
 
 namespace CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService;
 
-public interface IVerificationLinkService
+public interface IVerificationTokenService
 {
     string GenerateLink(Domain.User.User user);
     TokenInfo? ParseToken(string token);

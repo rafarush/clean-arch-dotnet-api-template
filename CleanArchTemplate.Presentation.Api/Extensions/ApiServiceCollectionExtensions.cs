@@ -40,8 +40,8 @@ public static class ApiServiceCollectionExtensions
     }
     public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration config)
     {
-        services.Configure<VerificationLinkOptions>(config.GetSection(VerificationLinkOptions.Section));
-        services.AddScoped<IVerificationLinkService, VerificationLinkService>();
+        services.Configure<VerificationTokenOptions>(config.GetSection(VerificationTokenOptions.Section));
+        services.AddScoped<IVerificationTokenService, VerificationTokenService>();
         
         services.Configure<JwtOptions>(config.GetSection(JwtOptions.Section));
         services.AddAuthentication(x =>
