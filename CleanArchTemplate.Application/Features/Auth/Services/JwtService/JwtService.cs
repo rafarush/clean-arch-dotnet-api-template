@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CleanArchTemplate.Application.Features.Auth.Services;
+namespace CleanArchTemplate.Application.Features.Auth.Services.JwtService;
 
 public class JwtService(IWebHostEnvironment hostingEnvironment, IOptions<JwtOptions> jwtOptions) : IJwtService
 {

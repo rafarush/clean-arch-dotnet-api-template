@@ -1,6 +1,6 @@
 ﻿using CleanArchTemplate.Domain.Abstractions.Primitives;
 using CleanArchTemplate.Domain.Security;
-using CleanArchTemplate.Domain.Users;
+using CleanArchTemplate.Domain.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 

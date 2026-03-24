@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using CleanArchTemplate.Application.Features.Auth.Options;
+using CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService;
+using CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService.Options;
 using CleanArchTemplate.Application.Persistence;
 using CleanArchTemplate.Application.Services.Email;
 using CleanArchTemplate.Application.Services.Email.Abstractions;
@@ -38,8 +40,10 @@ public static class ApiServiceCollectionExtensions
     }
     public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration config)
     {
+        services.Configure<VerificationLinkOptions>(config.GetSection(VerificationLinkOptions.Section));
+        services.AddScoped<IVerificationLinkService, VerificationLinkService>();
+        
         services.Configure<JwtOptions>(config.GetSection(JwtOptions.Section));
-
         services.AddAuthentication(x =>
         {
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

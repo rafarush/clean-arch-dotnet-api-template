@@ -1,6 +1,7 @@
 ﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Application.Features.Auth.Services;
+using CleanArchTemplate.Application.Features.Auth.Services.JwtService;
 using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
@@ -26,6 +27,9 @@ internal sealed class SignInCommandHandler(
         
         if (user == null)
             return Result<TokenOutput>.Unauthorized("Incorrect credentials");
+        
+        if (!user.EmailVerified)
+            return Result<TokenOutput>.Unauthorized("Verify your email to log in, check your email inbox");
         
         if (!await passwordHashService.ValidatePassword(command.Input.Password, user.Password))
             return Result<TokenOutput>.Unauthorized("Incorrect credentials");

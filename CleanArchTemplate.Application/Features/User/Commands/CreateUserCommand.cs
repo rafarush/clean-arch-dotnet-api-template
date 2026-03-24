@@ -13,7 +13,7 @@ public sealed record CreateUserCommand(CreateUserInput Input) : ICommand<Result<
 
 internal sealed class CreateUserCommandHandler(
     IUserRepository userRepository,
-    IValidator<Domain.Users.User> userValidator,
+    IValidator<Domain.User.User> userValidator,
     IPasswordHashService passwordHashService) : ICommandHandler<CreateUserCommand, Result<CreateUserOutput>>
 {
     public async Task<Result<CreateUserOutput>> Handle(CreateUserCommand command, CancellationToken ct)

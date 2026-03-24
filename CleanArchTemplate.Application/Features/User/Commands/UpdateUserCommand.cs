@@ -7,13 +7,11 @@ using FluentValidation;
 
 namespace CleanArchTemplate.Application.Features.User.Commands;
 
-using Domain.Users;
-
 public sealed record UpdateUserCommand(Guid Id, UpdateUserInput Input) : ICommand<Result<UserOutput>>;
 
 internal sealed class UpdateUserCommandHandler(
     IUserRepository userRepository,
-    IValidator<User> userValidator) : ICommandHandler<UpdateUserCommand, Result<UserOutput>>
+    IValidator<Domain.User.User> userValidator) : ICommandHandler<UpdateUserCommand, Result<UserOutput>>
 {
     public async Task<Result<UserOutput>> Handle(UpdateUserCommand command, CancellationToken ct)
     {

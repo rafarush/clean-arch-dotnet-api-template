@@ -1,5 +1,6 @@
 ﻿using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
+using CleanArchTemplate.Application.Features.Auth.Services.VerificationLinkService;
 using CleanArchTemplate.Application.Features.User;
 using CleanArchTemplate.Application.Repositories.Security.Role;
 using CleanArchTemplate.Application.Repositories.User;
@@ -22,6 +23,7 @@ internal sealed class SignUpCommandHandler(
     IValidator<SignUpInput> signUpValidator,
     IRoleRepository roleRepository,
     IEmailService emailService,
+    IVerificationLinkService verificationLinkService,
     IPasswordHashService passwordHashService) : ICommandHandler<SignUpCommand, Result<CreateUserOutput>>
 {
     public async Task<Result<CreateUserOutput>> Handle(SignUpCommand command, CancellationToken ct)
@@ -39,11 +41,14 @@ internal sealed class SignUpCommandHandler(
         var user = command.Input.ToUser(pass);
         var roles = new List<Role>([clientRole]);
         var userId = await userRepository.CreateAsync(user, ct, roles);
-        // TODO: Verification Code or token to Confirm User
+
+        var verificationLink = verificationLinkService.GenerateLink(user);
+        var expires = verificationLinkService.GetLinkLifeInMinutes();
+        
         await emailService.SendWithTemplateAsync(
             new EmailMessage(user.Email, "Confirm your email"),
             templateKey: "Auth/ConfirmEmailTemplate",
-            model: new ConfirmEmailModel(user.Name + " " + user.LastName, "C0D3", 10),
+            model: new ConfirmEmailModel(user.Name + " " + user.LastName, verificationLink, expires),
             ct
             );
         

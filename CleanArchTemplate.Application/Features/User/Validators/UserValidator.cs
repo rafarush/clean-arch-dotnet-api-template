@@ -2,7 +2,7 @@
 
 namespace CleanArchTemplate.Application.Features.User.Validators;
 
-public class UserValidator : AbstractValidator<Domain.Users.User>
+public class UserValidator : AbstractValidator<Domain.User.User>
 {
     public UserValidator()
     {

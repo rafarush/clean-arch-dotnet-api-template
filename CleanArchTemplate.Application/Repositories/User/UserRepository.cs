@@ -9,21 +9,21 @@ namespace CleanArchTemplate.Application.Repositories.User;
 
 public class UserRepository(AppDbContext db) :  IUserRepository
 {
-    public async Task<Guid> CreateAsync(Domain.Users.User user, CancellationToken ct, List<Role>? roles = null)
+    public async Task<Guid> CreateAsync(Domain.User.User user, CancellationToken ct, List<Role>? roles = null)
     {
         if (roles is { Count: > 0 })
         {
             foreach (var role in roles.Where(r => !user.Roles.Contains(r)))
                 user.Roles.Add(role);
         }
-        await db.Set<Domain.Users.User>().AddAsync(user, ct);
+        await db.Set<Domain.User.User>().AddAsync(user, ct);
         await db.SaveChangesAsync(ct);
         return user.Id;
     }
 
-    public async Task<bool> UpdateAsync(Domain.Users.User user, CancellationToken ct)
+    public async Task<bool> UpdateAsync(Domain.User.User user, CancellationToken ct)
     {
-        var userToUpdate = await db.Set<Domain.Users.User>()
+        var userToUpdate = await db.Set<Domain.User.User>()
             .Where(x => x.Id == user.Id && !x.IsDeleted)
             .FirstOrDefaultAsync(ct);
         
@@ -40,7 +40,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken ct)
     {
-        var user = await db.Set<Domain.Users.User>()
+        var user = await db.Set<Domain.User.User>()
             .Where(x => x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(ct);
         
@@ -54,18 +54,18 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         return true;
     }
 
-    public async Task<Domain.Users.User?> GetAsync(Guid id, CancellationToken ct)
+    public async Task<Domain.User.User?> GetAsync(Guid id, CancellationToken ct)
     {
-        var user = await db.Set<Domain.Users.User>()
+        var user = await db.Set<Domain.User.User>()
             .Where(x => x.Id == id && !x.IsDeleted)
             .FirstOrDefaultAsync(ct);
             
         return user;
     }
     
-    public async Task<Domain.Users.User?> GetWithRelationsAsync(Guid id, CancellationToken ct)
+    public async Task<Domain.User.User?> GetWithRelationsAsync(Guid id, CancellationToken ct)
     {
-        var user = await db.Set<Domain.Users.User>()
+        var user = await db.Set<Domain.User.User>()
             .Where(x => x.Id == id && !x.IsDeleted)
             .Include(x => x.Roles)
             .ThenInclude(x => x.Policies)
@@ -74,9 +74,9 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         return user;
     }
 
-    public async Task<Domain.Users.User?> GetByEmailAsync(string email, CancellationToken ct)
+    public async Task<Domain.User.User?> GetByEmailAsync(string email, CancellationToken ct)
     {
-        var user = await db.Set<Domain.Users.User>()
+        var user = await db.Set<Domain.User.User>()
             .AsNoTracking()
             .Where(x => x.Email == email)
             .Include(x => x.Roles)
@@ -86,9 +86,9 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         return user;
     }
 
-    public async Task<IEnumerable<Domain.Users.User>> GetAllAsync(CancellationToken ct)
+    public async Task<IEnumerable<Domain.User.User>> GetAllAsync(CancellationToken ct)
     {
-        var users = await db.Set<Domain.Users.User>()
+        var users = await db.Set<Domain.User.User>()
             .AsNoTracking()
             .Where(x => !x.IsDeleted)
             .ToListAsync(ct);
@@ -96,7 +96,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         return users;
     }
     
-    public async Task<Domain.Users.User> AssignRolesToUserAsync(Domain.Users.User user, List<Role> roles, CancellationToken ct)
+    public async Task<Domain.User.User> AssignRolesToUserAsync(Domain.User.User user, List<Role> roles, CancellationToken ct)
     {
         foreach (var r in roles.Where(r => !user.Roles.Contains(r)))
             user.Roles.Add(r);
@@ -106,7 +106,7 @@ public class UserRepository(AppDbContext db) :  IUserRepository
 
     public async Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersInput usersInput, CancellationToken ct)
     {
-        var users = db.Set<Domain.Users.User>()
+        var users = db.Set<Domain.User.User>()
             .AsNoTracking()
             .AsQueryable()
             .Where(x => !x.IsDeleted);
@@ -156,8 +156,8 @@ public class UserRepository(AppDbContext db) :  IUserRepository
         return new PaginatedOutput<UserOutput>(rows, count);
     }
     
-    private IQueryable<Domain.Users.User> ApplyOrdering(
-        IQueryable<Domain.Users.User> query, 
+    private IQueryable<Domain.User.User> ApplyOrdering(
+        IQueryable<Domain.User.User> query, 
         string orderBy, 
         bool ascending)
     {

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CleanArchTemplate.Application.Features.Auth.Options;
 using System.Text;
+using CleanArchTemplate.Application.Features.Auth.Services.JwtService;
 using CleanArchTemplate.Application.Persistence;
 using CleanArchTemplate.Application.Repositories.Security.Policy;
 using CleanArchTemplate.Application.Repositories.Security.Role;

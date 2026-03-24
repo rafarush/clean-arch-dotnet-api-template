@@ -1,6 +1,6 @@
 ﻿using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
 using CleanArchTemplate.Domain.Security;
-using CleanArchTemplate.Domain.Users;
+using CleanArchTemplate.Domain.User;
 using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 
 namespace CleanArchTemplate.Application.Persistence.Seeders;
@@ -18,6 +18,7 @@ public class UserSeeder(AppDbContext db, IPasswordHashService passwordHashServic
                 Name = "Administrator",
                 LastName = "Administrator",
                 Password = await passwordHashService.HashPassword("admin"),
+                EmailVerified = true,
                 Roles = GetAdminRoles()
             },
             new User 
@@ -27,6 +28,7 @@ public class UserSeeder(AppDbContext db, IPasswordHashService passwordHashServic
                 Name = "User",
                 LastName = "Regular",
                 Password = await passwordHashService.HashPassword("user"),
+                EmailVerified = true,
                 Roles = GetRegularUserRoles()
             }
 

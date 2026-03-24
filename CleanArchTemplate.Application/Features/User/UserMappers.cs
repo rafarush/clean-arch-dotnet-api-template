@@ -5,35 +5,35 @@ using CleanArchTemplate.SharedKernel.Models.User.Output;
 
 namespace CleanArchTemplate.Application.Features.User;
 
-using Domain.Users;
-
 public static class UserMappers
 {
-    public static User ToUser(this CreateUserInput input, string passHashed)
+    public static Domain.User.User ToUser(this CreateUserInput input, string passHashed)
     {
-        return new User
+        return new Domain.User.User
         {
             Name = input.FirstName,
             LastName = input.LastName,
             Email = input.Email,
             Password = passHashed,
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid(),
+            EmailVerified = false
         };
     }
     
-    public static User ToUserUpdate(this UpdateUserInput input, User userOld)
+    public static Domain.User.User ToUserUpdate(this UpdateUserInput input, Domain.User.User userOld)
     {
-        return new User
+        return new Domain.User.User
         {
             Name = input.FirstName,
             LastName = input.LastName,
             Email = userOld.Email,
             Password = userOld.Password,
-            Id = userOld.Id
+            Id = userOld.Id,
+            EmailVerified = userOld.EmailVerified
         };
     }
 
-    public static UserOutput ToOutput(this User user)
+    public static UserOutput ToOutput(this Domain.User.User user)
     {
         return new UserOutput
         {
@@ -47,7 +47,7 @@ public static class UserMappers
         };
     }
     
-    public static UserDetailsOutput ToDetailsOutput(this User user)
+    public static UserDetailsOutput ToDetailsOutput(this Domain.User.User user)
     {
         return new UserDetailsOutput
         {
