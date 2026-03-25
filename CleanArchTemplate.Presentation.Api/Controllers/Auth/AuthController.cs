@@ -48,4 +48,11 @@ public class AuthController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> VerifyEmail(string link, CancellationToken ct)
         => await HandleCommandAsync<VerifyEmailCommand, Result<TokenOutput>>(new VerifyEmailCommand(link), ct);
+    
+    [HttpPost(ApiEndpoints.Auth.ForgotPassword)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordInput input, CancellationToken ct)
+        => await HandleCommandAsync<ForgotPasswordCommand, Result<string>>(new ForgotPasswordCommand(input), ct);
 }

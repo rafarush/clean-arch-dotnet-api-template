@@ -77,7 +77,6 @@ public class UserRepository(AppDbContext db) :  IUserRepository
     public async Task<Domain.User.User?> GetByEmailAsync(string email, CancellationToken ct)
     {
         var user = await db.Set<Domain.User.User>()
-            .AsNoTracking()
             .Where(x => x.Email == email)
             .Include(x => x.Roles)
                 .ThenInclude(r => r.Policies)

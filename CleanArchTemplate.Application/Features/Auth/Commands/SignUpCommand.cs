@@ -5,6 +5,8 @@ using CleanArchTemplate.Application.Repositories.Security.Role;
 using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
 using CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
+using CleanArchTemplate.Application.Services.Auth.VerificationTokenService;
+using CleanArchTemplate.Application.Services.Auth.VerificationTokenService.Models;
 using CleanArchTemplate.Application.Services.Email;
 using CleanArchTemplate.Application.Services.Email.Abstractions;
 using CleanArchTemplate.Application.Services.Email.TemplateModels;
@@ -41,7 +43,7 @@ internal sealed class SignUpCommandHandler(
         var user = command.Input.ToUser(pass);
         var roles = new List<Role>([clientRole]);
         
-        var verificationLink = verificationTokenService.GenerateLink(user);
+        var verificationLink = verificationTokenService.GenerateLink(user, TokenMotive.ConfirmEmail);
         var expires = verificationTokenService.GetTokenLifeInMinutes();
         
         var userId = await userRepository.CreateAsync(user, ct, roles);

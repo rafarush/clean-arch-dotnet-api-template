@@ -3,6 +3,8 @@ using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.Application.Services.Auth.JwtService;
 using CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
+using CleanArchTemplate.Application.Services.Auth.VerificationTokenService;
+using CleanArchTemplate.Application.Services.Auth.VerificationTokenService.Models;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using CleanArchTemplate.SharedKernel.Models.Auth.Output;
 
@@ -26,7 +28,7 @@ internal sealed class VerifyEmailCommandHandler(
         if (user is null)
             return Result<TokenOutput>.Validation("Invalid link");
         
-        if (!verificationTokenService.IsTokenValid(user, tokenInfo))
+        if (!verificationTokenService.IsTokenValid(user, tokenInfo, TokenMotive.ConfirmEmail))
             return Result<TokenOutput>.Validation("Invalid link");
 
         await userRepository.ConfirmEmailAsync(user, ct);

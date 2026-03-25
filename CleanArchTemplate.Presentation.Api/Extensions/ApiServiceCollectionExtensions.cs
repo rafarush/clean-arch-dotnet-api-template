@@ -3,6 +3,7 @@ using CleanArchTemplate.Application.Persistence;
 using CleanArchTemplate.Application.Services.Auth.JwtService.Options;
 using CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
 using CleanArchTemplate.Application.Services.Auth.VerificationLinkService.Options;
+using CleanArchTemplate.Application.Services.Auth.VerificationTokenService;
 using CleanArchTemplate.Application.Services.Email;
 using CleanArchTemplate.Application.Services.Email.Abstractions;
 using CleanArchTemplate.Application.Services.Email.Options;

@@ -11,5 +11,6 @@ public class User : BaseEntity
     public required string Password { get; set; }
     public required bool EmailVerified { get; set; }
     public string? ConfirmationCode { get; set; }
+    public List<string> ResetPasswordCodes { get; set; } = [];
     public List<Role> Roles { get; set; } = [];
 }

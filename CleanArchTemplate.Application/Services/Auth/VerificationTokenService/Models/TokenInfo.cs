@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Application.Services.Auth.VerificationLinkService.Models;
+﻿namespace CleanArchTemplate.Application.Services.Auth.VerificationTokenService.Models;
 
 public sealed class TokenInfo
 {
