@@ -54,5 +54,5 @@ public class AuthController(
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordInput input, CancellationToken ct)
-        => await HandleCommandAsync<ForgotPasswordCommand, Result<string>>(new ForgotPasswordCommand(input), ct);
+        => await HandleCommandAsync<ForgotPasswordCommand, Result<ForgotPasswordOutput>>(new ForgotPasswordCommand(input), ct);
 }

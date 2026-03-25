@@ -5,19 +5,20 @@ using CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
 using CleanArchTemplate.Application.Services.Auth.VerificationTokenService;
 using CleanArchTemplate.Application.Services.Auth.VerificationTokenService.Models;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
+using CleanArchTemplate.SharedKernel.Models.Auth.Output;
 using FluentValidation;
 
 namespace CleanArchTemplate.Application.Features.Auth.Commands;
 
-public sealed record ForgotPasswordCommand(ForgotPasswordInput Input) : ICommand<Result<string>>;
+public sealed record ForgotPasswordCommand(ForgotPasswordInput Input) : ICommand<Result<ForgotPasswordOutput>>;
 
 internal sealed class ForgotPasswordCommandHandler(
     IUserRepository userRepository, 
     IVerificationTokenService verificationTokenService,
     IValidator<ForgotPasswordInput> forgotPasswordCommandValidator
-    ) : ICommandHandler<ForgotPasswordCommand, Result<string>>
+    ) : ICommandHandler<ForgotPasswordCommand, Result<ForgotPasswordOutput>>
 {
-    public async Task<Result<string>> Handle(ForgotPasswordCommand command, CancellationToken ct)
+    public async Task<Result<ForgotPasswordOutput>> Handle(ForgotPasswordCommand command, CancellationToken ct)
     {
         await forgotPasswordCommandValidator.ValidateAndThrowAsync(command.Input, ct);
         
@@ -28,7 +29,11 @@ internal sealed class ForgotPasswordCommandHandler(
             await userRepository.UpdateAsync(user, ct);
             
         }
-        // TODO: Use a better response
-        return Result<string>.Success("If email exists, you will receive an email to reset your password.");
+        // TODO: Send Reset Password email
+        return Result<ForgotPasswordOutput>.Success(new ForgotPasswordOutput()
+        {
+            Message = "If email exists, you will receive an email to reset your password."
+        });
+        // Todo: Implement Reset Password endpoint
     }
 }
