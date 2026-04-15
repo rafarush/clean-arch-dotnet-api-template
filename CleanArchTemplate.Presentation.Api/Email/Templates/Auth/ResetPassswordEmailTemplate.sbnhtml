@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<body style="font-family: sans-serif; color: #333;">
+
+  <h1>Hello {{ username }} 👋</h1>
+  <p>You have requested a password reset. Click the link below to reset your password.</p>
+  <a href="{{ link }}">Reset Password</a>
+
+  {{- if expires }}
+  <p style="color: #888; font-size: 0.85rem;">
+    This link expires in {{ expires }} minutes.
+  </p>
+  {{- end }}
+
+  <hr/>
+  <p style="font-size: 0.8rem; color: #aaa;">
+    If you did not create this account, ignore this email.
+  </p>
+
+</body>
+</html>
