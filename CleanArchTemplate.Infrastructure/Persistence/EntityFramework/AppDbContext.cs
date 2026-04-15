@@ -1,4 +1,5 @@
 ﻿using CleanArchTemplate.Domain.Abstractions.Primitives;
+using CleanArchTemplate.Domain.AuthProvider;
 using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Domain.User;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<User> Users { get; set; }
     public DbSet<Policy> Policies { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<AuthProvider> AuthProviders { get; set; }
     
     
     
@@ -18,6 +20,23 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         base.OnModelCreating(modelBuilder);
     
+        modelBuilder.Entity<AuthProvider>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            
+            entity.HasOne(e => e.User)
+                .WithMany(u => u.AuthProviders)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            entity.HasIndex(e => new { e.Provider, e.ProviderUserId })
+                .IsUnique()
+                .HasDatabaseName("IX_AuthProviders_Provider_ProviderUserId");
+            
+            entity.HasIndex(e => new { e.UserId, e.Provider })
+                .IsUnique()
+                .HasDatabaseName("IX_AuthProviders_UserId_Provider");
+        });
         
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {

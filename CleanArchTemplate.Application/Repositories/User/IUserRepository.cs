@@ -1,4 +1,4 @@
-﻿using CleanArchTemplate.Domain.Security;
+using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
 using CleanArchTemplate.SharedKernel.Models.User.Output;
@@ -13,6 +13,7 @@ public interface IUserRepository
     Task<Domain.User.User?> GetAsync(Guid id, CancellationToken ct);
     Task<Domain.User.User?> GetWithRelationsAsync(Guid id, CancellationToken ct);
     Task<Domain.User.User?> GetByEmailAsync(string email, CancellationToken ct);
+    Task<Domain.User.User?> GetByEmailWithAuthProvidersAsync(string email, CancellationToken ct);
     Task<IEnumerable<Domain.User.User>> GetAllAsync(CancellationToken ct);
     Task<PaginatedOutput<UserOutput>> SearchUsersAsync(SearchUsersInput usersInput, CancellationToken ct);
     Task<Domain.User.User> AssignRolesToUserAsync(Domain.User.User role, List<Role> roles, CancellationToken ct);

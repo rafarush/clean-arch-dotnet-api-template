@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
 using FluentValidation;
@@ -6,10 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 using CleanArchTemplate.Application.Persistence;
+using CleanArchTemplate.Application.Repositories.AuthProvider;
 using CleanArchTemplate.Application.Repositories.Security.Policy;
 using CleanArchTemplate.Application.Repositories.Security.Role;
 using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.Application.Services.Auth.JwtService;
+using CleanArchTemplate.Application.Services.Auth.OAuthService;
+using CleanArchTemplate.Application.Services.Auth.OAuthService.Options;
 using CleanArchTemplate.Application.Services.Auth.PasswordHashService;
 using CleanArchTemplate.Application.Services.Auth.PasswordHashService.Options;
 using CleanArchTemplate.Application.Services.Auth.PermissionService;
@@ -36,11 +39,13 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPolicyRepository, PolicyRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
-        
+        services.AddScoped<IAuthProviderRepository, AuthProviderRepository>();
         
         // Services
         services.Configure<PasswordHashServiceOptions>(config.GetSection(PasswordHashServiceOptions.Section));
         services.AddSingleton<IPasswordHashService, PasswordHashService>();
+        services.Configure<OAuthOptions>(config.GetSection(OAuthOptions.Section));
+        services.AddScoped<IOAuthService, OAuthService>();
         
         // Custom Auth Service
         services.AddScoped<IPermissionService, PermissionService>();

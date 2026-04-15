@@ -1,4 +1,4 @@
-﻿using CleanArchTemplate.Domain.Security;
+using CleanArchTemplate.Domain.Security;
 using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
 using CleanArchTemplate.SharedKernel.Models.General.Output;
 using CleanArchTemplate.SharedKernel.Models.User.Input;
@@ -80,6 +80,18 @@ public class UserRepository(AppDbContext db) :  IUserRepository
             .Where(x => x.Email == email)
             .Include(x => x.Roles)
                 .ThenInclude(r => r.Policies)
+            .FirstOrDefaultAsync(ct);
+            
+        return user;
+    }
+
+    public async Task<Domain.User.User?> GetByEmailWithAuthProvidersAsync(string email, CancellationToken ct)
+    {
+        var user = await db.Set<Domain.User.User>()
+            .Where(x => x.Email == email)
+            .Include(x => x.Roles)
+                .ThenInclude(r => r.Policies)
+            .Include(x => x.AuthProviders)
             .FirstOrDefaultAsync(ct);
             
         return user;

@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using CleanArchTemplate.Application.Persistence;
 using CleanArchTemplate.Application.Services.Auth.JwtService.Options;
 using CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
@@ -8,6 +8,7 @@ using CleanArchTemplate.Application.Services.Email;
 using CleanArchTemplate.Application.Services.Email.Abstractions;
 using CleanArchTemplate.Application.Services.Email.Options;
 using CleanArchTemplate.Infrastructure.Persistence.EntityFramework;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -47,10 +48,12 @@ public static class ApiServiceCollectionExtensions
         services.Configure<JwtOptions>(config.GetSection(JwtOptions.Section));
         services.AddAuthentication(x =>
         {
+            x.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(x =>
+        })
+        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddJwtBearer(x =>
         {
             x.TokenValidationParameters = new TokenValidationParameters
             {
@@ -63,8 +66,17 @@ public static class ApiServiceCollectionExtensions
                 ValidateAudience = true,
                 ValidAudience = config["Jwt:Audience"],
             };
+        }).AddGoogle("Google", options =>
+        {
+            options.ClientId = config["OAuth:Google:ClientId"] ?? "";
+            options.ClientSecret = config["OAuth:Google:ClientSecret"] ?? "";
+        }).AddGitHub("GitHub", options =>
+        {
+            options.ClientId = config["OAuth:GitHub:ClientId"] ?? "";
+            options.ClientSecret = config["OAuth:GitHub:ClientSecret"] ?? "";
         });
 
+        services.AddHttpClient();
         services.AddAuthorization();
         services.AddControllers();
 
