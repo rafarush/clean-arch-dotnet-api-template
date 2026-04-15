@@ -1,4 +1,4 @@
-﻿namespace CleanArchTemplate.Api;
+namespace CleanArchTemplate.Api;
 
 public static class ApiEndpoints
 {
@@ -52,5 +52,6 @@ public static class ApiEndpoints
         public const string Refresh = $"{BaseUrl}/refresh/{{token}}";
         public const string VerifyEmail = $"{BaseUrl}/verify-email/{{link}}";
         public const string ForgotPassword = $"{BaseUrl}/forgot-password";
+        public const string ResetPassword = $"{BaseUrl}/reset-password";
     }
 }

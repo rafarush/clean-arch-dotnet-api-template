@@ -1,4 +1,4 @@
-﻿using CleanArchTemplate.Application.Abstractions;
+using CleanArchTemplate.Application.Abstractions;
 using CleanArchTemplate.Application.Abstractions.Cqrs;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Command;
 using CleanArchTemplate.Application.Abstractions.Cqrs.Query;
@@ -55,4 +55,10 @@ public class AuthController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordInput input, CancellationToken ct)
         => await HandleCommandAsync<ForgotPasswordCommand, Result<ForgotPasswordOutput>>(new ForgotPasswordCommand(input), ct);
+    
+    [HttpPost(ApiEndpoints.Auth.ResetPassword)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordInput input, CancellationToken ct)
+        => await HandleCommandAsync<ResetPasswordCommand, Result<ResetPasswordOutput>>(new ResetPasswordCommand(input), ct);
 }

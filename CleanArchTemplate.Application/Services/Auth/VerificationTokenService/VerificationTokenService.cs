@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
 using CleanArchTemplate.Application.Services.Auth.VerificationLinkService;
 using CleanArchTemplate.Application.Services.Auth.VerificationLinkService.Options;
@@ -77,7 +77,7 @@ public class VerificationTokenService(
 
     private bool CheckResetPasswordCode(Domain.User.User user, TokenInfo tokenInfo)
     {
-        if (user.ResetPasswordCodes.Any())
+        if (!user.ResetPasswordCodes.Any())
             return false;
 
         return user.ResetPasswordCodes.Contains(tokenInfo.Code);
