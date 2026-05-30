@@ -3,7 +3,7 @@
     image: cleanarchtemplate.api
     build:
       context: .
-      dockerfile: CleanArchTemplate.Api/Dockerfile
+      dockerfile: CleanArchTemplate.Presentation.Api/Dockerfile
     ports:
       - '8080:8080'
     depends_on:
