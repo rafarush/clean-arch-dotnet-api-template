@@ -56,6 +56,7 @@ public static class ApiEndpoints
         public const string OAuthGoogle = $"{BaseUrl}/oauth/google";
         public const string OAuthGitHub = $"{BaseUrl}/oauth/github";
         public const string OAuthCallback = $"{BaseUrl}/oauth/callback";
+        public const string OAuthEmailRequired = $"{BaseUrl}/oauth/email-required";
         public const string OAuthLinkAccount = $"{BaseUrl}/oauth/link-account";
     }
 }

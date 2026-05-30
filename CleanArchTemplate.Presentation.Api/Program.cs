@@ -5,8 +5,10 @@ using CleanArchTemplate.Application.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
+var loggerFactory = LoggerFactory.Create(logging => logging.AddConsole());
+var logger = loggerFactory.CreateLogger("OAuth");
 
-builder.Services.AddApi(config);
+builder.Services.AddApi(config, logger);
 
 builder.Services.AddEmailService(config);
 

@@ -16,8 +16,7 @@ namespace CleanArchTemplate.Api.Controllers.Auth;
 
 public class AuthController(
     ICommandSender commandSender,
-    IQuerySender querySender,
-    IAuthenticationSchemeProvider authenticationSchemeProvider) : BaseApiController(commandSender, querySender)
+    IQuerySender querySender) : BaseApiController(commandSender, querySender)
 {
     [HttpPost(ApiEndpoints.Auth.SignIn)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -69,40 +68,47 @@ public class AuthController(
     [HttpGet(ApiEndpoints.Auth.OAuthGoogle)]
     [ProducesResponseType(StatusCodes.Status302Found)]
     public IActionResult OAuthGoogle()
-        => Challenge(new AuthenticationProperties { RedirectUri = Url.Action(nameof(OAuthGoogleCallback)) }, "Google");
+        => Challenge(new AuthenticationProperties { RedirectUri = "/api/auth/oauth/callback" }, "Google");
 
     [HttpGet(ApiEndpoints.Auth.OAuthGitHub)]
     [ProducesResponseType(StatusCodes.Status302Found)]
-    public async Task<IActionResult> OAuthGitHub()
+    public IActionResult OAuthGitHub()
+        => Challenge(new AuthenticationProperties { RedirectUri = "/api/auth/oauth/callback" }, "GitHub");
+
+    [HttpGet(ApiEndpoints.Auth.OAuthCallback)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> OAuthCallback(
+        [FromQuery] string? provider,
+        [FromQuery] string? email,
+        [FromQuery] string? name,
+        [FromQuery] string? lastName,
+        [FromQuery] string? providerId,
+        [FromQuery] string? error,
+        CancellationToken ct)
     {
-        var scheme = await authenticationSchemeProvider.GetSchemeAsync("GitHub");
-        return Challenge(new AuthenticationProperties { RedirectUri = Url.Action(nameof(OAuthGitHubCallback)) }, scheme.Name);
+        if (!string.IsNullOrEmpty(error))
+            return BadRequest($"OAuth error: {error}");
+        
+        if (string.IsNullOrEmpty(provider) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(providerId))
+            return BadRequest("Missing required parameters");
+
+        var providerType = Enum.Parse<OAuthProviderType>(provider, ignoreCase: true);
+        return await HandleCommandAsync<OAuthSignInCommand, Result<TokenOutput>>(
+            new OAuthSignInCommand(providerType, email, name, lastName, providerId), ct);
     }
 
-    [HttpGet("/signin-google")]
+    [HttpPost(ApiEndpoints.Auth.OAuthEmailRequired)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> OAuthGoogleCallback(CancellationToken ct)
-        => await HandleOAuthCallback(OAuthProviderType.Google, ct);
-
-    [HttpGet("/signin-github")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> OAuthGitHubCallback(CancellationToken ct)
-        => await HandleOAuthCallback(OAuthProviderType.GitHub, ct);
-
-    private async Task<IActionResult> HandleOAuthCallback(OAuthProviderType provider, CancellationToken ct)
+    public async Task<IActionResult> OAuthEmailRequired([FromBody] OAuthEmailRequiredInput input, CancellationToken ct)
     {
-        var authenticateResult = await HttpContext.AuthenticateAsync(provider.ToString());
-        if (!authenticateResult.Succeeded)
-            return BadRequest("OAuth authentication failed");
+        if (string.IsNullOrEmpty(input.Provider) || string.IsNullOrEmpty(input.Email) || string.IsNullOrEmpty(input.Name) || string.IsNullOrEmpty(input.ProviderId))
+            return BadRequest("Missing required parameters");
 
-        var code = authenticateResult.Properties?.Items["code"];
-        if (string.IsNullOrEmpty(code))
-            return BadRequest("Authorization code not found");
-
+        var providerType = Enum.Parse<OAuthProviderType>(input.Provider, ignoreCase: true);
         return await HandleCommandAsync<OAuthSignInCommand, Result<TokenOutput>>(
-            new OAuthSignInCommand(provider, code), ct);
+            new OAuthSignInCommand(providerType, input.Email, input.Name, input.LastName, input.ProviderId), ct);
     }
 
     [HttpPost(ApiEndpoints.Auth.OAuthLinkAccount)]
