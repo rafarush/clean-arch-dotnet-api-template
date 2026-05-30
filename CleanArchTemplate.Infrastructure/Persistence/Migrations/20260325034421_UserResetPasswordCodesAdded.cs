@@ -15,7 +15,23 @@ namespace CleanArchTemplate.Infrastructure.Persistence.Migrations
                 name: "ResetPasswordCodes",
                 table: "Users",
                 type: "text[]",
-                nullable: false);
+                nullable: true);
+
+            migrationBuilder.Sql(
+                """
+                UPDATE "Users"
+                SET "ResetPasswordCodes" = ARRAY[]::text[]
+                WHERE "ResetPasswordCodes" IS NULL;
+                """);
+
+            migrationBuilder.AlterColumn<List<string>>(
+                name: "ResetPasswordCodes",
+                table: "Users",
+                type: "text[]",
+                nullable: false,
+                oldClrType: typeof(List<string>),
+                oldType: "text[]",
+                oldNullable: true);
         }
 
         /// <inheritdoc />
