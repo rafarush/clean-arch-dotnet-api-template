@@ -19,7 +19,7 @@
       </PackageReference>
       <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.15.0" />
       <PackageReference Include="Microsoft.OpenApi" Version="1.6.22" />
-      <PackageReference Include="Scriban" Version="7.0.0" />
+      <PackageReference Include="Scriban" Version="7.2.3" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
     </ItemGroup>
