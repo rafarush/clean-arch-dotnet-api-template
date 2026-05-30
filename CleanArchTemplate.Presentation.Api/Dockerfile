@@ -1,5 +1,4 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
-USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
@@ -8,23 +7,27 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["CleanArchTemplate.Api/CleanArchTemplate.Api.csproj", "CleanArchTemplate.Api/"]
+COPY ["CleanArchTemplate.Presentation.Api/CleanArchTemplate.Presentation.Api.csproj", "CleanArchTemplate.Presentation.Api/"]
 COPY ["CleanArchTemplate.Application/CleanArchTemplate.Application.csproj", "CleanArchTemplate.Application/"]
 COPY ["CleanArchTemplate.Domain/CleanArchTemplate.Domain.csproj", "CleanArchTemplate.Domain/"]
 COPY ["CleanArchTemplate.Infrastructure/CleanArchTemplate.Infrastructure.csproj", "CleanArchTemplate.Infrastructure/"]
 COPY ["CleanArchTemplate.SharedKernel/CleanArchTemplate.SharedKernel.csproj", "CleanArchTemplate.SharedKernel/"]
 
-RUN dotnet restore "CleanArchTemplate.Api/CleanArchTemplate.Api.csproj"
+RUN dotnet restore "CleanArchTemplate.Presentation.Api/CleanArchTemplate.Presentation.Api.csproj"
 
 COPY . .
-WORKDIR "/src/CleanArchTemplate.Api"
-RUN dotnet build "./CleanArchTemplate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./CleanArchTemplate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+WORKDIR "/src/CleanArchTemplate.Presentation.Api"
+
+RUN dotnet publish \
+    "./CleanArchTemplate.Presentation.Api.csproj" \
+    -c $BUILD_CONFIGURATION \
+    -o /app/publish \
+    /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CleanArchTemplate.Api.dll"]
+
+COPY --from=build /app/publish .
+
+ENTRYPOINT ["dotnet", "CleanArchTemplate.Presentation.Api.dll"]
