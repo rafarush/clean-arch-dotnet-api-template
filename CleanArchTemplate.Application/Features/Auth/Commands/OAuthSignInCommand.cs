@@ -4,16 +4,18 @@ using CleanArchTemplate.Application.Repositories.AuthProvider;
 using CleanArchTemplate.Application.Repositories.Security.Role;
 using CleanArchTemplate.Application.Repositories.User;
 using CleanArchTemplate.Application.Services.Auth.JwtService;
+using CleanArchTemplate.Application.Services.Auth.OAuthService;
 using CleanArchTemplate.Domain.AuthProvider;
 using CleanArchTemplate.SharedKernel.Models.Auth.Input;
 using CleanArchTemplate.SharedKernel.Models.Auth.Output;
 
 namespace CleanArchTemplate.Application.Features.Auth.Commands;
 
-public sealed record OAuthSignInCommand(OAuthProviderType Provider, string Email, string Name, string? LastName, string ProviderId) 
+public sealed record OAuthSignInCommand(OAuthProviderType Provider, string Code) 
     : ICommand<Result<TokenOutput>>;
 
 internal sealed class OAuthSignInCommandHandler(
+    IOAuthService oAuthService,
     IUserRepository userRepository,
     IAuthProviderRepository authProviderRepository,
     IRoleRepository roleRepository,
@@ -22,7 +24,18 @@ internal sealed class OAuthSignInCommandHandler(
 {
     public async Task<Result<TokenOutput>> Handle(OAuthSignInCommand command, CancellationToken ct)
     {
-        var existingAuthProvider = await authProviderRepository.GetByProviderAsync(command.Provider, command.ProviderId, ct);
+        OAuthUserInfo userInfo;
+
+        try
+        {
+            userInfo = await oAuthService.GetUserInfoAsync(command.Provider, command.Code, ct);
+        }
+        catch (Exception ex)
+        {
+            return Result<TokenOutput>.Failure($"OAuth sign-in failed: {ex.Message}", ErrorType.Validation);
+        }
+
+        var existingAuthProvider = await authProviderRepository.GetByProviderAsync(command.Provider, userInfo.ProviderId, ct);
         
         if (existingAuthProvider is not null)
         {
@@ -35,7 +48,7 @@ internal sealed class OAuthSignInCommandHandler(
             return Result<TokenOutput>.Success(token);
         }
 
-        var existingUser = await userRepository.GetByEmailWithAuthProvidersAsync(command.Email, ct);
+        var existingUser = await userRepository.GetByEmailWithAuthProvidersAsync(userInfo.Email, ct);
 
         if (existingUser is not null)
         {
@@ -43,7 +56,7 @@ internal sealed class OAuthSignInCommandHandler(
             {
                 UserId = existingUser.Id,
                 Provider = command.Provider,
-                ProviderUserId = command.ProviderId
+                ProviderUserId = userInfo.ProviderId
             };
             await authProviderRepository.CreateAsync(newAuthProvider, ct);
             
@@ -62,9 +75,9 @@ internal sealed class OAuthSignInCommandHandler(
 
         var newUser = new Domain.User.User
         {
-            Name = command.Name,
-            LastName = command.LastName ?? "",
-            Email = command.Email,
+            Name = userInfo.Name,
+            LastName = userInfo.LastName ?? "",
+            Email = userInfo.Email,
             EmailVerified = true,
             Password = null,
             Roles = [defaultRole]
@@ -76,7 +89,7 @@ internal sealed class OAuthSignInCommandHandler(
         {
             UserId = userId,
             Provider = command.Provider,
-            ProviderUserId = command.ProviderId
+            ProviderUserId = userInfo.ProviderId
         };
         await authProviderRepository.CreateAsync(authProvider, ct);
 

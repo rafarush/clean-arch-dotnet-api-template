@@ -8,10 +8,11 @@ namespace CleanArchTemplate.Application.Abstractions;
 
 [ApiController]
 public abstract class BaseApiController(
-    ICommandSender commandSender, 
+    ICommandSender commandSender,
     IQuerySender querySender) : ControllerBase
 {
-    
+    protected IQuerySender QuerySender { get; } = querySender;
+
     protected async Task<IActionResult> HandleCommandAsync<TCommand, TResult>(
         TCommand command,
         CancellationToken ct)
@@ -46,7 +47,7 @@ public abstract class BaseApiController(
         CancellationToken ct)
         where TQuery : IQuery<TResult>
     {
-        var result = await querySender.SendAsync(query, ct);
+        var result = await QuerySender.SendAsync(query, ct);
         return HandleResult(result);
     }
 

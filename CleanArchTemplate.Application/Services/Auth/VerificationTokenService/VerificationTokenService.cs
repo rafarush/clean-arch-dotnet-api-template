@@ -9,8 +9,7 @@ using Microsoft.Extensions.Options;
 namespace CleanArchTemplate.Application.Services.Auth.VerificationTokenService;
 
 public class VerificationTokenService(
-    IOptions<VerificationTokenOptions> options,
-    AppDbContext db
+    IOptions<VerificationTokenOptions> options
     ) : IVerificationTokenService
 {
     public bool IsTokenValid(Domain.User.User user, TokenInfo tokenInfo, TokenMotive tokenMotive)
