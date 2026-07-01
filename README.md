@@ -90,6 +90,13 @@ And the solution file:
 
 ## Running the project
 
+**Note:**
+- When cloning using this template execute docs/refactor.ps1 for an automatic solution and porjects refactoring. Allways check namespaces, sometimes missed a few.
+**Namespaces checking:**
+```bash
+dotnet build
+```
+
 ### Option A — Run with Docker Compose (recommended for local DB)
 
 This repo includes a `compose.yaml` that starts:
